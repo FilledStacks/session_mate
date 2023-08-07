@@ -1,2 +1,5 @@
-# session_mate
-Session Replay for Flutter
+# Session Mate
+
+Session replay for Flutter
+
+[Sign up](https://sessionmate.dev/) for early beta 
