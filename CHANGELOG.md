@@ -1,3 +1,3 @@
-## 1.0.0
+## 0.2.0
 
-- Initial version.
+- Initial version with our research code
