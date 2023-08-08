@@ -10,6 +10,7 @@ class UserInteraction with _$UserInteraction {
   factory UserInteraction({
     required TapPosition position,
     required InteractionType type,
+    String? inputData,
   }) = _UserInteraction;
 
   factory UserInteraction.fromJson(Map<String, dynamic> json) =>

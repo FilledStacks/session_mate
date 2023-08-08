@@ -16,6 +16,7 @@ _$_UserInteraction _$$_UserInteractionFromJson(Map<String, dynamic> json) =>
         ),
       ),
       type: $enumDecode(_$InteractionTypeEnumMap, json['type']),
+      inputData: json['inputData'] as String?,
     );
 
 Map<String, dynamic> _$$_UserInteractionToJson(_$_UserInteraction instance) =>
@@ -25,6 +26,7 @@ Map<String, dynamic> _$$_UserInteractionToJson(_$_UserInteraction instance) =>
         r'$2': instance.position.$2,
       },
       'type': _$InteractionTypeEnumMap[instance.type]!,
+      'inputData': instance.inputData,
     };
 
 $Rec _$recordConvert<$Rec>(
@@ -35,6 +37,7 @@ $Rec _$recordConvert<$Rec>(
 
 const _$InteractionTypeEnumMap = {
   InteractionType.tap: 'tap',
+  InteractionType.input: 'input',
   InteractionType.scrollUp: 'scrollUp',
   InteractionType.scrollDown: 'scrollDown',
   InteractionType.scrollLeft: 'scrollLeft',

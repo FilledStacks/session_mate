@@ -22,6 +22,7 @@ UserInteraction _$UserInteractionFromJson(Map<String, dynamic> json) {
 mixin _$UserInteraction {
   (double, double) get position => throw _privateConstructorUsedError;
   InteractionType get type => throw _privateConstructorUsedError;
+  String? get inputData => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -35,7 +36,8 @@ abstract class $UserInteractionCopyWith<$Res> {
           UserInteraction value, $Res Function(UserInteraction) then) =
       _$UserInteractionCopyWithImpl<$Res, UserInteraction>;
   @useResult
-  $Res call({(double, double) position, InteractionType type});
+  $Res call(
+      {(double, double) position, InteractionType type, String? inputData});
 }
 
 /// @nodoc
@@ -53,6 +55,7 @@ class _$UserInteractionCopyWithImpl<$Res, $Val extends UserInteraction>
   $Res call({
     Object? position = null,
     Object? type = null,
+    Object? inputData = freezed,
   }) {
     return _then(_value.copyWith(
       position: null == position
@@ -63,6 +66,10 @@ class _$UserInteractionCopyWithImpl<$Res, $Val extends UserInteraction>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as InteractionType,
+      inputData: freezed == inputData
+          ? _value.inputData
+          : inputData // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -75,7 +82,8 @@ abstract class _$$_UserInteractionCopyWith<$Res>
       __$$_UserInteractionCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({(double, double) position, InteractionType type});
+  $Res call(
+      {(double, double) position, InteractionType type, String? inputData});
 }
 
 /// @nodoc
@@ -91,6 +99,7 @@ class __$$_UserInteractionCopyWithImpl<$Res>
   $Res call({
     Object? position = null,
     Object? type = null,
+    Object? inputData = freezed,
   }) {
     return _then(_$_UserInteraction(
       position: null == position
@@ -101,6 +110,10 @@ class __$$_UserInteractionCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as InteractionType,
+      inputData: freezed == inputData
+          ? _value.inputData
+          : inputData // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -108,7 +121,8 @@ class __$$_UserInteractionCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_UserInteraction implements _UserInteraction {
-  _$_UserInteraction({required this.position, required this.type});
+  _$_UserInteraction(
+      {required this.position, required this.type, this.inputData});
 
   factory _$_UserInteraction.fromJson(Map<String, dynamic> json) =>
       _$$_UserInteractionFromJson(json);
@@ -117,10 +131,12 @@ class _$_UserInteraction implements _UserInteraction {
   final (double, double) position;
   @override
   final InteractionType type;
+  @override
+  final String? inputData;
 
   @override
   String toString() {
-    return 'UserInteraction(position: $position, type: $type)';
+    return 'UserInteraction(position: $position, type: $type, inputData: $inputData)';
   }
 
   @override
@@ -130,12 +146,14 @@ class _$_UserInteraction implements _UserInteraction {
             other is _$_UserInteraction &&
             (identical(other.position, position) ||
                 other.position == position) &&
-            (identical(other.type, type) || other.type == type));
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.inputData, inputData) ||
+                other.inputData == inputData));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, position, type);
+  int get hashCode => Object.hash(runtimeType, position, type, inputData);
 
   @JsonKey(ignore: true)
   @override
@@ -154,7 +172,8 @@ class _$_UserInteraction implements _UserInteraction {
 abstract class _UserInteraction implements UserInteraction {
   factory _UserInteraction(
       {required final (double, double) position,
-      required final InteractionType type}) = _$_UserInteraction;
+      required final InteractionType type,
+      final String? inputData}) = _$_UserInteraction;
 
   factory _UserInteraction.fromJson(Map<String, dynamic> json) =
       _$_UserInteraction.fromJson;
@@ -163,6 +182,8 @@ abstract class _UserInteraction implements UserInteraction {
   (double, double) get position;
   @override
   InteractionType get type;
+  @override
+  String? get inputData;
   @override
   @JsonKey(ignore: true)
   _$$_UserInteractionCopyWith<_$_UserInteraction> get copyWith =>
