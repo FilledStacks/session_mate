@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/logger.dart';
-import 'package:session_mate/src/enums/interaction_type.dart';
-import 'package:session_mate/src/models/user_interaction.dart';
+import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
-
-typedef TapPosition = (double, double);
 
 class InteractionRecorderViewModel extends BaseViewModel {
   final log = getLogger('InteractionRecorderViewModel');
@@ -27,7 +24,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }) {
     print('StartCommandRecording - $position - $type');
     _activeCommand = UserInteraction(
-      position: (position.dx, position.dy),
+      position: TapPosition(x: position.dx, y: position.dy),
       type: type,
     );
   }

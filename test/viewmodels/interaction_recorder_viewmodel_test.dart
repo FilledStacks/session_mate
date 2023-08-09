@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:session_mate/src/enums/interaction_type.dart';
 import 'package:session_mate/src/widgets/interaction_recorder/interaction_recorder_viewmodel.dart';
+import 'package:session_mate_core/session_mate_core.dart';
 
 InteractionRecorderViewModel _getModel() => InteractionRecorderViewModel();
 

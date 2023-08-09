@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:session_mate/src/enums/interaction_type.dart';
 import 'package:session_mate/src/widgets/custom_gesture_detector.dart';
 import 'package:session_mate/src/widgets/interaction_recorder/interaction_recorder_viewmodel.dart';
+import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
 class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
@@ -56,8 +56,8 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
             final textField = _getTappedTextField(
               context: context,
               touchPoint: Offset(
-                viewModel.activeCommand?.position.$1 ?? 0,
-                viewModel.activeCommand?.position.$2 ?? 0,
+                viewModel.activeCommand?.position.x ?? 0,
+                viewModel.activeCommand?.position.y ?? 0,
               ),
             );
 
