@@ -111,22 +111,22 @@ class CustomGestureDetector extends StatefulWidget {
   final int longPressMaximumRangeAllowed;
 
   @override
-  _CustomGestureDetectorState createState() => _CustomGestureDetectorState();
+  CustomGestureDetectorState createState() => CustomGestureDetectorState();
 }
 
-enum _GestureState {
-  PointerDown,
-  MoveStart,
-  ScaleStart,
-  Scalling,
-  LongPress,
-  Unknown
+enum GestureState {
+  pointerDown,
+  moveStart,
+  scaleStart,
+  scalling,
+  longPress,
+  unknown
 }
 
-class _CustomGestureDetectorState extends State<CustomGestureDetector> {
-  List<_Touch> touches = [];
+class CustomGestureDetectorState extends State<CustomGestureDetector> {
+  List<Touch> touches = [];
   double initialScaleDistance = 1.0;
-  _GestureState state = _GestureState.Unknown;
+  GestureState state = GestureState.unknown;
   Timer? doubleTapTimer;
   Timer? longPressTimer;
   Offset lastTouchUpPos = Offset(0, 0);
@@ -146,21 +146,21 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
 
   void onPointerSignal(PointerSignalEvent event) {
     if (event is PointerScrollEvent) {
-      this.widget.onScrollEvent?.call(ScrollEvent(event.pointer,
-          event.localPosition, event.position, event.scrollDelta));
+      widget.onScrollEvent?.call(ScrollEvent(event.pointer, event.localPosition,
+          event.position, event.scrollDelta));
     }
   }
 
   void onPointerDown(PointerDownEvent event) {
-    touches.add(_Touch(event.pointer, event.localPosition));
+    touches.add(Touch(event.pointer, event.localPosition));
 
     if (touchCount == 1) {
-      state = _GestureState.PointerDown;
+      state = GestureState.pointerDown;
       startLongPressTimer(TapEvent.from(event));
     } else if (touchCount == 2) {
-      state = _GestureState.ScaleStart;
+      state = GestureState.scaleStart;
     } else {
-      state = _GestureState.Unknown;
+      state = GestureState.unknown;
     }
   }
 
@@ -175,7 +175,7 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
     cleanupDoubleTimer();
 
     switch (state) {
-      case _GestureState.LongPress:
+      case GestureState.longPress:
         if (widget.bypassMoveEventAfterLongPress) {
           widget.onLongPressMove?.call(MoveEvent(
               event.localPosition, event.position, event.pointer,
@@ -186,21 +186,21 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
           }
         }
         break;
-      case _GestureState.PointerDown:
+      case GestureState.pointerDown:
         // print(
         //     '-------------- Switch to move start state. Delta: ${event.delta} -------------\n\n');
         if (event.delta.dx >= 1 || event.delta.dy >= 1) {
           switch2MoveStartState(touch, event);
         }
         break;
-      case _GestureState.MoveStart:
+      case GestureState.moveStart:
         widget.onMoveUpdate?.call(MoveEvent(
             event.localPosition, event.position, event.pointer,
             delta: event.delta, localDelta: event.localDelta));
         break;
-      case _GestureState.ScaleStart:
+      case GestureState.scaleStart:
         touch.startOffset = touch.currentOffset;
-        state = _GestureState.Scalling;
+        state = GestureState.scalling;
         initScaleAndRotate();
         if (widget.onScaleStart != null) {
           final centerOffset =
@@ -208,7 +208,7 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
           widget.onScaleStart!(centerOffset);
         }
         break;
-      case _GestureState.Scalling:
+      case GestureState.scalling:
         if (widget.onScaleUpdate != null) {
           var rotation = angleBetweenLines(touches[0], touches[1]);
           final newDistance =
@@ -226,14 +226,14 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
     }
   }
 
-  void switch2MoveStartState(_Touch touch, PointerMoveEvent event) {
-    state = _GestureState.MoveStart;
+  void switch2MoveStartState(Touch touch, PointerMoveEvent event) {
+    state = GestureState.moveStart;
     touch.startOffset = event.localPosition;
     widget.onMoveStart?.call(
         MoveEvent(event.localPosition, event.localPosition, event.pointer));
   }
 
-  double angleBetweenLines(_Touch f, _Touch s) {
+  double angleBetweenLines(Touch f, Touch s) {
     double angle1 = math.atan2(f.startOffset.dy - s.startOffset.dy,
         f.startOffset.dx - s.startOffset.dx);
     double angle2 = math.atan2(f.currentOffset.dy - s.currentOffset.dy,
@@ -248,7 +248,7 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
   void onPointerUp(PointerEvent event) {
     touches.removeWhere((touch) => touch.id == event.pointer);
 
-    if (state == _GestureState.PointerDown) {
+    if (state == GestureState.pointerDown) {
       if (!widget.bypassTapEventOnDoubleTap || widget.onDoubleTap == null) {
         callOnTap(TapEvent.from(event));
       }
@@ -265,21 +265,21 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
           }
         }
       }
-    } else if (state == _GestureState.ScaleStart ||
-        state == _GestureState.Scalling) {
-      state = _GestureState.Unknown;
+    } else if (state == GestureState.scaleStart ||
+        state == GestureState.scalling) {
+      state = GestureState.unknown;
       widget.onScaleEnd?.call();
-    } else if (state == _GestureState.MoveStart) {
-      state = _GestureState.Unknown;
+    } else if (state == GestureState.moveStart) {
+      state = GestureState.unknown;
       widget.onMoveEnd
           ?.call(MoveEvent(event.localPosition, event.position, event.pointer));
-    } else if (state == _GestureState.LongPress) {
+    } else if (state == GestureState.longPress) {
       widget.onLongPressEnd?.call();
-      state = _GestureState.Unknown;
-    } else if (state == _GestureState.Unknown && touchCount == 2) {
-      state = _GestureState.ScaleStart;
+      state = GestureState.unknown;
+    } else if (state == GestureState.unknown && touchCount == 2) {
+      state = GestureState.scaleStart;
     } else {
-      state = _GestureState.Unknown;
+      state = GestureState.unknown;
     }
 
     lastTouchUpPos = event.localPosition;
@@ -296,7 +296,7 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
         if (touchCount == 1 &&
             touches[0].id == event.pointer &&
             inLongPressRange(touches[0])) {
-          state = _GestureState.LongPress;
+          state = GestureState.longPress;
           widget.onLongPress!(event);
           cleanupTimer();
         }
@@ -304,7 +304,7 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
     }
   }
 
-  bool inLongPressRange(_Touch touch) {
+  bool inLongPressRange(Touch touch) {
     return (touch.currentOffset - touch.startOffset).distanceSquared <
         widget.longPressMaximumRangeAllowed;
   }
@@ -312,7 +312,7 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
   void startDoubleTapTimer(TapEvent event) {
     doubleTapTimer =
         Timer(Duration(milliseconds: widget.doubleTapTimeConsider), () {
-      state = _GestureState.Unknown;
+      state = GestureState.unknown;
       cleanupTimer();
       if (widget.bypassTapEventOnDoubleTap) {
         callOnTap(event);
@@ -344,13 +344,13 @@ class _CustomGestureDetectorState extends State<CustomGestureDetector> {
   get touchCount => touches.length;
 }
 
-class _Touch {
+class Touch {
   int id;
   Offset startOffset;
   late Offset currentOffset;
 
-  _Touch(this.id, this.startOffset) {
-    this.currentOffset = startOffset;
+  Touch(this.id, this.startOffset) {
+    currentOffset = startOffset;
   }
 }
 

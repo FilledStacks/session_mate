@@ -18,6 +18,7 @@ dependencies:
   json_annotation: ^4.8.1
   logger: ^1.4.0
   stacked: ^3.4.1
+  vector_math:
 
 dev_dependencies:
   flutter_test:

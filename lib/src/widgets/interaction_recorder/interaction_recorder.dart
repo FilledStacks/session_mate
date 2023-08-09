@@ -12,7 +12,7 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
     required BuildContext context,
     required Offset touchPoint,
   }) {
-    TextField? _textField;
+    TextField? textField;
 
     void visitor(Element element) {
       // print(
@@ -28,10 +28,10 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
         print('======== text field bounds: $textFieldRect =======');
 
         if (textFieldRect.contains(touchPoint)) {
-          _textField = textFieldWidget;
+          textField = textFieldWidget;
         }
       }
-      if (_textField == null) {
+      if (textField == null) {
         element.visitChildren(visitor);
       } else {
         print('TextField found, time to return!!');
@@ -40,7 +40,7 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
 
     context.visitChildElements(visitor);
 
-    return _textField!;
+    return textField!;
   }
 
   @override
