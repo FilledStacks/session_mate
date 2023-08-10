@@ -160,6 +160,19 @@ class SessionMateHttpClient implements HttpClient {
 
   @override
   Future<HttpClientRequest> openUrl(String method, Uri url) async {
+    // Uri mockUrl = Uri(
+    //   scheme: url.scheme,
+    //   userInfo: url.userInfo,
+    //   host: 'fermento.duckdns.org',
+    //   port: url.port,
+    //   path: url.path,
+    //   query: url.query,
+    //   queryParameters: url.queryParameters,
+    //   fragment: url.fragment,
+    // );
+
+    // Uri mockUrl = Uri.parse('https://jsonplaceholder.typicode.com/todos/1');
+
     final tracker = HttpEventTracker.fromUri(method, _uidGenerator(), url);
     return _httpClient.openUrl(method, url).then((request) {
       return HttpRequestWrapper(request, tracker);
