@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/widgets/driver_ui/driver_ui_viewmodel.dart';
 import 'package:session_mate/src/widgets/hittable_stack.dart';
+import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
+
+const double _kInteractionWidth = 20;
+const double _kInteractionHeight = 20;
 
 class DriverUI extends StackedView<DriverUIViewModel> {
   final Widget child;
+
   const DriverUI({
     Key? key,
     required this.child,
@@ -20,14 +25,33 @@ class DriverUI extends StackedView<DriverUIViewModel> {
     return HittableStack(
       children: [
         child,
-        // TODO: Render the widgets here
-
+        ...viewModel.sessionInteractions.map(
+          (interaction) => Positioned(
+            top: interaction.position.y - _kInteractionHeight / 2,
+            left: interaction.position.x - _kInteractionWidth / 2,
+            key: Key(interaction.automationKey),
+            child: Container(
+              width: _kInteractionWidth,
+              height: _kInteractionHeight,
+              decoration: BoxDecoration(
+                color: interaction.type == InteractionType.tap
+                    ? Colors.red
+                    : Colors.purple,
+                shape: BoxShape.circle,
+              ),
+            ),
+          ),
+        ),
         Positioned(
-            child: MaterialButton(
-          onPressed: viewModel.startSession,
-          color: Colors.blue,
-          child: Text('Replay Session'),
-        ))
+          bottom: 50,
+          left: MediaQuery.of(context).size.width / 2 - 40,
+          child: MaterialButton(
+            minWidth: 80,
+            onPressed: viewModel.startSession,
+            color: Colors.blue,
+            child: Text('Replay Session'),
+          ),
+        )
       ],
     );
   }
