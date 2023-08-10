@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
+import 'package:session_mate/src/app/logger.dart';
 
 import 'request_event.dart';
 import 'response_event.dart';
 
 class EventSender {
+  static final logger = getLogger('EventSender');
   static final Map<String, Event> _cache = {};
 
   // we should probably change this to be available per request
@@ -29,7 +31,7 @@ class EventSender {
     _handleRequest(normalizedEvent);
     _requestHandled = true;
 
-    print('There are ${_cache.length} items in the CACHE\n');
+    logger.d('There are ${_cache.length} items in the CACHE\n');
   }
 
   static String _hashEvent(Event event) {
