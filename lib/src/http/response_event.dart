@@ -31,4 +31,14 @@ class HttpResponseEvent extends Event {
         "body": body,
         "tookMs": timeMs
       };
+
+  @override
+  String toString() => """
+      UID: $uid
+      StatusCode: $code
+      Headers: $headers
+      Error: $error
+      Took: $timeMs ms
+      Body: $body
+    """;
 }

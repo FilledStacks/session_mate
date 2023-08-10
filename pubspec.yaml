@@ -20,6 +20,7 @@ dependencies:
   json_annotation: ^4.8.1
   logger: ^1.4.0
   stacked: ^3.4.1
+  crypto: ^3.0.3
   vector_math:
   session_mate_core:
     path: ../session_mate_core

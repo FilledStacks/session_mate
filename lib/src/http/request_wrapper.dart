@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'event_sender.dart';
 import 'event_tracker.dart';
 import 'response_wrapper.dart';
 
@@ -63,8 +64,7 @@ class HttpRequestWrapper implements HttpClientRequest {
   Future addStream(Stream<List<int>> stream) {
     final List<int> body = [];
     final StreamTransformer<List<int>, List<int>> streamTransformer =
-        StreamTransformer.fromHandlers(
-            handleData: (List<int> data, EventSink<List<int>> sink) {
+        StreamTransformer.fromHandlers(handleData: (data, sink) {
       sink.add(data);
       body.addAll(data);
     }, handleDone: (sink) {
@@ -81,20 +81,38 @@ class HttpRequestWrapper implements HttpClientRequest {
 
     final List<int> body = [];
     final HttpClientResponse response = await _httpClientRequest.close();
+
     return HttpResponseWrapper(
       response,
       response.transform(
-        StreamTransformer.fromHandlers(handleData: (
-          List<int> data,
-          EventSink<List<int>> sink,
-        ) {
-          sink.add(data);
+        StreamTransformer.fromHandlers(handleData: (data, sink) {
           body.addAll(data);
         }, handleError: (error, stackTrace, sink) {
           print("HttpRequestWrapper :: ERROR RESPONSE $error $stackTrace");
-        }, handleDone: (sink) {
+        }, handleDone: (sink) async {
+          // we need to send the response to session mate before waiting because
+          // requestHandled we use the response uid to compare with request uid
+          // and decide if should mock response or not.
+          // NOTE: probably this solution has to be changed for a more advanced
+          // solution that avoids conflicts when multiple requests are made at
+          // the same time.
           _httpEventTracker.sendSuccessResponse(
-              response.statusCode, response.headers, body);
+            response.statusCode,
+            response.headers,
+            body,
+          );
+
+          while (EventSender.requestHandled) {
+            await Future.delayed(Duration(microseconds: 100));
+          }
+
+          if (EventSender.shouldMockResponse) {
+            final mockData = EventSender.mockData();
+            sink.add(mockData);
+          } else {
+            sink.add(body);
+          }
+
           sink.close();
         }),
       ),
