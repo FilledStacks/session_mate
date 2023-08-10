@@ -1,37 +1,90 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/logger.dart';
-import 'package:session_mate/src/enums/interaction_type.dart';
-import 'package:session_mate/src/models/user_interaction.dart';
+import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
-
-typedef TapPosition = (double, double);
 
 class InteractionRecorderViewModel extends BaseViewModel {
   final log = getLogger('InteractionRecorderViewModel');
 
+  UserInteraction? _activeCommand;
+  UserInteraction? get activeCommand => _activeCommand;
+
+  TextEditingController? _activeTextEditingController;
+
+  bool get hasActiveCommand => _activeCommand != null;
+
+  bool get hasActiveTextEditingController =>
+      _activeTextEditingController != null;
+
   List<UserInteraction> userInteractions = [];
 
-  void onUserTap(Offset position) {
-    log.i('position:$position');
+  void startCommandRecording({
+    required Offset position,
+    required InteractionType type,
+  }) {
+    print('StartCommandRecording - $position - $type');
+    _activeCommand = UserInteraction(
+      position: TapPosition(x: position.dx, y: position.dy),
+      type: type,
+    );
+  }
 
-    userInteractions.add(UserInteraction(
-      position: (position.dx, position.dy),
-      type: InteractionType.tap,
-    ));
+  void updateActiveCommand({required InteractionType type}) {
+    print('UpdateActiveCommand - $type');
+    _activeCommand = _activeCommand?.copyWith(type: type);
+  }
+
+  void updateInputCommandDetails({
+    required TextEditingController inputFieldController,
+  }) {
+    print('UpdateInputCommand with controller');
+    _activeTextEditingController = inputFieldController;
+  }
+
+  void concludeActiveCommand() {
+    final activeCommandRecordingTextInput =
+        _activeCommand?.type == InteractionType.input;
+
+    if (activeCommandRecordingTextInput) {
+      _activeCommand = _activeCommand?.copyWith(
+        inputData: _activeTextEditingController?.text,
+      );
+    }
+
+    if (_activeCommand == null) {
+      throw Exception(
+        'Trying to conclude a command but none is active. This should not happen',
+      );
+    }
+
+    print('ConcludeCommand - ${_activeCommand?.toJson()}');
+
+    userInteractions.add(_activeCommand!);
+    _activeCommand = null;
+    _activeTextEditingController = null;
+  }
+
+  void onUserTap(Offset position) {
+    if (hasActiveCommand) {
+      concludeActiveCommand();
+    }
+
+    startCommandRecording(position: position, type: InteractionType.tap);
   }
 
   void onScrollEvent(
     Offset position,
     Offset scrollDelta,
   ) {
-    log.i('postion: $position, scrollDelta: $scrollDelta');
+    // print('postion: $position, scrollDelta: $scrollDelta');
   }
 
   void onMoveStart(Offset position) {
-    log.i('postion: $position');
+    // print('postion: $position');
+    startCommandRecording(position: position, type: InteractionType.scrollUp);
   }
 
   void onMoveEnd(Offset position) {
-    log.i('postion: $position');
+    concludeActiveCommand();
   }
 }

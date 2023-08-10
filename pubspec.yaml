@@ -4,12 +4,14 @@ version: 0.2.0
 homepage: https://sessionmate.dev/
 
 environment:
-  sdk: ^3.0.6
+  sdk: '>=3.0.6 <4.0.0'
   flutter: ">=1.17.0"
 
 # Add regular dependencies here.
 dependencies:
   flutter:
+    sdk: flutter
+  flutter_driver:
     sdk: flutter
 
   uuid: ^3.0.7
@@ -19,6 +21,10 @@ dependencies:
   logger: ^1.4.0
   stacked: ^3.4.1
   crypto: ^3.0.3
+  vector_math:
+  session_mate_core:
+    path: ../session_mate_core
+  get_it: ^7.6.0
 
 dev_dependencies:
   flutter_test:

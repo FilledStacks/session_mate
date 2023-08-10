@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class HittableStack extends Stack {
-  final Function(Offset) onUserTap;
-
   const HittableStack({
     super.key,
     super.children,
-    required this.onUserTap,
   });
 
   @override
@@ -17,19 +14,16 @@ class HittableStack extends Stack {
       textDirection: textDirection ?? Directionality.of(context),
       fit: fit,
       clipBehavior: clipBehavior,
-      userTap: onUserTap,
     );
   }
 }
 
 class CustomRenderStack extends RenderStack {
-  final Function(Offset) userTap;
   CustomRenderStack({
     alignment,
     textDirection,
     fit,
     clipBehavior,
-    required this.userTap,
   }) : super(
           alignment: alignment,
           textDirection: textDirection,
@@ -40,8 +34,6 @@ class CustomRenderStack extends RenderStack {
   @override
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     var stackHit = false;
-
-    // userTap(position);
 
     final children = getChildrenAsList();
 
