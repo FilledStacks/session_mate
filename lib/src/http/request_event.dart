@@ -22,4 +22,13 @@ class HttpRequestEvent extends Event {
         "headers": headers,
         "body": body
       };
+
+  @override
+  String toString() => """
+      UID: $uid
+      Url: $url
+      Method: $method
+      Headers: $headers
+      Body: $body
+    """;
 }
