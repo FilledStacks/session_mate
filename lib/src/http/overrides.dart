@@ -7,7 +7,6 @@ import 'client.dart';
 class SessionMateHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext? context) {
-    final uuid = Uuid();
-    return SessionMateHttpClient(super.createHttpClient(context), uuid.v4);
+    return SessionMateHttpClient(super.createHttpClient(context), Uuid().v4);
   }
 }
