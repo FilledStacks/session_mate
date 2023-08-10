@@ -1,8 +1,7 @@
 import 'dart:convert';
 
+import 'package:example/app/app.logger.dart';
 import 'package:http/http.dart' as http;
-
-import '../app/app.logger.dart';
 
 class HttpService {
   static const String domain = 'rickandmortyapi.com';
