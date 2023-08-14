@@ -1,9 +1,9 @@
 import 'dart:io' show HttpHeaders;
 import 'dart:typed_data' show Uint8List;
 
+import 'package:session_mate_core/session_mate_core.dart';
+
 import 'event_sender.dart' show EventSender;
-import 'request_event.dart';
-import 'response_event.dart';
 
 class HttpEventTracker {
   final String _url;
@@ -34,7 +34,14 @@ class HttpEventTracker {
     _sendRequestEvent({});
 
     EventSender.sendEvent(
-      HttpResponseEvent(_uid, _calcDurationTime(), 0, {}, e.toString(), null),
+      ResponseEvent(
+        uid: _uid,
+        timeMs: _calcDurationTime(),
+        code: 0,
+        headers: {},
+        error: e.toString(),
+        body: null,
+      ),
     );
   }
 
@@ -47,7 +54,13 @@ class HttpEventTracker {
       );
 
   void _sendRequestEvent(Map<String, String> headers) {
-    EventSender.sendEvent(HttpRequestEvent(_uid, _url, _method, headers, data));
+    EventSender.sendEvent(RequestEvent(
+      uid: _uid,
+      url: _url,
+      method: _method,
+      headers: headers,
+      body: data,
+    ));
   }
 
   void sendSuccessResponse(
@@ -55,13 +68,13 @@ class HttpEventTracker {
     HttpHeaders headers,
     List<int> data,
   ) {
-    EventSender.sendEvent(HttpResponseEvent(
-      _uid,
-      _calcDurationTime(),
-      statusCode,
-      _headersToMap(headers),
-      null,
-      Uint8List.fromList(data),
+    EventSender.sendEvent(ResponseEvent(
+      uid: _uid,
+      timeMs: _calcDurationTime(),
+      code: statusCode,
+      headers: _headersToMap(headers),
+      error: null,
+      body: Uint8List.fromList(data),
     ));
   }
 
