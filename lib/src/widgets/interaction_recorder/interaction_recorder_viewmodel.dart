@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
+import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
 class InteractionRecorderViewModel extends BaseViewModel {
   final log = getLogger('InteractionRecorderViewModel');
+  final _sessionService = locator<SessionService>();
 
   UserInteraction? _activeCommand;
   UserInteraction? get activeCommand => _activeCommand;
@@ -16,7 +19,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
   bool get hasActiveTextEditingController =>
       _activeTextEditingController != null;
 
-  List<UserInteraction> userInteractions = [];
+  List<UserInteraction> get userInteractions =>
+      _sessionService.userInteractions;
 
   void startCommandRecording({
     required Offset position,
@@ -59,7 +63,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
     print('ConcludeCommand - ${_activeCommand?.toJson()}');
 
-    userInteractions.add(_activeCommand!);
+    _sessionService.addEvent(_activeCommand!);
     _activeCommand = null;
     _activeTextEditingController = null;
   }
