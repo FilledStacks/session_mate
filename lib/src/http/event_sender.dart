@@ -22,55 +22,28 @@ class EventSender {
   static sendEvent(NetworkEvent event) async {
     _sessionService.addEvent(event);
     if (event is ResponseEvent) {
-      _handleResponse(event.copyWith(
-        body: event.body != null && event.body!.isNotEmpty ? event.body : null,
-      ));
+      _handleResponse(event.copyWith(body: event.hasBody ? event.body : null));
       _requestHandled = false;
+      _outputSessionSummary();
     } else if (event is RequestEvent) {
-      _handleRequest(event.copyWith(
-        body: event.body != null && event.body!.isNotEmpty ? event.body : null,
-      ));
+      _handleRequest(event.copyWith(body: event.hasBody ? event.body : null));
       _requestHandled = true;
     }
-
-    logger.d('There are ${_cache.length} items in the CACHE\n');
-    logger.d(
-      'There are ${_sessionService.networkInteractions.length} network interactions in the SessionService\n',
-    );
-    logger.d(
-      'There are ${_sessionService.userInteractions.length} user interactions in the SessionService\n',
-    );
-    logger.d(
-      'There are ${_sessionService.sessionInteractions.length} session interactions in the SessionService\n',
-    );
-    logger.wtf('Cache: $_cache');
   }
 
   static String _hashEvent(NetworkEvent event) {
-    if (event is RequestEvent) {
-      return sha256
-          .convert(utf8.encode(jsonEncode(event.copyWith(uid: ''))))
-          .toString();
-    } else if (event is ResponseEvent) {
-      return sha256
-          .convert(utf8.encode(jsonEncode(event.copyWith(uid: ''))))
-          .toString();
-    }
-
-    throw Exception('An error occur, the event should be a NetworkEvent.');
+    return sha256.convert(utf8.encode(jsonEncode(event))).toString();
   }
 
   static void _saveEvent(String hash, NetworkEvent event) {
-    if (event is! RequestEvent) return;
-
     _cache.putIfAbsent(hash, () => event);
   }
 
   static void _handleRequest(RequestEvent event) {
-    final hash = _hashEvent(event);
-    final hasEvent = _cache.containsKey(hash);
+    final hash = _hashEvent(event.copyWith(uid: ''));
+    final isEventCached = _cache.containsKey(hash);
 
-    if (hasEvent) {
+    if (isEventCached) {
       _requestUidToMockResponse = event.uid;
       return;
     }
@@ -84,6 +57,13 @@ class EventSender {
     } else {
       _shouldMockResponse = false;
     }
+
+    final hash = _hashEvent(event.copyWith(uid: '', timeMs: 0, headers: {}));
+    final isEventCached = _cache.containsKey(hash);
+
+    if (isEventCached) return;
+
+    _saveEvent(hash, event);
   }
 
   static Future<List<int>> getResponseData(List<int> data) async {
@@ -100,5 +80,15 @@ class EventSender {
     };
 
     return jsonEncode(mockData).codeUnits;
+  }
+
+  static void _outputSessionSummary() {
+    logger.w(
+      '\nSessionEvents: ${_sessionService.sessionInteractions.length} (${_sessionService.networkInteractions.length} NE + ${_sessionService.userInteractions.length} UI), Events in Cache: ${_cache.length}',
+    );
+
+    for (var event in _sessionService.sessionInteractions) {
+      logger.i(event.toShortSummary());
+    }
   }
 }
