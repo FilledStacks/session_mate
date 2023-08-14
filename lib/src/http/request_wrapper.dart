@@ -106,13 +106,7 @@ class HttpRequestWrapper implements HttpClientRequest {
             await Future.delayed(Duration(microseconds: 100));
           }
 
-          if (EventSender.shouldMockResponse) {
-            final mockData = EventSender.mockData();
-            sink.add(mockData);
-          } else {
-            sink.add(body);
-          }
-
+          sink.add(await EventSender.getResponseData(body));
           sink.close();
         }),
       ),
