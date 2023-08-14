@@ -1,10 +1,12 @@
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
+import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
 class DriverUIViewModel extends BaseViewModel {
   final _driverCommunicationService = locator<DriverCommunicationService>();
+  final _sessionService = locator<SessionService>();
 
   final List<UserInteraction> fakeSessionInteractions = [
     UserInteraction(
@@ -23,14 +25,17 @@ class DriverUIViewModel extends BaseViewModel {
     ),
   ];
 
-  List<UserInteraction> sessionInteractions = [];
+  List<UserInteraction> get sessionInteractions =>
+      _sessionService.userInteractions;
 
   void startSession() {
-    sessionInteractions.clear();
-    sessionInteractions.addAll(fakeSessionInteractions);
+    _sessionService.clear();
+    _sessionService.addAllEvent(fakeSessionInteractions);
 
     notifyListeners();
 
-    _driverCommunicationService.sendInteractions(sessionInteractions);
+    _driverCommunicationService.sendInteractions(
+      _sessionService.userInteractions,
+    );
   }
 }
