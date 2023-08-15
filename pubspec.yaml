@@ -25,6 +25,7 @@ dependencies:
   session_mate_core:
     path: ../session_mate_core
   get_it: ^7.6.0
+  hive: ^2.2.3
 
 dev_dependencies:
   flutter_test:

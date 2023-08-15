@@ -12,7 +12,7 @@ class DriverCommunicationService {
     return _communicationCompleter!.future;
   }
 
-  void sendInteractions(List<UserInteraction> interactions) {
+  void sendInteractions(List<UIEvent> interactions) {
     _communicationCompleter?.complete(jsonEncode(interactions));
   }
 }
