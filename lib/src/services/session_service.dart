@@ -7,13 +7,13 @@ class SessionService {
   final List<SessionEvent> _sessionInteractions = [];
   List<SessionEvent> get sessionInteractions => _sessionInteractions;
 
-  final List<UserInteraction> _userInteractions = [];
-  List<UserInteraction> get userInteractions => _userInteractions;
+  final List<UIEvent> _userInteractions = [];
+  List<UIEvent> get userInteractions => _userInteractions;
 
   void addEvent(SessionEvent event) {
     _sessionInteractions.add(event);
 
-    if (event is UserInteraction) {
+    if (event is UIEvent) {
       _userInteractions.add(event);
     } else if (event is NetworkEvent) {
       _networkInteractions.add(event);
@@ -24,7 +24,7 @@ class SessionService {
     _sessionInteractions.addAll(events);
 
     for (var event in events) {
-      if (event is UserInteraction) {
+      if (event is UIEvent) {
         _userInteractions.add(event);
       } else if (event is NetworkEvent) {
         _networkInteractions.add(event);

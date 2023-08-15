@@ -9,8 +9,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final log = getLogger('InteractionRecorderViewModel');
   final _sessionService = locator<SessionService>();
 
-  UserInteraction? _activeCommand;
-  UserInteraction? get activeCommand => _activeCommand;
+  UIEvent? _activeCommand;
+  UIEvent? get activeCommand => _activeCommand;
 
   TextEditingController? _activeTextEditingController;
 
@@ -19,16 +19,15 @@ class InteractionRecorderViewModel extends BaseViewModel {
   bool get hasActiveTextEditingController =>
       _activeTextEditingController != null;
 
-  List<UserInteraction> get userInteractions =>
-      _sessionService.userInteractions;
+  List<UIEvent> get userInteractions => _sessionService.userInteractions;
 
   void startCommandRecording({
     required Offset position,
     required InteractionType type,
   }) {
     print('StartCommandRecording - $position - $type');
-    _activeCommand = UserInteraction(
-      position: TapPosition(x: position.dx, y: position.dy),
+    _activeCommand = UIEvent(
+      position: EventPosition(x: position.dx, y: position.dy),
       type: type,
     );
   }

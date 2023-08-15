@@ -88,7 +88,7 @@ class EventSender {
     );
 
     for (var event in _sessionService.sessionInteractions) {
-      logger.i(event.toShortSummary());
+      logger.i(event);
     }
   }
 }
