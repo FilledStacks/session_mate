@@ -73,7 +73,7 @@ void main() {
 
         model.concludeActiveCommand();
         expect(
-          model.userInteractions.length,
+          model.uiEvents.length,
           1,
         );
       });

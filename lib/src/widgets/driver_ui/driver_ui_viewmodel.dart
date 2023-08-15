@@ -25,7 +25,7 @@ class DriverUIViewModel extends BaseViewModel {
     ),
   ];
 
-  List<UIEvent> get sessionInteractions => _sessionService.userInteractions;
+  List<UIEvent> get sessionInteractions => _sessionService.uiEvents;
 
   void startSession() {
     _sessionService.clear();
@@ -33,8 +33,10 @@ class DriverUIViewModel extends BaseViewModel {
 
     notifyListeners();
 
+    // Fill cache with responses
+
     _driverCommunicationService.sendInteractions(
-      _sessionService.userInteractions,
+      _sessionService.uiEvents,
     );
   }
 }

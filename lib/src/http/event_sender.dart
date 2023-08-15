@@ -84,10 +84,10 @@ class EventSender {
 
   static void _outputSessionSummary() {
     logger.w(
-      '\nSessionEvents: ${_sessionService.sessionInteractions.length} (${_sessionService.networkInteractions.length} NE + ${_sessionService.userInteractions.length} UI), Events in Cache: ${_cache.length}',
+      '\nSessionEvents: ${_sessionService.sessionEvents.length} (${_sessionService.networkEvents.length} NE + ${_sessionService.uiEvents.length} UI), Events in Cache: ${_cache.length}',
     );
 
-    for (var event in _sessionService.sessionInteractions) {
+    for (var event in _sessionService.sessionEvents) {
       logger.i(event);
     }
   }

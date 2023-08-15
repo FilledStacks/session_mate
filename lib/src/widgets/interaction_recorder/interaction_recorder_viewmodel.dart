@@ -19,7 +19,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
   bool get hasActiveTextEditingController =>
       _activeTextEditingController != null;
 
-  List<UIEvent> get userInteractions => _sessionService.userInteractions;
+  List<UIEvent> get uiEvents => _sessionService.uiEvents;
 
   void startCommandRecording({
     required Offset position,
