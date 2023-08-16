@@ -9,6 +9,12 @@ class HiveStorageService {
     final appDirectory = await getApplicationDocumentsDirectory();
     Hive.init(appDirectory.path);
 
+    Hive.registerAdapter(SessionAdapter());
+    Hive.registerAdapter(RequestEventAdapter());
+    Hive.registerAdapter(ResponseEventAdapter());
+    Hive.registerAdapter(UIEventAdapter());
+    Hive.registerAdapter(EventPositionAdapter());
+
     if (forceDestroyDB) {
       await Hive.deleteBoxFromDisk('sessions');
     }
