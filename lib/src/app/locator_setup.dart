@@ -10,6 +10,6 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton(() => SessionService());
 
   final hiveStorage = HiveStorageService();
-  await hiveStorage.initial();
+  await hiveStorage.init();
   locator.registerSingleton(hiveStorage);
 }
