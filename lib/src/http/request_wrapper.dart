@@ -2,13 +2,18 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'event_sender.dart';
+import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/services/session_service.dart';
+
+// import 'event_sender.dart';
 import 'event_tracker.dart';
 import 'response_wrapper.dart';
 
 class HttpRequestWrapper implements HttpClientRequest {
   final HttpClientRequest _httpClientRequest;
   final HttpEventTracker _httpEventTracker;
+
+  final _sessionService = locator<SessionService>();
 
   @override
   Encoding get encoding => _httpClientRequest.encoding;
@@ -102,11 +107,12 @@ class HttpRequestWrapper implements HttpClientRequest {
             body,
           );
 
-          while (EventSender.requestHandled) {
-            await Future.delayed(Duration(microseconds: 100));
-          }
+          // while (EventSender.requestHandled) {
+          //   await Future.delayed(Duration(microseconds: 100));
+          // }
 
-          sink.add(await EventSender.getResponseData(body));
+          // sink.add(await EventSender.getResponseData(body));
+          sink.add(await _sessionService.getResponseData(body));
           sink.close();
         }),
       ),

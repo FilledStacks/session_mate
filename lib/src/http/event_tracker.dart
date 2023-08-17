@@ -1,9 +1,9 @@
 import 'dart:io' show HttpHeaders;
 import 'dart:typed_data' show Uint8List;
 
+import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
-
-import 'event_sender.dart' show EventSender;
 
 class HttpEventTracker {
   final String _url;
@@ -30,10 +30,12 @@ class HttpEventTracker {
         ).toString(),
         _startTime = DateTime.now().millisecondsSinceEpoch;
 
+  final _sessionService = locator<SessionService>();
+
   void onError(Exception e) {
     _sendRequestEvent({});
 
-    EventSender.sendEvent(
+    _sessionService.sendEvent(
       ResponseEvent(
         uid: _uid,
         timeMs: _calcDurationTime(),
@@ -54,7 +56,7 @@ class HttpEventTracker {
       );
 
   void _sendRequestEvent(Map<String, String> headers) {
-    EventSender.sendEvent(RequestEvent(
+    _sessionService.sendEvent(RequestEvent(
       uid: _uid,
       url: _url,
       method: _method,
@@ -68,7 +70,7 @@ class HttpEventTracker {
     HttpHeaders headers,
     List<int> data,
   ) {
-    EventSender.sendEvent(ResponseEvent(
+    _sessionService.sendEvent(ResponseEvent(
       uid: _uid,
       timeMs: _calcDurationTime(),
       code: statusCode,
