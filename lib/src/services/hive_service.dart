@@ -2,7 +2,7 @@ import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
-class HiveStorageService {
+class HiveService {
   late final Box<Session> sessionsBox;
 
   Future<void> init({bool forceDestroyDB = false}) async {

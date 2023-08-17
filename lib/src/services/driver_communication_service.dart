@@ -13,6 +13,7 @@ class DriverCommunicationService {
   }
 
   void sendInteractions(List<UIEvent> interactions) {
+    print('DriverCommunicationService - Send interactions to driver');
     _communicationCompleter?.complete(jsonEncode(interactions));
   }
 }
