@@ -29,6 +29,12 @@ Future<void> setupSessionMate() async {
 
   print('================== Sessions on device =================');
   final hiveService = locator<HiveStorageService>();
-  print('Sessions: ${hiveService.getSessions().length}');
+  final sessions = hiveService.getSessions();
+  for (var s in sessions) {
+    print('session: ${s.id}');
+    for (var e in s.events) {
+      print('event:$e');
+    }
+  }
   print('================== END SESSION DETAILS ==================');
 }
