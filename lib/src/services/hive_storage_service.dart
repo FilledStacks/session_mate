@@ -9,6 +9,7 @@ class HiveStorageService {
     final appDirectory = await getApplicationDocumentsDirectory();
     Hive.init(appDirectory.path);
 
+    Hive.registerAdapter(InteractionTypeAdapter());
     Hive.registerAdapter(SessionAdapter());
     Hive.registerAdapter(RequestEventAdapter());
     Hive.registerAdapter(ResponseEventAdapter());
