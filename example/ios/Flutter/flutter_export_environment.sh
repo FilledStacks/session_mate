@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/fermento/.asdf/installs/flutter/3.10.6-stable"
-export "FLUTTER_APPLICATION_PATH=/Users/fermento/Development/Filledstacks/session_mate_org/session_mate/example"
+export "FLUTTER_ROOT=/Users/danemackier/src/flutter"
+export "FLUTTER_APPLICATION_PATH=/Users/danemackier/Code/session_mate/package/session_mate/example"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib/main.dart"
 export "FLUTTER_BUILD_DIR=build"

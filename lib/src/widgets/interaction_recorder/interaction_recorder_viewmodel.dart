@@ -7,6 +7,7 @@ import 'package:stacked/stacked.dart';
 
 class InteractionRecorderViewModel extends BaseViewModel {
   final log = getLogger('InteractionRecorderViewModel');
+
   final _sessionService = locator<SessionService>();
 
   UIEvent? _activeCommand;
@@ -63,13 +64,16 @@ class InteractionRecorderViewModel extends BaseViewModel {
     print('ConcludeCommand - ${_activeCommand?.toJson()}');
 
     _sessionService.addEvent(_activeCommand!);
+  }
+
+  void _clearActiveCommand() {
     _activeCommand = null;
     _activeTextEditingController = null;
   }
 
   void onUserTap(Offset position) {
     if (hasActiveCommand) {
-      concludeActiveCommand();
+      concludeAndClear();
     }
 
     startCommandRecording(position: position, type: InteractionType.tap);
@@ -88,6 +92,11 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void onMoveEnd(Offset position) {
+    concludeAndClear();
+  }
+
+  void concludeAndClear() {
     concludeActiveCommand();
+    _clearActiveCommand();
   }
 }
