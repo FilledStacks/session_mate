@@ -56,7 +56,7 @@ class SessionService {
 
     final session = Session(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      events: _sessionEvents,
+      events: [..._sessionEvents],
     );
 
     clear();

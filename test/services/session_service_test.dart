@@ -28,6 +28,60 @@ void main() {
           reason: 'If type UI event it should also be added to UI events list',
         );
       });
+
+      test(
+          'When called with a NetworkEvent, should have 1 in session and network events',
+          () {
+        final service = _getService();
+        service.addEvent(RequestEvent(
+          uid: 'uid',
+          url: 'url',
+          method: 'method',
+          headers: {},
+        ));
+
+        expect(service.sessionEvents.length, 1);
+        expect(
+          service.networkEvents.length,
+          1,
+          reason:
+              'If type NetworkEvent it should also be added to netwwork events list',
+        );
+      });
+    });
+
+    group('captureSession -', () {
+      test('When called, should return the current session with all events',
+          () {
+        final service = _getService();
+        service.addEvent(
+          UIEvent(
+            position: EventPosition(x: 0, y: 0),
+            type: InteractionType.input,
+          ),
+        );
+        service.addEvent(
+          UIEvent(
+            position: EventPosition(x: 1, y: 0),
+            type: InteractionType.input,
+          ),
+        );
+        service.addEvent(
+          UIEvent(
+            position: EventPosition(x: 1, y: 1),
+            type: InteractionType.input,
+          ),
+        );
+        service.addEvent(
+          UIEvent(
+            position: EventPosition(x: 0, y: 1),
+            type: InteractionType.input,
+          ),
+        );
+
+        final session = service.captureSession();
+        expect(session.events.length, 4);
+      });
     });
   });
 }

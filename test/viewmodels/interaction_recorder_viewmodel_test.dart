@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/mockito.dart';
 import 'package:session_mate/src/widgets/interaction_recorder/interaction_recorder_viewmodel.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
@@ -51,6 +52,25 @@ void main() {
 
         model.concludeAndClear();
         expect(model.hasActiveCommand, false);
+      });
+
+      test('When called, should save the active command to the sessionService',
+          () {
+        final sessionSercice = getAndRegisterSessionService();
+        final model = _getModel();
+
+        final event = UIEvent(
+          position: EventPosition(x: 1, y: 0),
+          type: InteractionType.tap,
+        );
+
+        model.startCommandRecording(
+          position: Offset(1, 0),
+          type: InteractionType.tap,
+        );
+
+        model.concludeAndClear();
+        verify(sessionSercice.addEvent(event));
       });
     });
 
