@@ -49,6 +49,8 @@ class _MyHomePageState extends State<MyHomePage> {
     'patterns',
   ];
 
+  final TextEditingController _controller = TextEditingController();
+
   int _counter = 0;
   String _topic = 'http';
   String _desc = '';
@@ -60,6 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _requestBooks() async {
+    _incrementCounter();
+
     _topic = _topics[_counter % _topics.length];
     final url = Uri.https(baseUrl, booksEndpoint, {'q': '{$_topic}'});
     final response = await http.get(url);
@@ -70,8 +74,6 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       _desc = 'Request failed with status: ${response.statusCode}.';
     }
-
-    _incrementCounter();
   }
 
   @override
@@ -86,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(_desc),
-            const SizedBox(height: 50),
+            TextField(controller: _controller),
             const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
@@ -95,10 +97,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _requestBooks,
-        tooltip: 'Request Books',
-        child: const Icon(Icons.add),
+      floatingActionButton: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          FloatingActionButton(
+            onPressed: () => SessionMateUtils.saveSession(),
+            tooltip: 'Save Session',
+            backgroundColor: Colors.purple,
+            child: const Icon(Icons.check),
+          ),
+          const SizedBox(width: 20),
+          FloatingActionButton(
+            onPressed: _requestBooks,
+            tooltip: 'Request Books',
+            child: const Icon(Icons.add),
+          ),
+        ],
       ),
     );
   }

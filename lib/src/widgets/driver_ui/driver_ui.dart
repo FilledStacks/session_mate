@@ -58,7 +58,9 @@ class DriverUI extends StackedView<DriverUIViewModel> {
                   style: TextStyle(fontSize: 20),
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.grey[600],
+                  color: viewModel.isSessionSelected(index)
+                      ? Colors.blue
+                      : Colors.grey[600],
                 ),
               ),
             ),

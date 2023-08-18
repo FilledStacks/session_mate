@@ -4,33 +4,48 @@ import 'package:session_mate/src/widgets/interaction_recorder/interaction_record
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
+class _WidgetTreeTraversalData {
+  final BuildContext context;
+  final Offset touchPoint;
+
+  _WidgetTreeTraversalData({required this.context, required this.touchPoint});
+}
+
 class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
   final Widget child;
   const InteractionRecorder({Key? key, required this.child}) : super(key: key);
 
-  static TextField _getTappedTextField({
-    required BuildContext context,
-    required Offset touchPoint,
-  }) {
+  static TextField? _getTappedTextField(
+      _WidgetTreeTraversalData traversalData) {
     TextField? textField;
+    final stopwatch = Stopwatch()..start();
 
     void visitor(Element element) {
       // print(
       //   ' ============ Element details: Type-${element.runtimeType} ===========');
+
       if (element.widget is TextField) {
         final textFieldWidget = element.widget as TextField;
         final renderBox = element.findRenderObject() as RenderBox;
+        print('⏰ FindRenderObject executed in - ${stopwatch.elapsed}');
         final pos = renderBox.localToGlobal(Offset.zero);
 
+        print('⏰ localToGlobal executed in - ${stopwatch.elapsed}');
+
         final textFieldRect = Rect.fromLTWH(
-            pos.dx, pos.dy, renderBox.size.width, renderBox.size.height);
+          pos.dx,
+          pos.dy,
+          renderBox.size.width,
+          renderBox.size.height,
+        );
 
-        print('======== text field bounds: $textFieldRect =======');
-
-        if (textFieldRect.contains(touchPoint)) {
+        if (textFieldRect.contains(traversalData.touchPoint)) {
           textField = textFieldWidget;
         }
+
+        print('⏰ contains executed in - ${stopwatch.elapsed}');
       }
+
       if (textField == null) {
         element.visitChildren(visitor);
       } else {
@@ -38,9 +53,10 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
       }
     }
 
-    context.visitChildElements(visitor);
+    traversalData.context.visitChildElements(visitor);
+    print('⏰ Traversal time - ${stopwatch.elapsed}');
 
-    return textField!;
+    return textField;
   }
 
   @override
@@ -53,23 +69,28 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
       children: [
         NotificationListener<KeepAliveNotification>(
           onNotification: (_) {
-            final textField = _getTappedTextField(
+            final textField = _getTappedTextField(_WidgetTreeTraversalData(
               context: context,
               touchPoint: Offset(
                 viewModel.activeCommand?.position.x ?? 0,
                 viewModel.activeCommand?.position.y ?? 0,
               ),
-            );
+            ));
 
-            viewModel.updateActiveCommand(type: InteractionType.input);
-            if (textField.controller == null) {
-              throw Exception(
-                'SessionMate: All your text input controllers should have a text editing controller, otherwise we cannot identify input',
+            final interactionWithTextField = textField != null;
+
+            if (interactionWithTextField) {
+              viewModel.updateActiveCommand(type: InteractionType.input);
+              if (textField.controller == null) {
+                throw Exception(
+                  'SessionMate: All your text input controllers should have a text editing controller, otherwise we cannot identify input',
+                );
+              }
+              viewModel.updateInputCommandDetails(
+                inputFieldController: textField.controller!,
               );
             }
-            viewModel.updateInputCommandDetails(
-              inputFieldController: textField.controller!,
-            );
+
             return false;
           },
           child: CustomGestureDetector(

@@ -16,7 +16,8 @@ class DriverUIViewModel extends BaseViewModel {
 
   bool get hasSelectedSession => _selectedSession != null;
 
-  List<UIEvent> get sessionInteractions => _sessionService.uiEvents;
+  List<UIEvent> get sessionInteractions =>
+      _sessionService.uiEvents.toSet().toList();
 
   List<Session> get sessions => _sessions;
 
@@ -30,6 +31,8 @@ class DriverUIViewModel extends BaseViewModel {
     _sessionService.clear();
     _sessionService.setActiveSession(_selectedSession!);
 
+    notifyListeners();
+
     _driverCommunicationService.sendInteractions(
       _sessionService.uiEvents,
     );
@@ -40,4 +43,6 @@ class DriverUIViewModel extends BaseViewModel {
     print('DriverViewmodel - SessionSelected ${_selectedSession?.id}');
     notifyListeners();
   }
+
+  bool isSessionSelected(int index) => _selectedSession == sessions[index];
 }
