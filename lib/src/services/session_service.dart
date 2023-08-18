@@ -32,9 +32,10 @@ class SessionService {
 
     if (event is UIEvent) {
       _uiEvents.add(event);
-    } else if (event is NetworkEvent) {
-      _networkEvents.add(event);
+      return;
     }
+
+    _networkEvents.add(event as NetworkEvent);
   }
 
   void addAllEvents(List<SessionEvent> events) {
@@ -71,6 +72,55 @@ class SessionService {
     final session = Session(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       events: _sessionEvents,
+      // events: [
+      //   UIEvent(
+      //     position: EventPosition(x: 340, y: 600),
+      //     type: InteractionType.tap,
+      //   ),
+      //   UIEvent(
+      //     position: EventPosition(x: 364.93443080357144, y: 672.7232142857143),
+      //     type: InteractionType.tap,
+      //   ),
+      //   RequestEvent(
+      //     uid: 'fc9de6e9-d301-4b7d-b688-a187d40317b6',
+      //     url:
+      //         'https://www.googleapis.com/books/v1/volumes?q=%7Bdevelopment%7D',
+      //     method: 'GET',
+      //     headers: {
+      //       "user-agent": "Dart/3.0 (dart:io)",
+      //       "accept-encoding": "gzip",
+      //       "content-length": "0",
+      //       "host": "www.googleapis.com",
+      //     },
+      //   ),
+      //   ResponseEvent(
+      //     uid: 'fc9de6e9-d301-4b7d-b688-a187d40317b6',
+      //     timeMs: 1125,
+      //     code: 200,
+      //     headers: {
+      //       "alt-svc": 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000',
+      //       "cache-control": "private",
+      //       "transfer-encoding": "chunked",
+      //       "date": "Thu, 17 Aug 2023 17:22:51 GMT",
+      //       "vary": "Origin",
+      //       "content-encoding": "gzip",
+      //       "x-frame-options": "SAMEORIGIN",
+      //       "content-type": "application/json; charset=UTF-8",
+      //       "x-xss-protection": "0",
+      //       "x-content-type-options": "nosniff",
+      //       "server": "ESF",
+      //     },
+      //     body: Uint8List.fromList(jsonEncode({"kind": "books#volumes", "totalItems": 666, "items": []}).codeUnits),
+      //   ),
+      //   UIEvent(
+      //     position: EventPosition(x: 340, y: 610),
+      //     type: InteractionType.tap,
+      //   ),
+      //   UIEvent(
+      //     position: EventPosition(x: 370, y: 620),
+      //     type: InteractionType.tap,
+      //   ),
+      // ],
     );
 
     clear();
@@ -136,18 +186,12 @@ class SessionService {
       await Future.delayed(Duration(microseconds: 100));
     }
 
-    // final response = _cache[_latestRequestEventHash];
-    // if (response == null) return [];
+    final response = _cache[_latestRequestEventHash];
+    if (response == null) return data;
 
-    // return (response as ResponseEvent).body ?? [];
+    return (response as ResponseEvent).body ?? data;
 
-    final mockData = {
-      "info": {"count": 2, "pages": 1, "next": null, "prev": null},
-      "results": [
-        {"id": 001, "name": "Dane"},
-        {"id": 002, "name": "Fernando"}
-      ]
-    };
+    final mockData = {"kind": "books#volumes", "totalItems": 666, "items": []};
 
     return jsonEncode(mockData).codeUnits;
   }
