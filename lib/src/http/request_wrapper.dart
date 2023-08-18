@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:session_mate/src/app/locator_setup.dart';
-import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/services/session_replay_service.dart';
 
 // import 'event_sender.dart';
 import 'event_tracker.dart';
@@ -13,7 +13,7 @@ class HttpRequestWrapper implements HttpClientRequest {
   final HttpClientRequest _httpClientRequest;
   final HttpEventTracker _httpEventTracker;
 
-  final _sessionService = locator<SessionService>();
+  final _sessionReplayService = locator<SessionReplayService>();
 
   @override
   Encoding get encoding => _httpClientRequest.encoding;
@@ -107,12 +107,7 @@ class HttpRequestWrapper implements HttpClientRequest {
             body,
           );
 
-          // while (EventSender.requestHandled) {
-          //   await Future.delayed(Duration(microseconds: 100));
-          // }
-
-          // sink.add(await EventSender.getResponseData(body));
-          sink.add(await _sessionService.getResponseData(body));
+          sink.add(await _sessionReplayService.replaceData(body));
           sink.close();
         }),
       ),
