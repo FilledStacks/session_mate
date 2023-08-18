@@ -5,10 +5,15 @@ import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
-class DriverUIViewModel extends BaseViewModel {
+class DriverUIViewModel extends ReactiveViewModel {
   final _driverCommunicationService = locator<DriverCommunicationService>();
   final _sessionService = locator<SessionService>();
   final _hiveService = locator<HiveService>();
+
+  @override
+  List<ListenableServiceMixin> get listenableServices => [
+        _driverCommunicationService,
+      ];
 
   List<Session> _sessions = [];
 
@@ -20,6 +25,8 @@ class DriverUIViewModel extends BaseViewModel {
       _sessionService.uiEvents.toSet().toList();
 
   List<Session> get sessions => _sessions;
+
+  bool get showReplayUI => _driverCommunicationService.readyToReplay;
 
   void loadSessions() {
     _sessions = _hiveService.getSessions().toList();

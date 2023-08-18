@@ -42,41 +42,43 @@ class DriverUI extends StackedView<DriverUIViewModel> {
             ),
           ),
         ),
-        Positioned(
-          top: 100,
-          left: 35,
-          height: MediaQuery.of(context).size.height - 100 - 100,
-          width: MediaQuery.of(context).size.width - 70,
-          child: ListView.builder(
-            itemCount: viewModel.sessions.length,
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () => viewModel.selectSession(index),
-              child: Container(
-                padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
-                child: Text(
-                  viewModel.sessions[index].id,
-                  style: TextStyle(fontSize: 20),
-                ),
-                decoration: BoxDecoration(
-                  color: viewModel.isSessionSelected(index)
-                      ? Colors.blue
-                      : Colors.grey[600],
+        if (viewModel.showReplayUI)
+          Positioned(
+            top: 100,
+            left: 35,
+            height: MediaQuery.of(context).size.height - 100 - 100,
+            width: MediaQuery.of(context).size.width - 70,
+            child: ListView.builder(
+              itemCount: viewModel.sessions.length,
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () => viewModel.selectSession(index),
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 7, horizontal: 15),
+                  child: Text(
+                    viewModel.sessions[index].id,
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  decoration: BoxDecoration(
+                    color: viewModel.isSessionSelected(index)
+                        ? Colors.blue
+                        : Colors.grey[600],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
-        Positioned(
-          bottom: 50,
-          left: MediaQuery.of(context).size.width / 2 - 40,
-          child: MaterialButton(
-            minWidth: 80,
-            onPressed: viewModel.startSession,
-            color:
-                viewModel.hasSelectedSession ? Colors.blue : Colors.grey[400],
-            child: Text('Replay Session'),
-          ),
-        )
+        if (viewModel.showReplayUI)
+          Positioned(
+            bottom: 50,
+            left: MediaQuery.of(context).size.width / 2 - 40,
+            child: MaterialButton(
+              minWidth: 80,
+              onPressed: viewModel.startSession,
+              color:
+                  viewModel.hasSelectedSession ? Colors.blue : Colors.grey[400],
+              child: Text('Replay Session'),
+            ),
+          )
       ],
     );
   }
