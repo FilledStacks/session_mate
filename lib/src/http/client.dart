@@ -1,4 +1,4 @@
-import 'dart:async' show Future;
+import 'dart:async' show Future, TimeoutException;
 import 'dart:io';
 
 import 'request_wrapper.dart';
@@ -160,7 +160,15 @@ class SessionMateHttpClient implements HttpClient {
 
   @override
   Future<HttpClientRequest> openUrl(String method, Uri url) async {
-    // Uri mockUrl = Uri(
+    // One way to prevent the request to go out
+    // throw TimeoutException('Session Mate swallows this request');
+
+    // One way to replace the original request with the request below
+    // url = Uri.parse('https://jsonplaceholder.typicode.com/todos/1');
+
+    // Another way to replace the original request with the request below
+    // using data from the original request
+    // url = Uri(
     //   scheme: url.scheme,
     //   userInfo: url.userInfo,
     //   host: 'fermento.duckdns.org',
@@ -170,8 +178,6 @@ class SessionMateHttpClient implements HttpClient {
     //   queryParameters: url.queryParameters,
     //   fragment: url.fragment,
     // );
-
-    // Uri mockUrl = Uri.parse('https://jsonplaceholder.typicode.com/todos/1');
 
     final tracker = HttpEventTracker.fromUri(method, _uidGenerator(), url);
     return _httpClient.openUrl(method, url).then((request) {
