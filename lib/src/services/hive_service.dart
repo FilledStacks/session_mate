@@ -21,6 +21,9 @@ class HiveService {
     }
 
     sessionsBox = await Hive.openBox<Session>('sessions');
+
+    // temporary code to delete a session on start
+    // await sessionsBox.delete('1692293778281');
   }
 
   void saveSession(Session session) {
