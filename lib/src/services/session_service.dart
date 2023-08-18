@@ -1,14 +1,9 @@
-import 'dart:convert';
-
-import 'package:crypto/crypto.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
-import 'package:session_mate/src/package_constants.dart';
+import 'package:session_mate/src/services/session_replay_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
-import 'hive_service.dart';
-
 class SessionService {
-  final localStorageService = locator<HiveService>();
+  final _sessionReplayService = locator<SessionReplayService>();
 
   final List<NetworkEvent> _networkEvents = [];
   List<NetworkEvent> get networkEvents => _networkEvents;
@@ -18,14 +13,6 @@ class SessionService {
 
   final List<UIEvent> _uiEvents = [];
   List<UIEvent> get uiEvents => _uiEvents;
-
-  final Map<String, NetworkEvent> _cache = {};
-
-  NetworkEvent? _currentEvent;
-  String? _latestRequestEventHash;
-
-  bool get _isCurrentEventARequest =>
-      _currentEvent != null && _currentEvent is RequestEvent;
 
   void addEvent(SessionEvent event) {
     _sessionEvents.add(event);
@@ -56,7 +43,7 @@ class SessionService {
 
     addAllEvents(selectedSession.events);
 
-    populateCache();
+    _sessionReplayService.populateCache(networkEvents);
   }
 
   void clear() {
@@ -126,73 +113,5 @@ class SessionService {
     clear();
 
     return session;
-  }
-
-  // TODO(Refactor): This needs to move out of the session service
-  String _hashEvent(NetworkEvent event) {
-    return sha256.convert(utf8.encode(jsonEncode(event))).toString();
-  }
-
-  // TODO(Refactor): This needs to move out of the session service
-  void populateCache() {
-    print('SessionService - Populate network cache');
-    NetworkEvent? hashable;
-    for (var e in _networkEvents) {
-      if (e is RequestEvent) {
-        hashable = e.copyWith(
-          uid: '',
-          body: e.hasBody ? e.body : null,
-        );
-        continue;
-      }
-      // else {
-      //   hashable = (e as ResponseEvent).copyWith(
-      //     uid: '',
-      //     timeMs: 0,
-      //     headers: {},
-      //     body: e.hasBody ? e.body : null,
-      //   );
-      // }
-
-      if (hashable == null) return;
-
-      _cache.putIfAbsent(_hashEvent(hashable), () => e);
-    }
-  }
-
-  // bool hasEventOnCache(String key) => _cache.containsKey(key);
-
-  // TODO(Refactor): This needs to move out of the session service
-  Future<void> sendEvent(NetworkEvent event) async {
-    if (kRecordUserInteractions) {
-      addEvent(event);
-      return;
-    }
-
-    _currentEvent = event;
-    if (event is RequestEvent) {
-      _latestRequestEventHash = _hashEvent(event.copyWith(
-        uid: '',
-        body: event.hasBody ? event.body : null,
-      ));
-    }
-  }
-
-  // TODO(Refactor): This needs to move out of the session service
-  Future<List<int>> getResponseData(List<int> data) async {
-    if (kRecordUserInteractions) return data;
-
-    while (_isCurrentEventARequest) {
-      await Future.delayed(Duration(microseconds: 100));
-    }
-
-    final response = _cache[_latestRequestEventHash];
-    if (response == null) return data;
-
-    return (response as ResponseEvent).body ?? data;
-
-    final mockData = {"kind": "books#volumes", "totalItems": 666, "items": []};
-
-    return jsonEncode(mockData).codeUnits;
   }
 }
