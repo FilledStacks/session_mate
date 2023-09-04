@@ -15,6 +15,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   TextEditingController? _activeTextEditingController;
 
+  int? _activeCommandInitialTimestamp;
+
   bool get hasActiveCommand => _activeCommand != null;
 
   bool get hasActiveTextEditingController =>
@@ -27,10 +29,13 @@ class InteractionRecorderViewModel extends BaseViewModel {
     required InteractionType type,
   }) {
     print('StartCommandRecording - $position - $type');
-    _activeCommand = UIEvent(
-      position: EventPosition(x: position.dx, y: position.dy),
-      type: type,
-    );
+
+    _activeCommandInitialTimestamp = DateTime.now().millisecondsSinceEpoch;
+
+    _activeCommand = UIEvent.fromJson({
+      "position": EventPosition(x: position.dx, y: position.dy).toJson(),
+      "runtimeType": type.name,
+    });
   }
 
   void updateActiveCommand({required InteractionType type}) {
@@ -45,19 +50,27 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _activeTextEditingController = inputFieldController;
   }
 
-  void concludeActiveCommand() {
-    final activeCommandRecordingTextInput =
-        _activeCommand?.type == InteractionType.input;
+  void concludeActiveCommand(Offset position) {
+    if (_activeCommand == null) {
+      throw Exception(
+        'Trying to conclude a command but none is active. This should not happen',
+      );
+    }
 
-    if (activeCommandRecordingTextInput) {
-      _activeCommand = _activeCommand?.copyWith(
+    if (_activeCommand is InputEvent) {
+      _activeCommand = (_activeCommand as InputEvent).copyWith(
         inputData: _activeTextEditingController?.text,
       );
     }
 
-    if (_activeCommand == null) {
-      throw Exception(
-        'Trying to conclude a command but none is active. This should not happen',
+    if (_activeCommand is ScrollEvent) {
+      _activeCommand = (_activeCommand as ScrollEvent).copyWith(
+        scrollDelta: EventPosition(
+          x: position.dx - _activeCommand!.position.x,
+          y: position.dy - _activeCommand!.position.y,
+        ),
+        duration: DateTime.now().millisecondsSinceEpoch -
+            _activeCommandInitialTimestamp!,
       );
     }
 
@@ -73,7 +86,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   void onUserTap(Offset position) {
     if (hasActiveCommand) {
-      concludeAndClear();
+      concludeAndClear(position);
     }
 
     startCommandRecording(position: position, type: InteractionType.tap);
@@ -88,15 +101,15 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   void onMoveStart(Offset position) {
     // print('postion: $position');
-    startCommandRecording(position: position, type: InteractionType.scrollUp);
+    startCommandRecording(position: position, type: InteractionType.scroll);
   }
 
   void onMoveEnd(Offset position) {
-    concludeAndClear();
+    concludeAndClear(position);
   }
 
-  void concludeAndClear() {
-    concludeActiveCommand();
+  void concludeAndClear(Offset position) {
+    concludeActiveCommand(position);
     _clearActiveCommand();
   }
 }

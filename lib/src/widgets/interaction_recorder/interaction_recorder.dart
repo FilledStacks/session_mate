@@ -99,7 +99,9 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
               tapDetails.position,
             ),
             onScrollEvent: (scrollEvent) => viewModel.onScrollEvent(
-                scrollEvent.position, scrollEvent.scrollDelta),
+              scrollEvent.position,
+              scrollEvent.scrollDelta,
+            ),
             onMoveStart: (event) => viewModel.onMoveStart(event.position),
             onMoveEnd: (event) => viewModel.onMoveEnd(event.position),
             child: this.child,

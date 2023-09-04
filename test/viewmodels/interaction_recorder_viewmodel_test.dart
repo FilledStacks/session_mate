@@ -50,7 +50,7 @@ void main() {
           type: InteractionType.tap,
         );
 
-        model.concludeAndClear();
+        model.concludeAndClear(Offset(1, 0));
         expect(model.hasActiveCommand, false);
       });
 
@@ -59,17 +59,14 @@ void main() {
         final sessionSercice = getAndRegisterSessionService();
         final model = _getModel();
 
-        final event = UIEvent(
-          position: EventPosition(x: 1, y: 0),
-          type: InteractionType.tap,
-        );
+        final event = UIEvent.tap(position: EventPosition(x: 1, y: 0));
 
         model.startCommandRecording(
           position: Offset(1, 0),
           type: InteractionType.tap,
         );
 
-        model.concludeAndClear();
+        model.concludeAndClear(Offset(1, 0));
         verify(sessionSercice.addEvent(event));
       });
     });
@@ -92,9 +89,9 @@ void main() {
           text: 'This should be eht text',
         ));
 
-        model.concludeActiveCommand();
+        model.concludeActiveCommand(Offset(1, 0));
         expect(
-          model.activeCommand?.inputData,
+          (model.activeCommand as InputEvent).inputData,
           'This should be eht text',
         );
       });
@@ -107,7 +104,7 @@ void main() {
           type: InteractionType.tap,
         );
 
-        model.concludeActiveCommand();
+        model.concludeActiveCommand(Offset(1, 0));
         expect(model.hasActiveTextEditingController, false);
       });
     });
