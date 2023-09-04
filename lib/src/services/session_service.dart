@@ -1,7 +1,10 @@
+import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
+import 'session_replay_service.dart';
+
 class SessionService {
-  // final _sessionReplayService = locator<SessionReplayService>();
+  final _sessionReplayService = locator<SessionReplayService>();
 
   final List<NetworkEvent> _networkEvents = [];
   List<NetworkEvent> get networkEvents => _networkEvents;
@@ -41,7 +44,7 @@ class SessionService {
 
     addAllEvents(selectedSession.events);
 
-    // _sessionReplayService.populateCache(networkEvents);
+    _sessionReplayService.populateCache(networkEvents);
   }
 
   void clear() {
