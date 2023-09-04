@@ -35,8 +35,10 @@ class DriverUI extends StackedView<DriverUIViewModel> {
               height: _kInteractionHeight,
               decoration: BoxDecoration(
                 color: interaction.type == InteractionType.tap
-                    ? Colors.red
-                    : Colors.purple,
+                    ? Colors.greenAccent
+                    : interaction.type == InteractionType.input
+                        ? Colors.purpleAccent
+                        : Colors.redAccent,
                 shape: BoxShape.circle,
               ),
             ),
