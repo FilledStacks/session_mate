@@ -37,3 +37,11 @@ dev_dependencies:
   json_serializable: ^6.7.1
   build_runner:
   mockito:
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/icons/
+    # - assets/icons/fire.png
+    # - assets/icons/thumbs-down.png
+    # - assets/icons/warning.png
