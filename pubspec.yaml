@@ -42,6 +42,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
-    # - assets/icons/fire.png
-    # - assets/icons/thumbs-down.png
-    # - assets/icons/warning.png
