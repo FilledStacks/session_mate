@@ -10,6 +10,7 @@ class HiveService {
     Hive.init(appDirectory.path);
 
     Hive.registerAdapter(InteractionTypeAdapter());
+    Hive.registerAdapter(SessionPriorityAdapter());
     Hive.registerAdapter(SessionAdapter());
     Hive.registerAdapter(RequestEventAdapter());
     Hive.registerAdapter(ResponseEventAdapter());
