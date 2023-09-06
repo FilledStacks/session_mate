@@ -54,12 +54,13 @@ class SessionService {
     _uiEvents.clear();
   }
 
-  Session captureSession() {
+  Session captureSession({SessionPriority priority = SessionPriority.high}) {
     print('events count:${_sessionEvents.length}');
 
     final session = Session(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       events: [..._sessionEvents],
+      priority: priority,
     );
 
     clear();
