@@ -16,7 +16,8 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
   const InteractionRecorder({Key? key, required this.child}) : super(key: key);
 
   static TextField? _getTappedTextField(
-      _WidgetTreeTraversalData traversalData) {
+    _WidgetTreeTraversalData traversalData,
+  ) {
     TextField? textField;
     final stopwatch = Stopwatch()..start();
 
@@ -95,12 +96,10 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
           },
           child: CustomGestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: (tapDetails) => viewModel.onUserTap(
-              tapDetails.position,
-            ),
-            onScrollEvent: (scrollEvent) => viewModel.onScrollEvent(
-              scrollEvent.position,
-              scrollEvent.scrollDelta,
+            onTap: (event) => viewModel.onUserTap(event.position),
+            onScrollEvent: (event) => viewModel.onScrollEvent(
+              event.position,
+              event.scrollDelta,
             ),
             onMoveStart: (event) => viewModel.onMoveStart(event.position),
             onMoveEnd: (event) => viewModel.onMoveEnd(event.position),
