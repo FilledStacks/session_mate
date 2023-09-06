@@ -32,8 +32,10 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
     _activeCommandInitialTimestamp = DateTime.now().millisecondsSinceEpoch;
 
-    _activeCommand =
-        UIEvent.tap(position: EventPosition(x: position.dx, y: position.dy));
+    _activeCommand = UIEvent.fromJson({
+      "position": EventPosition(x: position.dx, y: position.dy).toJson(),
+      "runtimeType": type.name,
+    });
   }
 
   void updateActiveCommand({required InteractionType type}) {
@@ -101,7 +103,10 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void onMoveStart(Offset position) {
-    // print('postion: $position');
+    if (activeCommand != null) {
+      concludeAndClear(position);
+    }
+
     startCommandRecording(position: position, type: InteractionType.scroll);
   }
 

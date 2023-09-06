@@ -107,6 +107,23 @@ void main() {
         model.concludeActiveCommand(Offset(1, 0));
         expect(model.hasActiveTextEditingController, false);
       });
+
+      test(
+          'If startCommand is called with tap, then with scroll, when we conclude, should have 2 events',
+          () {
+        final sessionService = getAndRegisterSessionService();
+        final model = _getModel();
+
+        model.startCommandRecording(
+          position: Offset(1, 0),
+          type: InteractionType.tap,
+        );
+
+        model.onMoveStart(Offset(1, 0));
+        model.onMoveEnd(Offset(10, 0));
+
+        verify(sessionService.addEvent(any)).called(2);
+      });
     });
   });
 }
