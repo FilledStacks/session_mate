@@ -1,18 +1,27 @@
 import 'package:mockito/annotations.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/services/session_recording_service.dart';
+import 'package:session_mate/src/services/session_replay_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
 
 import 'test_helpers.mocks.dart';
 
 @GenerateMocks([], customMocks: [
   MockSpec<SessionRecordingService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<SessionReplayService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SessionService>(onMissingStub: OnMissingStub.returnDefault),
 ])
 MockSessionRecordingService getAndRegisterSessionRecordingService() {
   _removeRegistrationIfExists<SessionRecordingService>();
   final service = MockSessionRecordingService();
   locator.registerSingleton<SessionRecordingService>(service);
+  return service;
+}
+
+MockSessionReplayService getAndRegisterSessionReplayService() {
+  _removeRegistrationIfExists<SessionReplayService>();
+  final service = MockSessionReplayService();
+  locator.registerSingleton<SessionReplayService>(service);
   return service;
 }
 
@@ -25,6 +34,7 @@ MockSessionService getAndRegisterSessionService() {
 
 void registerServices() {
   getAndRegisterSessionRecordingService();
+  getAndRegisterSessionReplayService();
   getAndRegisterSessionService();
 }
 

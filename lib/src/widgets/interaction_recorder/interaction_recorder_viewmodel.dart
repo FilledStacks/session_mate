@@ -32,15 +32,16 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
     _activeCommandInitialTimestamp = DateTime.now().millisecondsSinceEpoch;
 
-    _activeCommand = UIEvent.fromJson({
-      "position": EventPosition(x: position.dx, y: position.dy).toJson(),
-      "runtimeType": type.name,
-    });
+    _activeCommand =
+        UIEvent.tap(position: EventPosition(x: position.dx, y: position.dy));
   }
 
   void updateActiveCommand({required InteractionType type}) {
     print('UpdateActiveCommand - $type');
-    _activeCommand = _activeCommand?.copyWith(type: type);
+    _activeCommand = UIEvent.fromJson({
+      "position": _activeCommand?.position.toJson(),
+      "runtimeType": type.name,
+    });
   }
 
   void updateInputCommandDetails({

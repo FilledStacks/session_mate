@@ -3,10 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:async' as _i5;
+
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:session_mate/src/services/session_recording_service.dart'
     as _i3;
-import 'package:session_mate/src/services/session_service.dart' as _i4;
+import 'package:session_mate/src/services/session_replay_service.dart' as _i4;
+import 'package:session_mate/src/services/session_service.dart' as _i6;
 import 'package:session_mate_core/session_mate_core.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -36,10 +39,42 @@ class _FakeSession_0 extends _i1.SmartFake implements _i2.Session {
 class MockSessionRecordingService extends _i1.Mock
     implements _i3.SessionRecordingService {}
 
+/// A class which mocks [SessionReplayService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockSessionReplayService extends _i1.Mock
+    implements _i4.SessionReplayService {
+  @override
+  void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
+        Invocation.method(
+          #handleEvent,
+          [event],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void populateCache(List<_i2.NetworkEvent>? events) => super.noSuchMethod(
+        Invocation.method(
+          #populateCache,
+          [events],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i5.Future<List<int>> replaceData(List<int>? data) => (super.noSuchMethod(
+        Invocation.method(
+          #replaceData,
+          [data],
+        ),
+        returnValue: _i5.Future<List<int>>.value(<int>[]),
+        returnValueForMissingStub: _i5.Future<List<int>>.value(<int>[]),
+      ) as _i5.Future<List<int>>);
+}
+
 /// A class which mocks [SessionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSessionService extends _i1.Mock implements _i4.SessionService {
+class MockSessionService extends _i1.Mock implements _i6.SessionService {
   @override
   List<_i2.NetworkEvent> get networkEvents => (super.noSuchMethod(
         Invocation.getter(#networkEvents),
@@ -91,16 +126,20 @@ class MockSessionService extends _i1.Mock implements _i4.SessionService {
         returnValueForMissingStub: null,
       );
   @override
-  _i2.Session captureSession() => (super.noSuchMethod(
+  _i2.Session captureSession(
+          {_i2.SessionPriority? priority = _i2.SessionPriority.high}) =>
+      (super.noSuchMethod(
         Invocation.method(
           #captureSession,
           [],
+          {#priority: priority},
         ),
         returnValue: _FakeSession_0(
           this,
           Invocation.method(
             #captureSession,
             [],
+            {#priority: priority},
           ),
         ),
         returnValueForMissingStub: _FakeSession_0(
@@ -108,6 +147,7 @@ class MockSessionService extends _i1.Mock implements _i4.SessionService {
           Invocation.method(
             #captureSession,
             [],
+            {#priority: priority},
           ),
         ),
       ) as _i2.Session);
