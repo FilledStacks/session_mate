@@ -24,9 +24,23 @@ class DriverUIViewModel extends ReactiveViewModel {
   List<UIEvent> get sessionInteractions =>
       _sessionService.uiEvents.toSet().toList();
 
+  List<UIEvent> get scrollInteractions => _sessionService.uiEvents
+      .toSet()
+      .where((e) => e.type == InteractionType.scroll)
+      .toList();
+
   List<Session> get sessions => _sessions;
 
   bool get showReplayUI => _driverCommunicationService.readyToReplay;
+
+  bool _showVerboseEvent = false;
+  bool get showVerboseEvent => _showVerboseEvent;
+
+  bool _showDriverBar = true;
+  bool get showDriverBar => _showDriverBar;
+
+  bool _showSessionList = true;
+  bool get showSessionList => _showSessionList;
 
   void loadSessions() {
     _sessions = _hiveService.getSessions().toList();
@@ -43,6 +57,28 @@ class DriverUIViewModel extends ReactiveViewModel {
     _driverCommunicationService.sendInteractions(
       _sessionService.uiEvents,
     );
+  }
+
+  void onEventTapped(UIEvent event) {
+    print('onEventTapped - $event');
+
+    _showVerboseEvent = !_showVerboseEvent;
+    rebuildUi();
+  }
+
+  void toggleDriverBar() {
+    _showDriverBar = !_showDriverBar;
+    rebuildUi();
+  }
+
+  void toggleSessionList() {
+    _showSessionList = !_showSessionList;
+    rebuildUi();
+  }
+
+  void toggleEventVerbose() {
+    _showVerboseEvent = !_showVerboseEvent;
+    rebuildUi();
   }
 
   void selectSession(int index) {

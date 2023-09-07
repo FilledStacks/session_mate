@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:session_mate/src/widgets/driver_ui/common/session_actions.dart';
+import 'package:session_mate/src/widgets/driver_ui/common/driver_bar/driver_bar.dart';
+import 'package:session_mate/src/widgets/driver_ui/common/event_info.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/session_list.dart';
 import 'package:session_mate/src/widgets/driver_ui/driver_ui_viewmodel.dart';
 import 'package:session_mate/src/widgets/hittable_stack.dart';
 import 'package:stacked/stacked.dart';
-
-const double _kInteractionWidth = 20;
-const double _kInteractionHeight = 20;
 
 class DriverUI extends StackedView<DriverUIViewModel> {
   final Widget child;
@@ -24,48 +22,36 @@ class DriverUI extends StackedView<DriverUIViewModel> {
     Widget? _,
   ) {
     return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            HittableStack(
-              children: [
-                IgnorePointer(
-                  ignoring: viewModel.showReplayUI,
-                  child: AnimatedOpacity(
-                    opacity: viewModel.showReplayUI ? 0.4 : 1.0,
-                    duration: const Duration(milliseconds: 300),
-                    child: child,
-                  ),
+      body: Stack(
+        children: [
+          HittableStack(
+            children: [
+              IgnorePointer(
+                ignoring: viewModel.showReplayUI,
+                child: AnimatedOpacity(
+                  opacity: viewModel.showReplayUI ? 0.5 : 1.0,
+                  duration: const Duration(milliseconds: 600),
+                  child: child,
                 ),
-                ...viewModel.sessionInteractions.map(
-                  (interaction) => Positioned(
-                    top: interaction.position.y - _kInteractionHeight / 2,
-                    left: interaction.position.x - _kInteractionWidth / 2,
-                    key: Key(interaction.automationKey),
-                    child: Container(
-                      width: _kInteractionWidth,
-                      height: _kInteractionHeight,
-                      decoration: BoxDecoration(
-                        color: Color(interaction.type.color),
-                        shape: BoxShape.circle,
-                      ),
-                      child: Center(
-                        child: Text(
-                          interaction.type.name.substring(0, 1).toUpperCase(),
-                          style: TextStyle(color: Colors.black, fontSize: 10),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            if (viewModel.showReplayUI) ...[
-              const SessionList(),
-              const SessionActions(),
+              ),
+              ...viewModel.sessionInteractions.asMap().entries.map((i) {
+                return EventInfo(index: i.key, event: i.value);
+              }),
+              ...viewModel.scrollInteractions.asMap().entries.map((i) {
+                return EventInfo(
+                  index: i.key,
+                  event: i.value,
+                  isFinalPosition: true,
+                );
+              }),
             ],
+          ),
+          if (viewModel.showReplayUI || true) ...[
+            if (viewModel.showSessionList) const SessionList(),
+            // const SessionActions(),
+            const DriverBar(),
           ],
-        ),
+        ],
       ),
     );
   }
