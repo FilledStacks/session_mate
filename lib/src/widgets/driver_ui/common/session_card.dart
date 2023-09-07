@@ -61,9 +61,9 @@ class SessionCard extends StatelessWidget {
               ],
             ),
           ),
-          ...session.events.map((SessionEvent e) {
-            return Text(e.toString());
-          }).toList()
+          // ...session.events.map((SessionEvent e) {
+          //   return Text(e.toString());
+          // }).toList()
         ],
       ),
     );
