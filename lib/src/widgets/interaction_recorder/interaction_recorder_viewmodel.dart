@@ -49,6 +49,12 @@ class InteractionRecorderViewModel extends BaseViewModel {
       );
     }
 
+    if (_activeCommand is InputEvent) {
+      _activeCommand = (_activeCommand as InputEvent).copyWith(
+        inputData: _activeTextEditingController?.text,
+      );
+    }
+
     if (_activeCommand is ScrollEvent) {
       _activeCommand = (_activeCommand as ScrollEvent).copyWith(
         scrollDelta: EventPosition(
@@ -68,10 +74,16 @@ class InteractionRecorderViewModel extends BaseViewModel {
   void _clearActiveCommand() {
     _activeCommand = null;
     _activeTextEditingController = null;
+    //
   }
 
   void onUserTap(Offset position) {
+    if (hasActiveCommand) {
+      concludeAndClear(_lastTapPosition!);
+    }
+
     print('🔴 Add tap event - $position');
+
     _sessionService.addEvent(TapEvent(
       position: EventPosition(x: position.dx, y: position.dy),
     ));
@@ -79,16 +91,20 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _lastTapPosition = position;
   }
 
-  void addInputCommand({required String inputData}) {
-    print('🔴 addInputCommand - $_lastTapPosition with text: $inputData');
+  void addInputCommand({required TextEditingController inputController}) {
+    print('🔴 startRecording input command @ $_lastTapPosition ');
+
+    _activeTextEditingController = inputController;
+
     if (hasLastTapPosition) {
-      _sessionService.addEvent(InputEvent(
-        position: EventPosition(
-          x: _lastTapPosition!.dx,
-          y: _lastTapPosition!.dy,
-        ),
-        inputData: inputData,
-      ));
+      if (hasActiveCommand) {
+        concludeAndClear(_lastTapPosition!);
+      }
+
+      startCommandRecording(
+        position: _lastTapPosition!,
+        type: InteractionType.input,
+      );
     } else {
       throw Exception(
         'SessionMate: An input command should not fire before a tap command, something is broken in Flutter.',

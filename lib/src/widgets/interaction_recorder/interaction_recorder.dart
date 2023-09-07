@@ -92,7 +92,7 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
                 );
               }
               viewModel.addInputCommand(
-                inputData: textField.controller!.text,
+                inputController: textField.controller!,
               );
             }
 
