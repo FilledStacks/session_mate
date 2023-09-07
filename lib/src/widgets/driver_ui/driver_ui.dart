@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/session_actions.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/session_list.dart';
@@ -62,7 +60,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
                 ),
               ],
             ),
-            if (viewModel.showReplayUI) ...[
+            if (true) ...[
               const SessionList(),
               const SessionActions(),
             ],

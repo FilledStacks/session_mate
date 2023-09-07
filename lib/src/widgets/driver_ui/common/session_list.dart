@@ -18,17 +18,19 @@ class SessionList extends ViewModelWidget<DriverUIViewModel> {
       child: Column(
         children: [
           const SessionListHeader(),
-          ListView.builder(
-            padding: const EdgeInsets.only(top: kSessionItemTopPadding),
-            shrinkWrap: true,
-            itemCount: viewModel.sessions.length,
-            itemBuilder: (context, index) => GestureDetector(
-              onTap: () => viewModel.selectSession(index),
-              child: Padding(
-                padding: const EdgeInsets.only(top: kSessionItemTopPadding),
-                child: SessionCard(
-                  session: viewModel.sessions[index],
-                  isSelected: viewModel.isSessionSelected(index),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.7,
+            child: ListView.builder(
+              padding: const EdgeInsets.only(top: kSessionItemTopPadding),
+              itemCount: viewModel.sessions.length,
+              itemBuilder: (context, index) => GestureDetector(
+                onTap: () => viewModel.selectSession(index),
+                child: Padding(
+                  padding: const EdgeInsets.only(top: kSessionItemTopPadding),
+                  child: SessionCard(
+                    session: viewModel.sessions[index],
+                    isSelected: viewModel.isSessionSelected(index),
+                  ),
                 ),
               ),
             ),
