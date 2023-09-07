@@ -14,6 +14,7 @@ class SessionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
             shape:
@@ -48,9 +49,16 @@ class SessionCard extends StatelessWidget {
               ],
             ),
           ),
-          // ...session.events.map((SessionEvent e) {
-          //   return Text(e.toString());
-          // }).toList()
+          if (isSelected)
+            ...session.events.map((SessionEvent e) {
+              return Card(
+                color: Color(0xFF232228),
+                child: Text(
+                  e.describe(),
+                  style: TextStyle(fontSize: 9),
+                ),
+              );
+            }).toList()
         ],
       ),
     );

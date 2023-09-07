@@ -12,6 +12,10 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   UIEvent? _activeCommand;
   UIEvent? get activeCommand => _activeCommand;
+  Offset? _lastTapPosition;
+
+  bool get hasLastTapPosition => _lastTapPosition != null;
+  Offset? get lastTapPosition => _lastTapPosition!;
 
   TextEditingController? _activeTextEditingController;
 
@@ -28,7 +32,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
     required Offset position,
     required InteractionType type,
   }) {
-    print('StartCommandRecording - $position - $type');
+    print('🔴 StartCommandRecording - $position - $type');
 
     _activeCommandInitialTimestamp = DateTime.now().millisecondsSinceEpoch;
 
@@ -38,31 +42,10 @@ class InteractionRecorderViewModel extends BaseViewModel {
     });
   }
 
-  void updateActiveCommand({required InteractionType type}) {
-    print('UpdateActiveCommand - $type');
-    _activeCommand = UIEvent.fromJson({
-      "position": _activeCommand?.position.toJson(),
-      "runtimeType": type.name,
-    });
-  }
-
-  void updateInputCommandDetails({
-    required TextEditingController inputFieldController,
-  }) {
-    print('UpdateInputCommand with controller');
-    _activeTextEditingController = inputFieldController;
-  }
-
   void concludeActiveCommand(Offset position) {
     if (_activeCommand == null) {
       throw Exception(
         'Trying to conclude a command but none is active. This should not happen',
-      );
-    }
-
-    if (_activeCommand is InputEvent) {
-      _activeCommand = (_activeCommand as InputEvent).copyWith(
-        inputData: _activeTextEditingController?.text,
       );
     }
 
@@ -77,7 +60,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
       );
     }
 
-    print('ConcludeCommand - ${_activeCommand?.toJson()}');
+    print('🔴 ConcludeCommand - ${_activeCommand?.toJson()}');
 
     _sessionService.addEvent(_activeCommand!);
   }
@@ -88,11 +71,29 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void onUserTap(Offset position) {
-    if (hasActiveCommand) {
-      concludeAndClear(position);
-    }
+    print('🔴 Add tap event - $position');
+    _sessionService.addEvent(TapEvent(
+      position: EventPosition(x: position.dx, y: position.dy),
+    ));
 
-    startCommandRecording(position: position, type: InteractionType.tap);
+    _lastTapPosition = position;
+  }
+
+  void addInputCommand({required String inputData}) {
+    print('🔴 addInputCommand - $_lastTapPosition with text: $inputData');
+    if (hasLastTapPosition) {
+      _sessionService.addEvent(InputEvent(
+        position: EventPosition(
+          x: _lastTapPosition!.dx,
+          y: _lastTapPosition!.dy,
+        ),
+        inputData: inputData,
+      ));
+    } else {
+      throw Exception(
+        'SessionMate: An input command should not fire before a tap command, something is broken in Flutter.',
+      );
+    }
   }
 
   void onScrollEvent(
@@ -103,7 +104,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void onMoveStart(Offset position) {
-    if (activeCommand != null) {
+    if (hasActiveCommand) {
       concludeAndClear(position);
     }
 

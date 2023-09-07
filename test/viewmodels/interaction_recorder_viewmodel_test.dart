@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:session_mate/src/widgets/interaction_recorder/interaction_recorder_viewmodel.dart';
@@ -22,22 +21,6 @@ void main() {
         );
 
         expect(model.hasActiveCommand, true);
-      });
-    });
-
-    group('updateActiveCommand -', () {
-      test(
-          'When called with type input, should update active command to type Input',
-          () {
-        final model = _getModel();
-
-        model.startCommandRecording(
-          position: Offset(1, 0),
-          type: InteractionType.tap,
-        );
-
-        model.updateActiveCommand(type: InteractionType.input);
-        expect(model.activeCommand?.type, InteractionType.input);
       });
     });
 
@@ -71,31 +54,28 @@ void main() {
       });
     });
 
-    group('concludeActiveCommand -', () {
+    group('Multiple command recording -', () {
       test(
-          'When called and active command is input, should store the textEditingController text in the input command',
+          'When we scroll, tap, scroll, tap, the commands should be in that order when saved',
           () {
+        final sessionService = getAndRegisterSessionService();
         final model = _getModel();
 
-        model.startCommandRecording(
-          position: Offset(1, 0),
-          type: InteractionType.tap,
-        );
+        model.onMoveStart(Offset(0, 0));
+        model.onMoveEnd(Offset(50, 0));
 
-        model.updateActiveCommand(type: InteractionType.input);
+        model.onUserTap(Offset(1, 0));
 
-        model.updateInputCommandDetails(
-            inputFieldController: TextEditingController(
-          text: 'This should be eht text',
-        ));
+        model.onMoveStart(Offset(50, 0));
+        model.onMoveEnd(Offset(0, 50));
 
-        model.concludeActiveCommand(Offset(1, 0));
-        expect(
-          (model.activeCommand as InputEvent).inputData,
-          'This should be eht text',
-        );
+        model.onUserTap(Offset(0, 1));
+
+        verify(sessionService.addEvent(any)).called(4);
       });
+    });
 
+    group('concludeActiveCommand -', () {
       test('When called, should clear activeTextEditingController', () {
         final model = _getModel();
 

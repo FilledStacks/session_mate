@@ -5,7 +5,7 @@ import 'package:session_mate_core/session_mate_core.dart';
 import '../helpers/test_helpers.dart';
 
 void main() {
-  SessionService _getService() => SessionService();
+  SessionService getService() => SessionService();
 
   group('SessionServiceTest -', () {
     setUpAll(() => registerServices());
@@ -13,7 +13,7 @@ void main() {
     group('addEvent -', () {
       test('When called with a UIEvent, should have 1 in session and ui events',
           () {
-        final service = _getService();
+        final service = getService();
         service.addEvent(
           UIEvent.input(position: EventPosition(x: 0, y: 0)),
         );
@@ -29,7 +29,7 @@ void main() {
       test(
           'When called with a NetworkEvent, should have 1 in session and network events',
           () {
-        final service = _getService();
+        final service = getService();
         service.addEvent(RequestEvent(
           uid: 'uid',
           url: 'url',
@@ -50,7 +50,7 @@ void main() {
     group('captureSession -', () {
       test('When called, should return the current session with all events',
           () {
-        final service = _getService();
+        final service = getService();
         service.addEvent(
           UIEvent.input(position: EventPosition(x: 0, y: 0)),
         );

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/widgets/custom_gesture_detector.dart';
 import 'package:session_mate/src/widgets/interaction_recorder/interaction_recorder_viewmodel.dart';
-import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
 class _WidgetTreeTraversalData {
@@ -70,25 +69,30 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
       children: [
         NotificationListener<KeepAliveNotification>(
           onNotification: (_) {
+            if (viewModel.lastTapPosition == null) {
+              print(
+                  'There is no tap position so we cannot possible have an input event');
+              return false;
+            }
+
             final textField = _getTappedTextField(_WidgetTreeTraversalData(
               context: context,
               touchPoint: Offset(
-                viewModel.activeCommand?.position.x ?? 0,
-                viewModel.activeCommand?.position.y ?? 0,
+                viewModel.lastTapPosition?.dx ?? 0,
+                viewModel.lastTapPosition?.dy ?? 0,
               ),
             ));
 
             final interactionWithTextField = textField != null;
 
             if (interactionWithTextField) {
-              viewModel.updateActiveCommand(type: InteractionType.input);
               if (textField.controller == null) {
                 throw Exception(
                   'SessionMate: All your text input controllers should have a text editing controller, otherwise we cannot identify input',
                 );
               }
-              viewModel.updateInputCommandDetails(
-                inputFieldController: textField.controller!,
+              viewModel.addInputCommand(
+                inputData: textField.controller!.text,
               );
             }
 
