@@ -60,7 +60,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
                 ),
               ],
             ),
-            if (true) ...[
+            if (viewModel.showReplayUI) ...[
               const SessionList(),
               const SessionActions(),
             ],
