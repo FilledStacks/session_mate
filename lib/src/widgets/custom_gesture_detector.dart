@@ -10,6 +10,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/widgets.dart';
 import 'package:vector_math/vector_math.dart' as vector;
 
+const double _kGestureAccuracy = 1;
+
 ///  A widget that detects gestures.
 /// * Supports Tap, DoubleTap, Move(start, update, end), Scale(start, update, end) and Long Press
 /// * All callbacks be used simultaneously
@@ -181,7 +183,10 @@ class CustomGestureDetectorState extends State<CustomGestureDetector> {
               event.localPosition, event.position, event.pointer,
               delta: event.delta, localDelta: event.localDelta));
         } else {
-          if (event.delta.dx >= 1 || event.delta.dy >= 1) {
+          if (event.delta.dx <= -_kGestureAccuracy ||
+              event.delta.dx >= _kGestureAccuracy ||
+              event.delta.dy >= _kGestureAccuracy ||
+              event.delta.dy <= -_kGestureAccuracy) {
             switch2MoveStartState(touch, event);
           }
         }
@@ -189,7 +194,10 @@ class CustomGestureDetectorState extends State<CustomGestureDetector> {
       case GestureState.pointerDown:
         // print(
         //     '-------------- Switch to move start state. Delta: ${event.delta} -------------\n\n');
-        if (event.delta.dx >= 1 || event.delta.dy >= 1) {
+        if (event.delta.dx <= -_kGestureAccuracy ||
+            event.delta.dx >= _kGestureAccuracy ||
+            event.delta.dy >= _kGestureAccuracy ||
+            event.delta.dy <= -_kGestureAccuracy) {
           switch2MoveStartState(touch, event);
         }
         break;
