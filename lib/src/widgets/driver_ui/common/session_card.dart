@@ -22,21 +22,8 @@ class SessionCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    // Image.asset("assets/icons/fire.png"),
-                    Text(
-                      session.priority.icon,
-                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16),
-                    ),
-                    SizedBox(width: 6),
-                    Text(
-                      session.priority.nameRecased,
-                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 16),
-                    ),
-                  ],
-                ),
+                Image.asset(session.priority.icon, width: 20),
+                SizedBox(width: 5),
                 Text(
                   '${session.events.length} steps',
                   style: TextStyle(color: Color(0xFF4B4957), fontSize: 10),
