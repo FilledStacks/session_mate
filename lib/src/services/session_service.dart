@@ -27,7 +27,7 @@ class SessionService {
   }
 
   void addAllEvents(List<SessionEvent> events) {
-    print('SessionService - populate all events. ${events.length}');
+    print('SessionService - populate ${events.length} events');
     _sessionEvents.addAll(events);
 
     for (var event in events) {
@@ -55,6 +55,10 @@ class SessionService {
   }
 
   Session captureSession({SessionPriority priority = SessionPriority.high}) {
+    if (_sessionEvents.isEmpty) {
+      throw Exception('No session events available, nothing to save');
+    }
+
     print('events count:${_sessionEvents.length}');
 
     final session = Session(

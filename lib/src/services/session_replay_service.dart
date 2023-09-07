@@ -22,7 +22,7 @@ class SessionReplayService {
   }
 
   void populateCache(List<NetworkEvent> events) {
-    print('SessionService - Populate network cache');
+    print('SessionService - populate network cache');
     NetworkEvent? hashable;
     for (var e in events) {
       if (e is RequestEvent) {
