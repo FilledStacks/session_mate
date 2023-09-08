@@ -11,3 +11,4 @@ build/
 
 .flutter-plugins
 .flutter-plugins-dependencies
+example/android/local.properties
