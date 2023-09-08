@@ -29,6 +29,7 @@ dependencies:
   get_it: ^7.6.0
   hive: ^2.2.3
   path_provider: ^2.1.0
+  svg_icon: ^0.0.1
 
 dev_dependencies:
   flutter_test:
@@ -44,3 +45,4 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
+    - assets/driver_bar_icons/

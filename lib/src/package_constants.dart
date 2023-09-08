@@ -1,6 +1,9 @@
-import 'package:flutter/foundation.dart';
+const bool _recordSession = bool.fromEnvironment(
+  'RECORD_SESSION',
+  defaultValue: false,
+);
 
-const bool kRecordUserInteractions = kReleaseMode || kProfileMode;
+const bool kRecordUserInteractions = _recordSession;
 
 const double kHorizontalPadding = 10;
 const double kVerticalPadding = 30;
