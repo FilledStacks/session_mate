@@ -74,7 +74,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
   void _clearActiveCommand() {
     _activeCommand = null;
     _activeTextEditingController = null;
-    //
   }
 
   void onUserTap(Offset position) {
