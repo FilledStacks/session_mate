@@ -1,3 +1,3 @@
-# example
+# bookshelf
 
-A new Flutter project.
+An app to explore books through Google Books Api
