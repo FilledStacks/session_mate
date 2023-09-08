@@ -1,4 +1,5 @@
 import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/hive_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
@@ -31,10 +32,11 @@ class DriverUIViewModel extends ReactiveViewModel {
 
   List<Session> get sessions => _sessions;
 
-  bool get showReplayUI => _driverCommunicationService.readyToReplay;
+  bool get showReplayUI =>
+      _driverCommunicationService.readyToReplay || kForceDriverUI;
 
-  bool _showVerboseEvent = false;
-  bool get showVerboseEvent => _showVerboseEvent;
+  bool _showDebugInformation = false;
+  bool get showDebugInformation => _showDebugInformation;
 
   bool _showDriverBar = true;
   bool get showDriverBar => _showDriverBar;
@@ -62,7 +64,7 @@ class DriverUIViewModel extends ReactiveViewModel {
   void onEventTapped(UIEvent event) {
     print('onEventTapped - $event');
 
-    _showVerboseEvent = !_showVerboseEvent;
+    _showDebugInformation = !_showDebugInformation;
     rebuildUi();
   }
 
@@ -76,8 +78,8 @@ class DriverUIViewModel extends ReactiveViewModel {
     rebuildUi();
   }
 
-  void toggleEventVerbose() {
-    _showVerboseEvent = !_showVerboseEvent;
+  void toggleDebugMode() {
+    _showDebugInformation = !_showDebugInformation;
     rebuildUi();
   }
 

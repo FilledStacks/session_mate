@@ -34,7 +34,7 @@ class EventInfo extends ViewModelWidget<DriverUIViewModel> {
       key: Key(key),
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
-        child: viewModel.showVerboseEvent
+        child: viewModel.showDebugInformation
             ? _EventVerbose(
                 index: index,
                 event: event,
@@ -79,9 +79,10 @@ class _EventSimple extends ViewModelWidget<DriverUIViewModel> {
         width: _kInteractionWidth,
         height: _kInteractionHeight,
         decoration: BoxDecoration(
-          color: Color(event.type.color).withOpacity(
-            isFinalPosition ? 0.25 : 1.0,
-          ),
+          border: Border.all(color: Colors.white),
+          color: isFinalPosition
+              ? Color(event.type.alternativeColor)
+              : Color(event.type.color),
           shape: BoxShape.circle,
         ),
         child: Center(
@@ -90,7 +91,7 @@ class _EventSimple extends ViewModelWidget<DriverUIViewModel> {
             style: TextStyle(
               color: Colors.black,
               fontSize: 9,
-              fontWeight: FontWeight.bold,
+              fontWeight: FontWeight.w600,
             ),
           ),
         ),
@@ -129,9 +130,10 @@ class _EventVerbose extends ViewModelWidget<DriverUIViewModel> {
             width: _kInteractionWidth,
             height: _kInteractionHeight,
             decoration: BoxDecoration(
-              color: Color(event.type.color).withOpacity(
-                isFinalPosition ? 0.25 : 1.0,
-              ),
+              border: Border.all(color: Colors.white),
+              color: isFinalPosition
+                  ? Color(event.type.alternativeColor)
+                  : Color(event.type.color),
               shape: BoxShape.circle,
             ),
             child: Center(
@@ -140,21 +142,20 @@ class _EventVerbose extends ViewModelWidget<DriverUIViewModel> {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 9,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
           ),
         ),
         Container(
-          // width: _kInteractionWidth * 2,
-          // height: _kInteractionHeight * 2,
           decoration: BoxDecoration(
-            color: Color(event.type.color).withOpacity(
-              isFinalPosition ? 0.25 : 1.0,
-            ),
+            color: isFinalPosition
+                ? Color(event.type.alternativeColor)
+                : Color(event.type.color),
             shape: BoxShape.rectangle,
           ),
+          padding: const EdgeInsets.all(2),
           child: Center(
             child: Text(
               legend,

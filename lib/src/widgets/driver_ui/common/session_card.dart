@@ -17,16 +17,27 @@ class SessionCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListTile(
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+            ),
             leading: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(session.priority.icon, width: 20),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.asset(session.priority.icon, width: 20),
+                    SizedBox(width: 5),
+                    Text(
+                      session.priority.nameRecased,
+                      style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 14),
+                    ),
+                  ],
+                ),
                 SizedBox(width: 5),
                 Text(
-                  '${session.events.length} steps',
+                  '${session.events.whereType<UIEvent>().length} steps',
                   style: TextStyle(color: Color(0xFF4B4957), fontSize: 10),
                 ),
               ],
@@ -50,7 +61,7 @@ class SessionCard extends StatelessWidget {
             ),
           ),
           if (isSelected)
-            ...session.events.map((SessionEvent e) {
+            ...session.events.whereType<UIEvent>().map((SessionEvent e) {
               return Card(
                 color: Color(0xFF232228),
                 child: Text(
