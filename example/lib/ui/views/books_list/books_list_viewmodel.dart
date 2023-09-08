@@ -20,7 +20,7 @@ class BooksListViewModel extends FutureViewModel<List<Book>> {
 
     await Future.delayed(const Duration(seconds: 1));
 
-    return FakeBook().generateFakeList(length: 50);
+    return FakeBook().generateFakeList(length: 100);
   }
 
   void onTap(Book book) {

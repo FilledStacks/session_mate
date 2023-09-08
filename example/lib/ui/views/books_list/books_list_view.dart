@@ -1,4 +1,4 @@
-import 'package:bookshelf/ui/widgets/common/book_card/book_card.dart';
+import 'package:bookshelf/ui/widgets/common/book_card.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -24,10 +24,10 @@ class BooksListView extends StackedView<BooksListViewModel> {
                 ? GridView.builder(
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 6,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 5,
-                      childAspectRatio: 0.4,
+                      crossAxisCount: 5,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1,
                     ),
                     padding: const EdgeInsets.symmetric(
                       horizontal: 30,

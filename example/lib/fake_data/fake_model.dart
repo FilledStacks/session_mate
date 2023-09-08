@@ -6,7 +6,7 @@ abstract class FakeModel<T> {
 
   /// Creates a fake uuid.
   String createFakeUuid() {
-    return Uuid().v4();
+    return const Uuid().v4();
   }
 
   /// Generate fake list based on provided length.

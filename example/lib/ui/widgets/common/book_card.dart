@@ -1,4 +1,5 @@
 import 'package:bookshelf/models/book.dart';
+import 'package:bookshelf/ui/widgets/common/book_identifier.dart';
 import 'package:flutter/material.dart';
 
 class BookCard extends StatelessWidget {
@@ -14,9 +15,18 @@ class BookCard extends StatelessWidget {
       onTap: onTap,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
-        child: Image.network(
-          book.imageLinks!.smallThumbnail,
-          fit: BoxFit.fill,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Image.network(
+                book.imageLinks!.smallThumbnail,
+                fit: BoxFit.fill,
+              ),
+            ),
+            Positioned.fill(
+              child: Center(child: BookIdentifier(id: '${book.id}')),
+            ),
+          ],
         ),
       ),
     );

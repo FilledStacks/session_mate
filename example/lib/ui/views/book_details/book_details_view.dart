@@ -2,6 +2,7 @@ import 'package:bookshelf/models/book.dart';
 import 'package:bookshelf/ui/common/ui_helpers.dart';
 import 'package:bookshelf/ui/views/book_details/book_details_validator.dart';
 import 'package:bookshelf/ui/views/book_details/book_details_view.form.dart';
+import 'package:bookshelf/ui/widgets/common/book_identifier.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
@@ -41,15 +42,13 @@ class BookDetailsView extends StackedView<BookDetailsViewModel>
                         fit: BoxFit.fitWidth,
                       ),
                       Positioned.fill(
-                          child: Center(
-                        child: Text(
-                          '${book.id}',
-                          style: const TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
+                        child: Center(
+                          child: BookIdentifier(
+                            id: '${book.id}',
+                            small: false,
                           ),
                         ),
-                      ))
+                      ),
                     ],
                   ),
                 ),
