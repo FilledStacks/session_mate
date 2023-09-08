@@ -16,7 +16,7 @@ class InterceptorService {
 
   Future<void> onEvent(NetworkEvent event) async {
     if (kRecordUserInteractions) {
-      _sessionService.addEvent(_mask(event));
+      _sessionService.addEvent(event);
       return;
     }
 
