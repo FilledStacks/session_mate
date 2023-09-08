@@ -1,4 +1,5 @@
 import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 import 'session_replay_service.dart';
@@ -54,9 +55,13 @@ class SessionService {
     _uiEvents.clear();
   }
 
-  Session captureSession({SessionPriority priority = SessionPriority.high}) {
+  Session captureSession({SessionPriority priority = SessionPriority.low}) {
+    if (!kRecordUserInteractions) {
+      throw Exception('Should not capture a session during replay.');
+    }
+
     if (_sessionEvents.isEmpty) {
-      throw Exception('No session events available, nothing to save');
+      throw Exception('No session events available, nothing to save.');
     }
 
     print('events count:${_sessionEvents.length}');

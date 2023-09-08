@@ -27,7 +27,7 @@ Future<void> setupSessionMate() async {
   // Here we can setup our locator since we are going to be using services as well
   await setupLocator();
 
-  print('================== Sessions on device =================');
+  print('💾 💾 💾 💾 💾 SESSIONS ON DEVICE 💾 💾 💾 💾 💾');
   final hiveService = locator<HiveService>();
   final sessions = hiveService.getSessions();
   for (var s in sessions) {
@@ -36,5 +36,5 @@ Future<void> setupSessionMate() async {
       print('event:$e');
     }
   }
-  print('================== END SESSION DETAILS ==================');
+  print('💾 💾 💾 💾 💾 END SESSIONS DETAILS 💾 💾 💾 💾 💾');
 }
