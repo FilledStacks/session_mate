@@ -32,9 +32,9 @@ class DriverBar extends ViewModelWidget<DriverUIViewModel> {
                 ),
                 const SizedBox(width: 20),
                 GestureDetector(
-                  onTap: viewModel.toggleEventVerbose,
+                  onTap: viewModel.toggleDebugMode,
                   child: SvgIcon(
-                    'packages/session_mate/assets/driver_bar_icons/action-${viewModel.showVerboseEvent ? 'hide' : 'show'}-coordinates.svg',
+                    'packages/session_mate/assets/driver_bar_icons/action-${viewModel.showDebugInformation ? 'hide' : 'show'}-coordinates.svg',
                     color: Color(0xFFFFFFFF),
                     width: 35,
                     height: 35,
