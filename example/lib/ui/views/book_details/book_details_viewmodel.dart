@@ -19,11 +19,18 @@ class BookDetailsViewModel extends FormViewModel {
     //   return;
     // }
 
-    _dialogService.showDialog(
-      title: 'Unexpected error',
-      description:
-          'We could not place an order for this book. Please contact support with the following error.\n\nErr 205 - id not found in database',
-    );
+    if (true) {
+      _dialogService.showDialog(
+        title: 'Unexpected error',
+        description:
+            'We could not place an order for this book. Please contact support with the following error.\n\nErr 205 - id not found in database',
+      );
+    } else {
+      _dialogService.showDialog(
+        title: 'Thank you for your order',
+        description: 'Your signed book is on the way!',
+      );
+    }
 
     SessionMateUtils.saveSession();
   }

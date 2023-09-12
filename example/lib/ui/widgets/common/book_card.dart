@@ -20,7 +20,7 @@ class BookCard extends StatelessWidget {
             Positioned.fill(
               child: Image.network(
                 book.imageLinks!.smallThumbnail,
-                fit: BoxFit.fill,
+                fit: BoxFit.cover,
               ),
             ),
             Positioned.fill(

@@ -14,23 +14,23 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
   final Widget child;
   const InteractionRecorder({Key? key, required this.child}) : super(key: key);
 
-  static TextField? _getTappedTextField(
-    _WidgetTreeTraversalData traversalData,
-  ) {
+  static TextField? _getTappedTextField(_WidgetTreeTraversalData traversalData,
+      {bool verbose = false}) {
     TextField? textField;
     final stopwatch = Stopwatch()..start();
 
     void visitor(Element element) {
-      // print(
-      //   ' ============ Element details: Type-${element.runtimeType} ===========');
-
       if (element.widget is TextField) {
         final textFieldWidget = element.widget as TextField;
         final renderBox = element.findRenderObject() as RenderBox;
-        print('⏰ FindRenderObject executed in - ${stopwatch.elapsed}');
+        if (verbose) {
+          print('⏰ FindRenderObject executed in - ${stopwatch.elapsed}');
+        }
         final pos = renderBox.localToGlobal(Offset.zero);
 
-        print('⏰ localToGlobal executed in - ${stopwatch.elapsed}');
+        if (verbose) {
+          print('⏰ localToGlobal executed in - ${stopwatch.elapsed}');
+        }
 
         final textFieldRect = Rect.fromLTWH(
           pos.dx,
@@ -43,18 +43,22 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
           textField = textFieldWidget;
         }
 
-        print('⏰ contains executed in - ${stopwatch.elapsed}');
+        if (verbose) {
+          print('⏰ contains executed in - ${stopwatch.elapsed}');
+        }
       }
 
       if (textField == null) {
         element.visitChildren(visitor);
       } else {
-        print('TextField found, time to return!!');
+        // print('TextField found, time to return!!');
       }
     }
 
     traversalData.context.visitChildElements(visitor);
-    print('⏰ Traversal time - ${stopwatch.elapsed}');
+    if (verbose) {
+      print('⏰ Traversal time - ${stopwatch.elapsed}');
+    }
 
     return textField;
   }

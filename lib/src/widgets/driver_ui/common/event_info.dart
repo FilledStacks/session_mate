@@ -70,29 +70,22 @@ class _EventSimple extends ViewModelWidget<DriverUIViewModel> {
 
   @override
   Widget build(BuildContext context, DriverUIViewModel viewModel) {
-    return GestureDetector(
-      onTap: () {
-        print('${isFinalPosition ? "final" : "initial"} position: $x, $y');
-        viewModel.onEventTapped(event);
-      },
-      child: Container(
-        width: _kInteractionWidth,
-        height: _kInteractionHeight,
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white),
-          color: isFinalPosition
-              ? Color(event.type.alternativeColor)
-              : Color(event.type.color),
-          shape: BoxShape.circle,
-        ),
-        child: Center(
-          child: Text(
-            '${event.type.name.substring(0, 1).toUpperCase()}${index + 1}',
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 9,
-              fontWeight: FontWeight.w600,
-            ),
+    return Container(
+      width: _kInteractionWidth,
+      height: _kInteractionHeight,
+      decoration: BoxDecoration(
+        color: isFinalPosition
+            ? Color(event.type.alternativeColor).withOpacity(0)
+            : Color(event.type.color).withOpacity(0),
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          '', //'${event.type.name.substring(0, 1).toUpperCase()}${index + 1}',
+          style: TextStyle(
+            color: Colors.black,
+            fontSize: 9,
+            fontWeight: FontWeight.w600,
           ),
         ),
       ),
@@ -121,29 +114,23 @@ class _EventVerbose extends ViewModelWidget<DriverUIViewModel> {
 
     return Column(
       children: [
-        GestureDetector(
-          onTap: () {
-            print('$order - $x, $y');
-            viewModel.onEventTapped(event);
-          },
-          child: Container(
-            width: _kInteractionWidth,
-            height: _kInteractionHeight,
-            decoration: BoxDecoration(
-              border: Border.all(color: Colors.white),
-              color: isFinalPosition
-                  ? Color(event.type.alternativeColor)
-                  : Color(event.type.color),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                '${event.type.name.substring(0, 1).toUpperCase()}${index + 1}',
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 9,
-                  fontWeight: FontWeight.w600,
-                ),
+        Container(
+          width: _kInteractionWidth,
+          height: _kInteractionHeight,
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.white),
+            color: isFinalPosition
+                ? Color(event.type.alternativeColor)
+                : Color(event.type.color),
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Text(
+              '${event.type.name.substring(0, 1).toUpperCase()}${index + 1}',
+              style: TextStyle(
+                color: Colors.black,
+                fontSize: 9,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
