@@ -56,12 +56,15 @@ class HttpEventTracker {
       );
 
   void _sendRequestEvent(Map<String, String> headers) {
+    final isImageResponse = headers.containsKey('content-type') &&
+        (headers['content-type']?.contains('image') ?? false);
+
     _interceptorService.onEvent(RequestEvent(
       uid: _uid,
       url: _url,
       method: _method,
       headers: headers,
-      body: data,
+      body: isImageResponse ? null : data,
     ));
   }
 
