@@ -56,15 +56,12 @@ class HttpEventTracker {
       );
 
   void _sendRequestEvent(Map<String, String> headers) {
-    final isImageResponse = headers.containsKey('content-type') &&
-        (headers['content-type']?.contains('image') ?? false);
-
     _interceptorService.onEvent(RequestEvent(
       uid: _uid,
       url: _url,
       method: _method,
       headers: headers,
-      body: isImageResponse ? null : data,
+      body: data,
     ));
   }
 
@@ -73,13 +70,17 @@ class HttpEventTracker {
     HttpHeaders headers,
     List<int> data,
   ) {
+    final mappedHeaders = _headersToMap(headers);
+    final isImageResponse = mappedHeaders.containsKey('content-type') &&
+        (headers['content-type']?.contains('image') ?? false);
+
     _interceptorService.onEvent(ResponseEvent(
       uid: _uid,
       timeMs: _calcDurationTime(),
       code: statusCode,
-      headers: _headersToMap(headers),
+      headers: mappedHeaders,
       error: null,
-      body: Uint8List.fromList(data),
+      body: isImageResponse ? null : Uint8List.fromList(data),
     ));
   }
 
