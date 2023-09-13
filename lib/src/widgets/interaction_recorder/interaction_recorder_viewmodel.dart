@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide RawKeyEvent;
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/services/session_service.dart';
@@ -116,6 +116,22 @@ class InteractionRecorderViewModel extends BaseViewModel {
     Offset scrollDelta,
   ) {
     // print('postion: $position, scrollDelta: $scrollDelta');
+  }
+
+  void onRawKeyEvent({
+    required int keyId,
+    required String keyLabel,
+    required int usbHidUsage,
+  }) {
+    print('🔴 Add rawKeyEvent - keyLabel:$keyLabel');
+
+    _sessionService.addEvent(
+      UIEvent.rawKeyEvent(
+        keyId: keyId,
+        keyLabel: keyLabel,
+        usbHidUsage: usbHidUsage,
+      ),
+    );
   }
 
   void onMoveStart(Offset position) {

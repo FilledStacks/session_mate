@@ -17,6 +17,7 @@ class HiveService {
     Hive.registerAdapter(TapEventAdapter());
     Hive.registerAdapter(InputEventAdapter());
     Hive.registerAdapter(ScrollEventAdapter());
+    Hive.registerAdapter(RawKeyEventAdapter());
     Hive.registerAdapter(EventPositionAdapter());
 
     if (forceDestroyDB) {

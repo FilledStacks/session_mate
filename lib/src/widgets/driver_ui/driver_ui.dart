@@ -53,9 +53,10 @@ class DriverUI extends StackedView<DriverUIViewModel> {
             if (viewModel.showSessionList) const SessionList(),
             // const SessionActions(),
             Positioned(
-                bottom: MediaQuery.of(context).size.height * .025,
-                left: MediaQuery.of(context).size.width * .05,
-                child: const DriverBar()),
+              bottom: MediaQuery.of(context).size.height * .025,
+              left: MediaQuery.of(context).size.width * .05,
+              child: const DriverBar(),
+            ),
           ],
         ],
       ),
