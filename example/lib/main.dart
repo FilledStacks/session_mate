@@ -11,7 +11,7 @@ Future<void> main() async {
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
-  runApp(const MainApp());
+  runApp(const GuestRestarter(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {
@@ -26,7 +26,12 @@ class MainApp extends StatelessWidget {
       navigatorObservers: [
         StackedService.routeObserver,
       ],
-      builder: (context, child) => SessionMate(child: child!),
+      builder: (context, child) => SessionMate(
+        child: child!,
+        onRestart: () {
+          locator<NavigationService>().clearStackAndShow(Routes.startupView);
+        },
+      ),
       theme: ThemeData(
         useMaterial3: true,
         brightness: Brightness.dark,
