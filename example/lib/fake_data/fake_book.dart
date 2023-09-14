@@ -3,13 +3,11 @@ import 'package:bookshelf/models/book.dart';
 import 'package:bookshelf/models/image_links.dart';
 
 class FakeBook extends FakeModel<Book> {
-  static int bookId = 0;
-
   @override
-  Book generateFake() {
+  Book generateFake({int id = 0}) {
     final thumbnailImage = faker.image.image(random: true);
     return Book(
-      id: bookId++,
+      id: id,
       authors: [
         faker.person.name(),
         faker.person.name(),
