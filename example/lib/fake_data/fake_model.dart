@@ -11,9 +11,9 @@ abstract class FakeModel<T> {
 
   /// Generate fake list based on provided length.
   List<T> generateFakeList({required int length}) {
-    return List.generate(length, (index) => generateFake());
+    return List.generate(length, (index) => generateFake(id: index));
   }
 
   /// Generate a single fake model.
-  T generateFake();
+  T generateFake({int id = 0});
 }
