@@ -50,6 +50,11 @@ class DriverUIViewModel extends ReactiveViewModel {
   }
 
   void startSession() {
+    if (_selectedSession == null) {
+      print('⚠️  Ups! No session selected!');
+      return;
+    }
+
     print('Starting session...');
     _sessionService.clear();
     _sessionService.setActiveSession(_selectedSession!);
