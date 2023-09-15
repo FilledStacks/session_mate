@@ -5,7 +5,6 @@ import 'package:flutter_driver/driver_extension.dart';
 import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
-import 'package:session_mate/src/services/hive_service.dart';
 
 import 'app/locator_setup.dart';
 
@@ -26,15 +25,4 @@ Future<void> setupSessionMate() async {
 
   // Here we can setup our locator since we are going to be using services as well
   await setupLocator();
-
-  print('💾 💾 💾 💾 💾 SESSIONS ON DEVICE 💾 💾 💾 💾 💾');
-  final hiveService = locator<HiveService>();
-  final sessions = hiveService.getSessions();
-  for (var s in sessions) {
-    print('session: ${s.id}');
-    for (var e in s.events) {
-      print('event:$e');
-    }
-  }
-  print('💾 💾 💾 💾 💾 END SESSIONS DETAILS 💾 💾 💾 💾 💾');
 }
