@@ -9,11 +9,8 @@ import 'package:stacked/stacked.dart';
 
 class DriverUI extends StackedView<DriverUIViewModel> {
   final Widget child;
-
-  const DriverUI({
-    Key? key,
-    required this.child,
-  }) : super(key: key);
+  final VoidCallback? onRestart;
+  const DriverUI({super.key, required this.child, this.onRestart});
 
   @override
   Widget builder(
@@ -55,7 +52,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
             Positioned(
               bottom: MediaQuery.of(context).size.height * .025,
               left: MediaQuery.of(context).size.width * .05,
-              child: const DriverBar(),
+              child: DriverBar(onRestart: onRestart),
             ),
           ],
         ],
