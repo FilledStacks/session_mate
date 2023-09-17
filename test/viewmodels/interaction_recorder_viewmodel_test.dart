@@ -145,7 +145,7 @@ void main() {
           sessionService.addEvent(
             ScrollEvent(
               position: EventPosition(x: 0, y: 1),
-              scrollDelta: EventPosition(x: 0, y: 100),
+              scrollDelta: EventPosition(x: 0, y: -100),
               duration: 0,
             ),
           ),

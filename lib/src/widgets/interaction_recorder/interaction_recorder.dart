@@ -88,9 +88,9 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
           onNotification: (Notification notification) {
             viewModel.onChildNotification(notification);
 
-            // TODO (Refactor): This can be moved out of here into a place wr
-            // can unit test it's behaviour
-            if (viewModel.lastTapPosition == null) {
+            // TODO (Refactor): Add back, the input is not working as expected
+            /*if (viewModel.lastTapPosition == null &&
+                notification is! KeepAliveNotification) {
               // print(
               //     'There is no tap position so we cannot possible have an input event');
               return false;
@@ -115,7 +115,7 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
               viewModel.addInputCommand(
                 inputController: textField.controller!,
               );
-            }
+            }*/
 
             return false;
           },

@@ -47,12 +47,14 @@ class InteractionRecorderViewModel extends BaseViewModel {
       final scrollStartedByUser = notification.dragDetails != null;
 
       if (scrollStartedByUser) {
-        final startScrollOffset = notification.metrics.pixels;
-        print('🔦 - ScrollStart @ ${startScrollOffset}px');
+        onScrollStart(
+          scrollOrigin: notification.dragDetails!.globalPosition,
+          startingOffset: notification.metrics.pixels,
+          scrollDirection: notification.metrics.axis,
+        );
       }
     } else if (notification is ScrollEndNotification) {
-      final endScrollOffset = notification.metrics.pixels;
-      print('🔦 - ScrollEnd @ ${endScrollOffset}px');
+      onScrollEnd(endOffset: notification.metrics.pixels);
     }
   }
 
@@ -192,6 +194,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
     required double startingOffset,
     required Axis scrollDirection,
   }) {
+    print(
+        '🔴 onScrollStart - origin:$scrollOrigin offsetStart:$startingOffset scrollDirection:$scrollDirection');
     _scrollTimer = Stopwatch()..start();
     _activeScrollEvent = ActiveScrollMetrics(
       scrollDirection: scrollDirection,
@@ -202,6 +206,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   void onScrollEnd({required double endOffset}) {
     if (_activeScrollEvent != null) {
+      print('🔴 onScrollEnd - onScrollEnd:$endOffset');
       final scrollIsVertical =
           _activeScrollEvent!.scrollDirection == Axis.vertical;
       _sessionService.addEvent(
@@ -212,10 +217,10 @@ class InteractionRecorderViewModel extends BaseViewModel {
           ),
           scrollDelta: EventPosition(
             x: !scrollIsVertical
-                ? endOffset - _activeScrollEvent!.startingOffset
+                ? _activeScrollEvent!.startingOffset - endOffset
                 : 0,
             y: scrollIsVertical
-                ? endOffset - _activeScrollEvent!.startingOffset
+                ? _activeScrollEvent!.startingOffset - endOffset
                 : 0,
           ),
           duration: _scrollTimer?.elapsedMilliseconds,
