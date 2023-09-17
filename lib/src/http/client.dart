@@ -1,8 +1,8 @@
-import 'dart:async' show Future, TimeoutException;
+import 'dart:async' show Future;
 import 'dart:io';
 
-import 'request_wrapper.dart';
 import 'event_tracker.dart';
+import 'request_wrapper.dart';
 
 class SessionMateHttpClient implements HttpClient {
   final HttpClient _httpClient;
