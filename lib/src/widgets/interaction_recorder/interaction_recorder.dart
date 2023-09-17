@@ -84,11 +84,15 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
 
     return Stack(
       children: [
-        NotificationListener<KeepAliveNotification>(
-          onNotification: (_) {
+        NotificationListener(
+          onNotification: (Notification notification) {
+            viewModel.onChildNotification(notification);
+
+            // TODO (Refactor): This can be moved out of here into a place wr
+            // can unit test it's behaviour
             if (viewModel.lastTapPosition == null) {
-              print(
-                  'There is no tap position so we cannot possible have an input event');
+              // print(
+              //     'There is no tap position so we cannot possible have an input event');
               return false;
             }
 
@@ -118,12 +122,6 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
           child: CustomGestureDetector(
             behavior: HitTestBehavior.opaque,
             onTap: (event) => viewModel.onUserTap(event.position),
-            onScrollEvent: (event) => viewModel.onScrollEvent(
-              event.position,
-              event.scrollDelta,
-            ),
-            onMoveStart: (event) => viewModel.onMoveStart(event.position),
-            onMoveEnd: (event) => viewModel.onMoveEnd(event.position),
             child: this.child,
           ),
         ),

@@ -1,6 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart' hide RawKeyEvent;
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
+import 'package:session_mate/src/models/scroll_models.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
@@ -10,12 +13,19 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   final _sessionService = locator<SessionService>();
 
+  final _notificationController = StreamController<Notification>.broadcast();
+
   UIEvent? _activeCommand;
   UIEvent? get activeCommand => _activeCommand;
+
+  ActiveScrollMetrics? _activeScrollEvent;
+  ActiveScrollMetrics? get activeScrollEvent => _activeScrollEvent;
+  Stopwatch? _scrollTimer;
+
   Offset? _lastTapPosition;
 
   bool get hasLastTapPosition => _lastTapPosition != null;
-  Offset? get lastTapPosition => _lastTapPosition!;
+  Offset? get lastTapPosition => _lastTapPosition;
 
   TextEditingController? _activeTextEditingController;
 
@@ -27,6 +37,24 @@ class InteractionRecorderViewModel extends BaseViewModel {
       _activeTextEditingController != null;
 
   List<UIEvent> get uiEvents => _sessionService.uiEvents;
+
+  InteractionRecorderViewModel() {
+    _notificationController.stream.listen(handleNotifications);
+  }
+
+  void handleNotifications(Notification notification) {
+    if (notification is ScrollStartNotification) {
+      final scrollStartedByUser = notification.dragDetails != null;
+
+      if (scrollStartedByUser) {
+        final startScrollOffset = notification.metrics.pixels;
+        print('🔦 - ScrollStart @ ${startScrollOffset}px');
+      }
+    } else if (notification is ScrollEndNotification) {
+      final endScrollOffset = notification.metrics.pixels;
+      print('🔦 - ScrollEnd @ ${endScrollOffset}px');
+    }
+  }
 
   void startCommandRecording({
     required Offset position,
@@ -134,6 +162,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
     );
   }
 
+  // TODO (Remove): This is not required for scroll capture anymore
+  // Removing this requires unit tests to be updated
   void onMoveStart(Offset position) {
     if (hasActiveCommand) {
       concludeAndClear(position);
@@ -142,6 +172,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
     startCommandRecording(position: position, type: InteractionType.scroll);
   }
 
+  // TODO (Remove): This is not required for scroll capture anymore
+  // Removing this requires unit tests to be updated
   void onMoveEnd(Offset position) {
     concludeAndClear(position);
   }
@@ -149,5 +181,49 @@ class InteractionRecorderViewModel extends BaseViewModel {
   void concludeAndClear(Offset position) {
     concludeActiveCommand(position);
     _clearActiveCommand();
+  }
+
+  void onChildNotification(Notification notification) {
+    _notificationController.add(notification);
+  }
+
+  void onScrollStart({
+    required Offset scrollOrigin,
+    required double startingOffset,
+    required Axis scrollDirection,
+  }) {
+    _scrollTimer = Stopwatch()..start();
+    _activeScrollEvent = ActiveScrollMetrics(
+      scrollDirection: scrollDirection,
+      scrollOrigin: scrollOrigin,
+      startingOffset: startingOffset,
+    );
+  }
+
+  void onScrollEnd({required double endOffset}) {
+    if (_activeScrollEvent != null) {
+      final scrollIsVertical =
+          _activeScrollEvent!.scrollDirection == Axis.vertical;
+      _sessionService.addEvent(
+        ScrollEvent(
+          position: EventPosition(
+            x: _activeScrollEvent!.scrollOrigin.dx,
+            y: _activeScrollEvent!.scrollOrigin.dy,
+          ),
+          scrollDelta: EventPosition(
+            x: !scrollIsVertical
+                ? endOffset - _activeScrollEvent!.startingOffset
+                : 0,
+            y: scrollIsVertical
+                ? endOffset - _activeScrollEvent!.startingOffset
+                : 0,
+          ),
+          duration: _scrollTimer?.elapsedMilliseconds,
+        ),
+      );
+
+      _scrollTimer?.stop();
+      _scrollTimer = null;
+    }
   }
 }

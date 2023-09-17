@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
 import 'package:session_mate/src/widgets/interaction_recorder/interaction_recorder_viewmodel.dart';
@@ -103,6 +104,76 @@ void main() {
         model.onMoveEnd(Offset(10, 0));
 
         verify(sessionService.addEvent(any)).called(2);
+      });
+    });
+
+    group('onScrollStart -', () {
+      test(
+          'When called with offset and start position, should set the activeScrollInteraction equal to the values passed in',
+          () {
+        final model = _getModel();
+
+        model.onScrollStart(
+          scrollOrigin: Offset(-1, 1),
+          startingOffset: 100,
+          scrollDirection: Axis.vertical,
+        );
+
+        expect(model.activeScrollEvent, isNotNull);
+        expect(model.activeScrollEvent!.scrollOrigin, Offset(-1, 1));
+        expect(model.activeScrollEvent!.scrollDirection, Axis.vertical);
+        expect(model.activeScrollEvent!.startingOffset, 100);
+      });
+    });
+
+    group('onScrollEnd -', () {
+      test(
+          'When called with startOffset 100, endOffset 200, should have delta of (0,100)',
+          () {
+        final sessionService = getAndRegisterSessionService();
+        final model = _getModel();
+
+        model.onScrollStart(
+          scrollOrigin: Offset(0, 1),
+          startingOffset: 100,
+          scrollDirection: Axis.vertical,
+        );
+
+        model.onScrollEnd(endOffset: 200);
+
+        verify(
+          sessionService.addEvent(
+            ScrollEvent(
+              position: EventPosition(x: 0, y: 1),
+              scrollDelta: EventPosition(x: 0, y: 100),
+              duration: 0,
+            ),
+          ),
+        );
+      });
+
+      test('When called with 143ms break, should have duration on 143ms',
+          () async {
+        final sessionService = getAndRegisterSessionService();
+        final model = _getModel();
+
+        model.onScrollStart(
+          scrollOrigin: Offset(0, 1),
+          startingOffset: 100,
+          scrollDirection: Axis.vertical,
+        );
+
+        await Future.delayed(Duration(milliseconds: 143));
+
+        model.onScrollEnd(endOffset: 200);
+
+        expect(
+          (verify(
+            sessionService.addEvent(captureAny),
+          ).captured.single as ScrollEvent)
+              .duration,
+          greaterThan(143),
+        );
       });
     });
   });
