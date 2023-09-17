@@ -127,7 +127,7 @@ class MockSessionService extends _i1.Mock implements _i6.SessionService {
       );
   @override
   _i2.Session captureSession(
-          {_i2.SessionPriority? priority = _i2.SessionPriority.high}) =>
+          {_i2.SessionPriority? priority = _i2.SessionPriority.low}) =>
       (super.noSuchMethod(
         Invocation.method(
           #captureSession,
