@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-part 'scroll_models.freezed.dart';
+part 'active_scroll_metrics.freezed.dart';
 
 /// This model should not go to session_mate_core because it's not to be used
 /// outside of this package. It relies on the Flutter framework types.

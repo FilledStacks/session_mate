@@ -13,6 +13,8 @@ dependencies:
     sdk: flutter
   flutter_driver:
     sdk: flutter
+  flutter_test:
+    sdk: flutter
 
   uuid: ^3.0.7
   freezed_annotation: ^2.4.1
@@ -32,8 +34,7 @@ dependencies:
   svg_icon: ^0.0.1
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  
 
   flutter_lints: ^2.0.0
   freezed: ^2.4.1
