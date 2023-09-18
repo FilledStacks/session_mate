@@ -62,13 +62,21 @@ void main() {
         final sessionService = getAndRegisterSessionService();
         final model = _getModel();
 
-        model.onMoveStart(Offset(0, 0));
-        model.onMoveEnd(Offset(50, 0));
+        model.onScrollStart(
+          scrollDirection: Axis.vertical,
+          scrollOrigin: Offset.zero,
+          startingOffset: 0,
+        );
+        model.onScrollEnd(endOffset: 100);
 
         model.onUserTap(Offset(1, 0));
 
-        model.onMoveStart(Offset(50, 0));
-        model.onMoveEnd(Offset(0, 50));
+        model.onScrollStart(
+          scrollDirection: Axis.vertical,
+          scrollOrigin: Offset.zero,
+          startingOffset: 100,
+        );
+        model.onScrollEnd(endOffset: 200);
 
         model.onUserTap(Offset(0, 1));
 
@@ -87,23 +95,6 @@ void main() {
 
         model.concludeActiveCommand(Offset(1, 0));
         expect(model.hasActiveTextEditingController, false);
-      });
-
-      test(
-          'If startCommand is called with tap, then with scroll, when we conclude, should have 2 events',
-          () {
-        final sessionService = getAndRegisterSessionService();
-        final model = _getModel();
-
-        model.startCommandRecording(
-          position: Offset(1, 0),
-          type: InteractionType.tap,
-        );
-
-        model.onMoveStart(Offset(1, 0));
-        model.onMoveEnd(Offset(10, 0));
-
-        verify(sessionService.addEvent(any)).called(2);
       });
     });
 

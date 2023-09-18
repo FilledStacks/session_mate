@@ -3,13 +3,17 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i6;
+import 'dart:ui' as _i10;
 
+import 'package:flutter/material.dart' as _i9;
+import 'package:logger/src/logger.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:session_mate/src/services/session_recording_service.dart'
-    as _i3;
-import 'package:session_mate/src/services/session_replay_service.dart' as _i4;
-import 'package:session_mate/src/services/session_service.dart' as _i6;
+    as _i4;
+import 'package:session_mate/src/services/session_replay_service.dart' as _i5;
+import 'package:session_mate/src/services/session_service.dart' as _i7;
+import 'package:session_mate/src/utils/widget_finder.dart' as _i8;
 import 'package:session_mate_core/session_mate_core.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -33,17 +37,27 @@ class _FakeSession_0 extends _i1.SmartFake implements _i2.Session {
         );
 }
 
+class _FakeLogger_1 extends _i1.SmartFake implements _i3.Logger {
+  _FakeLogger_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [SessionRecordingService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionRecordingService extends _i1.Mock
-    implements _i3.SessionRecordingService {}
+    implements _i4.SessionRecordingService {}
 
 /// A class which mocks [SessionReplayService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionReplayService extends _i1.Mock
-    implements _i4.SessionReplayService {
+    implements _i5.SessionReplayService {
   @override
   void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
         Invocation.method(
@@ -61,20 +75,20 @@ class MockSessionReplayService extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i5.Future<List<int>> replaceData(List<int>? data) => (super.noSuchMethod(
+  _i6.Future<List<int>> replaceData(List<int>? data) => (super.noSuchMethod(
         Invocation.method(
           #replaceData,
           [data],
         ),
-        returnValue: _i5.Future<List<int>>.value(<int>[]),
-        returnValueForMissingStub: _i5.Future<List<int>>.value(<int>[]),
-      ) as _i5.Future<List<int>>);
+        returnValue: _i6.Future<List<int>>.value(<int>[]),
+        returnValueForMissingStub: _i6.Future<List<int>>.value(<int>[]),
+      ) as _i6.Future<List<int>>);
 }
 
 /// A class which mocks [SessionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSessionService extends _i1.Mock implements _i6.SessionService {
+class MockSessionService extends _i1.Mock implements _i7.SessionService {
   @override
   List<_i2.NetworkEvent> get networkEvents => (super.noSuchMethod(
         Invocation.getter(#networkEvents),
@@ -151,4 +165,38 @@ class MockSessionService extends _i1.Mock implements _i6.SessionService {
           ),
         ),
       ) as _i2.Session);
+}
+
+/// A class which mocks [WidgetFinder].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockWidgetFinder extends _i1.Mock implements _i8.WidgetFinder {
+  @override
+  _i3.Logger get log => (super.noSuchMethod(
+        Invocation.getter(#log),
+        returnValue: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+        returnValueForMissingStub: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+      ) as _i3.Logger);
+  @override
+  _i9.TextField? getTextFieldAtPosition({
+    required _i10.Offset? position,
+    bool? verbose = false,
+  }) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getTextFieldAtPosition,
+          [],
+          {
+            #position: position,
+            #verbose: verbose,
+          },
+        ),
+        returnValueForMissingStub: null,
+      ) as _i9.TextField?);
 }
