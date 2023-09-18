@@ -5,6 +5,7 @@ import 'package:session_mate/src/services/hive_service.dart';
 import 'package:session_mate/src/services/interceptor_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/widget_finder.dart';
 
 final locator = GetIt.asNewInstance();
 
@@ -14,6 +15,7 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton(() => SessionService());
   locator.registerLazySingleton(() => SessionReplayService());
   locator.registerLazySingleton(() => InterceptorService());
+  locator.registerLazySingleton(() => WidgetFinder());
 
   final hiveStorage = HiveService();
   await hiveStorage.init();

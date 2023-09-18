@@ -3,8 +3,9 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide RawKeyEvent;
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
-import 'package:session_mate/src/models/scroll_models.dart';
+import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
@@ -12,6 +13,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final log = getLogger('InteractionRecorderViewModel');
 
   final _sessionService = locator<SessionService>();
+  final _widgetFinder = locator<WidgetFinder>();
 
   final _notificationController = StreamController<Notification>.broadcast();
 
@@ -29,7 +31,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   TextEditingController? _activeTextEditingController;
 
-  int? _activeCommandInitialTimestamp;
+  bool _currentScrollStartedByUser = false;
 
   bool get hasActiveCommand => _activeCommand != null;
 
@@ -43,10 +45,12 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void handleNotifications(Notification notification) {
-    if (notification is ScrollStartNotification) {
-      final scrollStartedByUser = notification.dragDetails != null;
+    if (notification is UserScrollNotification) {}
 
-      if (scrollStartedByUser) {
+    if (notification is ScrollStartNotification) {
+      _currentScrollStartedByUser = notification.dragDetails != null;
+
+      if (_currentScrollStartedByUser) {
         onScrollStart(
           scrollOrigin: notification.dragDetails!.globalPosition,
           startingOffset: notification.metrics.pixels,
@@ -54,7 +58,38 @@ class InteractionRecorderViewModel extends BaseViewModel {
         );
       }
     } else if (notification is ScrollEndNotification) {
-      onScrollEnd(endOffset: notification.metrics.pixels);
+      if (_currentScrollStartedByUser) {
+        onScrollEnd(endOffset: notification.metrics.pixels);
+      }
+
+      _currentScrollStartedByUser = false;
+    } else if (notification is KeepAliveNotification) {
+      // Potential bug: we are dependent on the keepAlive notification to
+      // fire after the tap function has set _lastTapPosition to complete.
+      if (hasLastTapPosition) {
+        final textField =
+            _widgetFinder.getTextFieldAtPosition(position: _lastTapPosition!);
+
+        if (textField != null) {
+          final hasAttachedController = textField.controller != null;
+          if (hasAttachedController) {
+            addInputCommand(inputController: textField.controller!);
+          } else {
+            print('''
+
+🛑 SessionMate ERROR 🛑 
+
+You are trying to record text input that has no controller.
+This probably means you are using an example app where this bug would not have
+been caught.
+
+To capture text in Flutter and use it in your codebase you need to use a 
+TextEditingController. 
+
+''');
+          }
+        }
+      }
     }
   }
 
@@ -63,8 +98,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
     required InteractionType type,
   }) {
     print('🔴 StartCommandRecording - $position - $type');
-
-    _activeCommandInitialTimestamp = DateTime.now().millisecondsSinceEpoch;
 
     _activeCommand = UIEvent.fromJson({
       "position": EventPosition(x: position.dx, y: position.dy).toJson(),
@@ -82,17 +115,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
     if (_activeCommand is InputEvent) {
       _activeCommand = (_activeCommand as InputEvent).copyWith(
         inputData: _activeTextEditingController?.text,
-      );
-    }
-
-    if (_activeCommand is ScrollEvent) {
-      _activeCommand = (_activeCommand as ScrollEvent).copyWith(
-        scrollDelta: EventPosition(
-          x: position.dx - _activeCommand!.position.x,
-          y: position.dy - _activeCommand!.position.y,
-        ),
-        duration: DateTime.now().millisecondsSinceEpoch -
-            _activeCommandInitialTimestamp!,
       );
     }
 
@@ -135,8 +157,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
         type: InteractionType.input,
       );
     } else {
-      throw Exception(
-        'SessionMate: An input command should not fire before a tap command, something is broken in Flutter.',
+      print(
+        '🛑 SessionMate 🛑: An input command should not fire before a tap command, something is broken in Flutter.',
       );
     }
   }
@@ -185,8 +207,9 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _clearActiveCommand();
   }
 
-  void onChildNotification(Notification notification) {
+  bool onChildNotification(Notification notification) {
     _notificationController.add(notification);
+    return false;
   }
 
   void onScrollStart({
