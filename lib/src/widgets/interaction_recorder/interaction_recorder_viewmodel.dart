@@ -186,22 +186,6 @@ TextEditingController.
     );
   }
 
-  // TODO (Remove): This is not required for scroll capture anymore
-  // Removing this requires unit tests to be updated
-  void onMoveStart(Offset position) {
-    if (hasActiveCommand) {
-      concludeAndClear(position);
-    }
-
-    startCommandRecording(position: position, type: InteractionType.scroll);
-  }
-
-  // TODO (Remove): This is not required for scroll capture anymore
-  // Removing this requires unit tests to be updated
-  void onMoveEnd(Offset position) {
-    concludeAndClear(position);
-  }
-
   void concludeAndClear(Offset position) {
     concludeActiveCommand(position);
     _clearActiveCommand();
@@ -217,6 +201,10 @@ TextEditingController.
     required double startingOffset,
     required Axis scrollDirection,
   }) {
+    if (hasActiveCommand) {
+      concludeAndClear(_lastTapPosition!);
+    }
+
     print(
         '🔴 onScrollStart - origin:$scrollOrigin offsetStart:$startingOffset scrollDirection:$scrollDirection');
     _scrollTimer = Stopwatch()..start();

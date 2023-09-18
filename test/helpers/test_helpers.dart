@@ -3,6 +3,7 @@ import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/services/session_recording_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/widget_finder.dart';
 
 import 'test_helpers.mocks.dart';
 
@@ -10,11 +11,19 @@ import 'test_helpers.mocks.dart';
   MockSpec<SessionRecordingService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SessionReplayService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SessionService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<WidgetFinder>(onMissingStub: OnMissingStub.returnDefault),
 ])
 MockSessionRecordingService getAndRegisterSessionRecordingService() {
   _removeRegistrationIfExists<SessionRecordingService>();
   final service = MockSessionRecordingService();
   locator.registerSingleton<SessionRecordingService>(service);
+  return service;
+}
+
+MockWidgetFinder getAndRegisterWidgetFinder() {
+  _removeRegistrationIfExists<WidgetFinder>();
+  final service = MockWidgetFinder();
+  locator.registerSingleton<WidgetFinder>(service);
   return service;
 }
 
@@ -36,6 +45,7 @@ void registerServices() {
   getAndRegisterSessionRecordingService();
   getAndRegisterSessionReplayService();
   getAndRegisterSessionService();
+  getAndRegisterWidgetFinder();
 }
 
 void _removeRegistrationIfExists<T extends Object>() {
