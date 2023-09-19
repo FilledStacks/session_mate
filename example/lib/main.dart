@@ -26,7 +26,7 @@ class MainApp extends StatelessWidget {
       navigatorObservers: [
         StackedService.routeObserver,
       ],
-      builder: (context, child) => SessionMate(
+      builder: (context, child) => SessionMateOverlay(
         child: child!,
         onRestart: () {
           locator<NavigationService>().clearStackAndShow(Routes.startupView);
