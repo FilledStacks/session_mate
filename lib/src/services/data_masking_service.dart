@@ -14,6 +14,7 @@ class DataMaskingService {
     for (int i = 0; i < item.length; i++) {
       if (item[i] == " ") {
         output = '$output ';
+        continue;
       }
 
       output = '${output}x';
