@@ -29,7 +29,11 @@ class DriverUI extends StackedView<DriverUIViewModel> {
                 child: AnimatedOpacity(
                   opacity: viewModel.showReplayUI ? 0.5 : 1.0,
                   duration: const Duration(milliseconds: 600),
-                  child: child,
+                  child: Builder(builder: (context) {
+                    if (viewModel.hasSelectedSession) return child;
+
+                    return const SizedBox.shrink();
+                  }),
                 ),
               ),
               ...viewModel.sessionInteractions.asMap().entries.map((i) {
@@ -48,7 +52,6 @@ class DriverUI extends StackedView<DriverUIViewModel> {
           ),
           if (viewModel.showReplayUI) ...[
             if (viewModel.showSessionList) const SessionList(),
-            // const SessionActions(),
             Positioned(
               bottom: MediaQuery.of(context).size.height * .025,
               left: MediaQuery.of(context).size.width * .05,

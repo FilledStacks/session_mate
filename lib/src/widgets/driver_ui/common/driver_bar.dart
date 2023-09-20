@@ -13,7 +13,9 @@ class DriverBar extends ViewModelWidget<DriverUIViewModel> {
     return Container(
       alignment: viewModel.showDriverBar ? Alignment.centerLeft : null,
       decoration: BoxDecoration(
-          color: Color(0xFF4D3CC2), borderRadius: BorderRadius.circular(15)),
+        color: Color(0xFF4D3CC2),
+        borderRadius: BorderRadius.circular(15),
+      ),
       padding: const EdgeInsets.symmetric(horizontal: 15),
       height: 60,
       width:
