@@ -34,8 +34,6 @@ dependencies:
   svg_icon: ^0.0.1
 
 dev_dependencies:
-  
-
   flutter_lints: ^2.0.0
   freezed: ^2.4.1
   json_serializable: ^6.7.1
@@ -45,5 +43,6 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
-    - assets/icons/
     - assets/driver_bar_icons/
+    - assets/icons/
+    - assets/images/
