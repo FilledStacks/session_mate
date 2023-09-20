@@ -36,9 +36,11 @@ class BooksListView extends StackedView<BooksListViewModel> {
                     shrinkWrap: true,
                     itemCount: viewModel.data?.length,
                     itemBuilder: (context, index) => BookCard(
-                      book: viewModel.data![index],
+                      book: viewModel.data![index].copyWith(id: index),
                       onTap: () {
-                        viewModel.onTap(viewModel.data![index]);
+                        viewModel.onTap(viewModel.data![index].copyWith(
+                          id: index,
+                        ));
                       },
                     ),
                   )
