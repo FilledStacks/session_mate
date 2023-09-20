@@ -55,12 +55,6 @@ class DriverUIViewModel extends ReactiveViewModel {
       return;
     }
 
-    print('Starting session...');
-    _sessionService.clear();
-    _sessionService.setActiveSession(_selectedSession!);
-
-    notifyListeners();
-
     _driverCommunicationService.sendInteractions(
       _sessionService.uiEvents,
     );
@@ -90,7 +84,11 @@ class DriverUIViewModel extends ReactiveViewModel {
 
   void selectSession(int index) {
     _selectedSession = _sessions[index];
+
+    _sessionService.setActiveSession(_selectedSession!);
+
     print('DriverViewmodel - SessionSelected ${_selectedSession?.id}');
+
     notifyListeners();
   }
 
