@@ -5,13 +5,13 @@ import 'dart:io';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
 
-// import 'event_sender.dart';
 import 'event_tracker.dart';
 import 'response_wrapper.dart';
 
 class HttpRequestWrapper implements HttpClientRequest {
   final HttpClientRequest _httpClientRequest;
   final HttpEventTracker _httpEventTracker;
+  final String? _uid;
 
   final _sessionReplayService = locator<SessionReplayService>();
 
@@ -52,7 +52,8 @@ class HttpRequestWrapper implements HttpClientRequest {
   @override
   set maxRedirects(int value) => _httpClientRequest.maxRedirects = value;
 
-  HttpRequestWrapper(this._httpClientRequest, this._httpEventTracker);
+  HttpRequestWrapper(
+      this._httpClientRequest, this._httpEventTracker, this._uid);
 
   @override
   void add(List<int> data) {
@@ -95,19 +96,17 @@ class HttpRequestWrapper implements HttpClientRequest {
         }, handleError: (error, stackTrace, sink) {
           print("HttpRequestWrapper :: ERROR RESPONSE $error $stackTrace");
         }, handleDone: (sink) async {
-          // we need to send the response to session mate before waiting because
-          // requestHandled we use the response uid to compare with request uid
-          // and decide if should mock response or not.
-          // NOTE: probably this solution has to be changed for a more advanced
-          // solution that avoids conflicts when multiple requests are made at
-          // the same time.
           _httpEventTracker.sendSuccessResponse(
             response.statusCode,
             response.headers,
             body,
           );
 
-          sink.add(await _sessionReplayService.replaceData(body));
+          sink.add(await _sessionReplayService.getSanitizedData(
+            body,
+            uid: _uid,
+          ));
+
           sink.close();
         }),
       ),
