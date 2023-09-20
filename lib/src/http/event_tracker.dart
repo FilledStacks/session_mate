@@ -70,17 +70,13 @@ class HttpEventTracker {
     HttpHeaders headers,
     List<int> data,
   ) {
-    final Map<String, String> mappedHeaders = _headersToMap(headers);
-    final isImageResponse = mappedHeaders.containsKey('content-type') &&
-        (mappedHeaders['content-type']?.contains('image') ?? false);
-
     _interceptorService.onEvent(ResponseEvent(
       uid: _uid,
       timeMs: _calcDurationTime(),
       code: statusCode,
-      headers: mappedHeaders,
+      headers: _headersToMap(headers),
       error: null,
-      body: isImageResponse ? null : Uint8List.fromList(data),
+      body: Uint8List.fromList(data),
     ));
   }
 

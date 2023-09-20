@@ -143,15 +143,16 @@ class SessionMateHttpClient implements HttpClient {
     int port,
     String path,
   ) {
+    final uid = _uidGenerator();
     final tracker = HttpEventTracker.fromHost(
       method,
-      _uidGenerator(),
+      uid,
       host,
       port,
       path,
     );
     return _httpClient.open(method, host, port, path).then((request) {
-      return HttpRequestWrapper(request, tracker);
+      return HttpRequestWrapper(request, tracker, uid);
     }).onError((Exception error, stackTrace) {
       tracker.onError(error);
       return Future.error(error, stackTrace);
@@ -179,9 +180,11 @@ class SessionMateHttpClient implements HttpClient {
     //   fragment: url.fragment,
     // );
 
-    final tracker = HttpEventTracker.fromUri(method, _uidGenerator(), url);
+    final uid = _uidGenerator();
+
+    final tracker = HttpEventTracker.fromUri(method, uid, url);
     return _httpClient.openUrl(method, url).then((request) {
-      return HttpRequestWrapper(request, tracker);
+      return HttpRequestWrapper(request, tracker, uid);
     }).onError((Exception error, stackTrace) {
       tracker.onError(error);
       return Future.error(error, stackTrace);
