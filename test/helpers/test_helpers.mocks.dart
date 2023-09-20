@@ -51,7 +51,16 @@ class _FakeLogger_1 extends _i1.SmartFake implements _i3.Logger {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionRecordingService extends _i1.Mock
-    implements _i4.SessionRecordingService {}
+    implements _i4.SessionRecordingService {
+  @override
+  void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
+        Invocation.method(
+          #handleEvent,
+          [event],
+        ),
+        returnValueForMissingStub: null,
+      );
+}
 
 /// A class which mocks [SessionReplayService].
 ///
@@ -75,10 +84,15 @@ class MockSessionReplayService extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<List<int>> replaceData(List<int>? data) => (super.noSuchMethod(
+  _i6.Future<List<int>> getSanitizedData(
+    List<int>? data, {
+    String? uid,
+  }) =>
+      (super.noSuchMethod(
         Invocation.method(
-          #replaceData,
+          #getSanitizedData,
           [data],
+          {#uid: uid},
         ),
         returnValue: _i6.Future<List<int>>.value(<int>[]),
         returnValueForMissingStub: _i6.Future<List<int>>.value(<int>[]),
