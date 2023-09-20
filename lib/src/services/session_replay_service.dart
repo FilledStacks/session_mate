@@ -1,12 +1,14 @@
+import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/helpers/crypto_helper.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class SessionReplayService {
+  final Map<String, String> _requests = {};
+
   final Map<String, NetworkEvent> _cache = {};
 
   NetworkEvent? _currentEvent;
-  String? _latestRequestEventHash;
 
   bool get _isCurrentEventARequest =>
       _currentEvent != null && _currentEvent is RequestEvent;
@@ -14,45 +16,38 @@ class SessionReplayService {
   void handleEvent(NetworkEvent event) {
     _currentEvent = event;
     if (event is RequestEvent) {
-      _latestRequestEventHash = hashEvent(event.copyWith(
-        uid: '',
-        body: event.hasBody ? event.body : null,
-      ));
+      _requests[event.uid] = hashEvent(event);
     }
   }
 
   void populateCache(List<NetworkEvent> events) {
-    print('SessionService - populate network cache');
-    NetworkEvent? hashable;
+    print(
+      'SessionService - populate ${events.length} network events into cache',
+    );
+
     for (var e in events) {
-      if (e is RequestEvent) {
-        hashable = e.copyWith(
-          uid: '',
-          body: e.hasBody ? e.body : null,
-        );
-        continue;
-      }
-
-      if (hashable == null) return;
-
-      _cache.putIfAbsent(hashEvent(hashable), () => e);
+      _cache[(e as ResponseEvent).uid] = e;
     }
   }
 
-  Future<List<int>> replaceData(List<int> data) async {
+  Future<List<int>> getSanitizedData(List<int> data, {String? uid}) async {
     if (kRecordUserInteractions) return data;
 
     while (_isCurrentEventARequest) {
       await Future.delayed(Duration(microseconds: 100));
     }
 
-    final response = _cache[_latestRequestEventHash];
+    if (uid == null) return data;
+
+    final response = _cache[_requests[uid]] as ResponseEvent?;
+
     if (response == null) return data;
 
-    return (response as ResponseEvent).body ?? data;
+    if (response.headers['content-type']!.contains('image')) {
+      // return globalPlaceHolder;
+      return gPlaceHolder;
+    }
 
-    // final mockData = {"kind": "books#volumes", "totalItems": 666, "items": []};
-
-    // return jsonEncode(mockData).codeUnits;
+    return response.body ?? data;
   }
 }
