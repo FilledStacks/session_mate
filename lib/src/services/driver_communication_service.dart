@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
@@ -9,9 +10,20 @@ class DriverCommunicationService with ListenableServiceMixin {
   bool _readyToReplay = false;
   bool get readyToReplay => _readyToReplay;
 
+  bool _wasReplayExecuted = false;
+  bool get wasReplayExecuted => _wasReplayExecuted;
+
+  VoidCallback? _onReplayCompletedCallback;
+
+  void setOnReplayCompletedCallback(VoidCallback callback) {
+    _onReplayCompletedCallback = callback;
+  }
+
   Future<String> waitForInteractions() {
     print('DriverCommunicationService - waitForInteractions');
     _communicationCompleter = Completer<String>();
+
+    if (_wasReplayExecuted) _onReplayCompletedCallback?.call();
 
     _readyToReplay = true;
     notifyListeners();
@@ -25,5 +37,6 @@ class DriverCommunicationService with ListenableServiceMixin {
     notifyListeners();
 
     _communicationCompleter?.complete(jsonEncode(interactions));
+    _wasReplayExecuted = true;
   }
 }
