@@ -36,11 +36,6 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
   }
 
   @override
-  void onDispose(SessionMateBuilderViewModel viewModel) {
-    print("🟥 SessionMateBuilder disposed");
-  }
-
-  @override
   SessionMateBuilderViewModel viewModelBuilder(BuildContext context) =>
       SessionMateBuilderViewModel(
         dataMaskingEnabled: dataMaskingEnabled,
