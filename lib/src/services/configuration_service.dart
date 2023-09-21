@@ -9,12 +9,13 @@ class ConfigurationService {
   int get minimumStartupTime => _minimumStartupTime;
 
   void setValues({
-    required bool dataMaskingEnabled,
-    required List<String> excludeKeysOnDataMasking,
-    required int minimumStartupTime,
+    bool? dataMaskingEnabled,
+    List<String>? excludeKeysOnDataMasking,
+    int? minimumStartupTime,
   }) {
-    _dataMaskingEnabled = dataMaskingEnabled;
-    _excludeKeysOnDataMasking = excludeKeysOnDataMasking;
-    _minimumStartupTime = minimumStartupTime;
+    _dataMaskingEnabled = dataMaskingEnabled ?? _dataMaskingEnabled;
+    _excludeKeysOnDataMasking =
+        excludeKeysOnDataMasking ?? _excludeKeysOnDataMasking;
+    _minimumStartupTime = minimumStartupTime ?? _minimumStartupTime;
   }
 }
