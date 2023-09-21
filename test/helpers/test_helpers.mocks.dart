@@ -3,17 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i6;
-import 'dart:ui' as _i10;
+import 'dart:async' as _i7;
+import 'dart:ui' as _i11;
 
-import 'package:flutter/material.dart' as _i9;
+import 'package:flutter/material.dart' as _i10;
 import 'package:logger/src/logger.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:session_mate/src/services/configuration_service.dart' as _i4;
 import 'package:session_mate/src/services/session_recording_service.dart'
-    as _i4;
-import 'package:session_mate/src/services/session_replay_service.dart' as _i5;
-import 'package:session_mate/src/services/session_service.dart' as _i7;
-import 'package:session_mate/src/utils/widget_finder.dart' as _i8;
+    as _i5;
+import 'package:session_mate/src/services/session_replay_service.dart' as _i6;
+import 'package:session_mate/src/services/session_service.dart' as _i8;
+import 'package:session_mate/src/utils/widget_finder.dart' as _i9;
 import 'package:session_mate_core/session_mate_core.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -47,11 +48,54 @@ class _FakeLogger_1 extends _i1.SmartFake implements _i3.Logger {
         );
 }
 
+/// A class which mocks [ConfigurationService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockConfigurationService extends _i1.Mock
+    implements _i4.ConfigurationService {
+  @override
+  bool get dataMaskingEnabled => (super.noSuchMethod(
+        Invocation.getter(#dataMaskingEnabled),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  List<String> get excludeKeysOnDataMasking => (super.noSuchMethod(
+        Invocation.getter(#excludeKeysOnDataMasking),
+        returnValue: <String>[],
+        returnValueForMissingStub: <String>[],
+      ) as List<String>);
+  @override
+  int get minimumStartupTime => (super.noSuchMethod(
+        Invocation.getter(#minimumStartupTime),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
+  @override
+  void setValues({
+    bool? dataMaskingEnabled,
+    List<String>? excludeKeysOnDataMasking,
+    int? minimumStartupTime,
+  }) =>
+      super.noSuchMethod(
+        Invocation.method(
+          #setValues,
+          [],
+          {
+            #dataMaskingEnabled: dataMaskingEnabled,
+            #excludeKeysOnDataMasking: excludeKeysOnDataMasking,
+            #minimumStartupTime: minimumStartupTime,
+          },
+        ),
+        returnValueForMissingStub: null,
+      );
+}
+
 /// A class which mocks [SessionRecordingService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionRecordingService extends _i1.Mock
-    implements _i4.SessionRecordingService {
+    implements _i5.SessionRecordingService {
   @override
   void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
         Invocation.method(
@@ -66,7 +110,7 @@ class MockSessionRecordingService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionReplayService extends _i1.Mock
-    implements _i5.SessionReplayService {
+    implements _i6.SessionReplayService {
   @override
   void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
         Invocation.method(
@@ -84,7 +128,7 @@ class MockSessionReplayService extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i6.Future<List<int>> getSanitizedData(
+  _i7.Future<List<int>> getSanitizedData(
     List<int>? data, {
     String? uid,
   }) =>
@@ -94,15 +138,15 @@ class MockSessionReplayService extends _i1.Mock
           [data],
           {#uid: uid},
         ),
-        returnValue: _i6.Future<List<int>>.value(<int>[]),
-        returnValueForMissingStub: _i6.Future<List<int>>.value(<int>[]),
-      ) as _i6.Future<List<int>>);
+        returnValue: _i7.Future<List<int>>.value(<int>[]),
+        returnValueForMissingStub: _i7.Future<List<int>>.value(<int>[]),
+      ) as _i7.Future<List<int>>);
 }
 
 /// A class which mocks [SessionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSessionService extends _i1.Mock implements _i7.SessionService {
+class MockSessionService extends _i1.Mock implements _i8.SessionService {
   @override
   List<_i2.NetworkEvent> get networkEvents => (super.noSuchMethod(
         Invocation.getter(#networkEvents),
@@ -184,7 +228,7 @@ class MockSessionService extends _i1.Mock implements _i7.SessionService {
 /// A class which mocks [WidgetFinder].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockWidgetFinder extends _i1.Mock implements _i8.WidgetFinder {
+class MockWidgetFinder extends _i1.Mock implements _i9.WidgetFinder {
   @override
   _i3.Logger get log => (super.noSuchMethod(
         Invocation.getter(#log),
@@ -198,8 +242,8 @@ class MockWidgetFinder extends _i1.Mock implements _i8.WidgetFinder {
         ),
       ) as _i3.Logger);
   @override
-  _i9.TextField? getTextFieldAtPosition({
-    required _i10.Offset? position,
+  _i10.TextField? getTextFieldAtPosition({
+    required _i11.Offset? position,
     bool? verbose = false,
   }) =>
       (super.noSuchMethod(
@@ -212,5 +256,5 @@ class MockWidgetFinder extends _i1.Mock implements _i8.WidgetFinder {
           },
         ),
         returnValueForMissingStub: null,
-      ) as _i9.TextField?);
+      ) as _i10.TextField?);
 }

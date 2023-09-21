@@ -1,15 +1,12 @@
-class DataMaskingService {
-  List<String> sensitiveKeys = [
-    "id",
-    "uid",
-    "token",
-    "code",
-    "smallThumbnail",
-    "thumbnail",
-    "body"
-  ];
+import 'package:flutter/foundation.dart';
+import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/services/configuration_service.dart';
 
-  String _stringSubstitution(String item) {
+class DataMaskingService {
+  final _configurationService = locator<ConfigurationService>();
+
+  @visibleForTesting
+  String stringSubstitution(String item) {
     String output = '';
     for (int i = 0; i < item.length; i++) {
       if (item[i] == " ") {
@@ -23,10 +20,16 @@ class DataMaskingService {
     return output;
   }
 
-  num _numSubstitution(num item) {
+  @visibleForTesting
+  num numSubstitution(num item) {
     String output = '';
     String itemToString = item.toString();
     for (int i = 0; i < itemToString.length; i++) {
+      if (itemToString[i] == ".") {
+        output = '$output.';
+        continue;
+      }
+
       output = '${output}9';
     }
 
@@ -34,12 +37,14 @@ class DataMaskingService {
   }
 
   dynamic handle(dynamic data) {
+    if (!_configurationService.dataMaskingEnabled) return data;
+
     if (data is String) {
-      return _stringSubstitution(data);
+      return stringSubstitution(data);
     }
 
     if (data is num) {
-      return _numSubstitution(data);
+      return numSubstitution(data);
     }
 
     if (data is List) {
@@ -62,7 +67,7 @@ class DataMaskingService {
 
     if (data is MapEntry<String, dynamic>) {
       if ((data.value is String || data.value is num) &&
-          sensitiveKeys.contains(data.key)) {
+          _configurationService.excludeKeysOnDataMasking.contains(data.key)) {
         return Map<String, dynamic>.fromEntries([data]);
       }
 
