@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/driver_bar.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/event_info.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/session_list.dart';
@@ -9,8 +10,7 @@ import 'package:stacked/stacked.dart';
 
 class DriverUI extends StackedView<DriverUIViewModel> {
   final Widget child;
-  final VoidCallback? onRestart;
-  const DriverUI({super.key, required this.child, this.onRestart});
+  const DriverUI({super.key, required this.child});
 
   @override
   Widget builder(
@@ -30,7 +30,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
                   opacity: viewModel.showReplayUI ? 0.5 : 1.0,
                   duration: const Duration(milliseconds: 600),
                   child: Builder(builder: (context) {
-                    if (viewModel.hasSelectedSession) return child;
+                    if (!viewModel.showReplayUI) return child;
 
                     return const SizedBox.shrink();
                   }),
@@ -55,7 +55,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
             Positioned(
               bottom: MediaQuery.of(context).size.height * .025,
               left: MediaQuery.of(context).size.width * .05,
-              child: DriverBar(onRestart: onRestart),
+              child: const DriverBar(),
             ),
           ],
         ],
@@ -70,5 +70,5 @@ class DriverUI extends StackedView<DriverUIViewModel> {
 
   @override
   DriverUIViewModel viewModelBuilder(BuildContext context) =>
-      DriverUIViewModel();
+      DriverUIViewModel(onReplayCompleted: () => SessionMate.restart(context));
 }

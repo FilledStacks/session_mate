@@ -1,5 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
+import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/hive_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
@@ -7,6 +9,12 @@ import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
 class DriverUIViewModel extends ReactiveViewModel {
+  final VoidCallback onReplayCompleted;
+  DriverUIViewModel({required this.onReplayCompleted}) {
+    _driverCommunicationService.setOnReplayCompletedCallback(onReplayCompleted);
+  }
+
+  final _configurationService = locator<ConfigurationService>();
   final _driverCommunicationService = locator<DriverCommunicationService>();
   final _sessionService = locator<SessionService>();
   final _hiveService = locator<HiveService>();
@@ -33,7 +41,13 @@ class DriverUIViewModel extends ReactiveViewModel {
   List<Session> get sessions => _sessions;
 
   bool get showReplayUI =>
-      _driverCommunicationService.readyToReplay || kForceDriverUI;
+      ((_driverCommunicationService.readyToReplay ||
+              !_driverCommunicationService.wasReplayExecuted) &&
+          !isGuestAppLoading) ||
+      kForceDriverUI;
+
+  bool _isGuestAppLoading = false;
+  bool get isGuestAppLoading => _isGuestAppLoading;
 
   bool _showDebugInformation = false;
   bool get showDebugInformation => _showDebugInformation;
@@ -49,11 +63,22 @@ class DriverUIViewModel extends ReactiveViewModel {
     notifyListeners();
   }
 
-  void startSession() {
+  Future<void> startSession() async {
     if (_selectedSession == null) {
       print('⚠️  Ups! No session selected!');
       return;
     }
+
+    _isGuestAppLoading = true;
+    rebuildUi();
+
+    await Future.delayed(
+      Duration(milliseconds: _configurationService.minimumStartupTime),
+    );
+
+    /// TODO(refactor): change this state when guest app finishes loading, we
+    /// need to find a way to get notified of the event.
+    _isGuestAppLoading = false;
 
     _driverCommunicationService.sendInteractions(
       _sessionService.uiEvents,
