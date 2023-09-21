@@ -22,9 +22,7 @@ Future<void> setupSessionMate() async {
   } else {
     enableFlutterDriverExtension(
       handler: (message) async {
-        final driverCommunicationService =
-            locator<DriverCommunicationService>();
-        return driverCommunicationService.waitForInteractions();
+        return locator<DriverCommunicationService>().waitForInteractions();
       },
     );
   }
