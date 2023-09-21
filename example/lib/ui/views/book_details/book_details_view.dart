@@ -111,6 +111,11 @@ class BookDetailsView extends StackedView<BookDetailsViewModel>
   }
 
   @override
+  void onDispose(BookDetailsViewModel viewModel) {
+    disposeForm();
+  }
+
+  @override
   BookDetailsViewModel viewModelBuilder(
     BuildContext context,
   ) =>
