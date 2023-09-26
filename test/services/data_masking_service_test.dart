@@ -108,7 +108,7 @@ void main() {
           'When called with data containing excluded keys, should return the data masked correctly',
           () {
         getAndRegisterConfigurationService(
-          excludeKeysOnDataMasking: ['id', 'token', 'code'],
+          keysToExcludeOnDataMasking: ['token'],
         );
         final service = getService();
         final masked = service.handle({

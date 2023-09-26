@@ -14,7 +14,7 @@ void main() {
         final service = getService();
 
         expect(service.dataMaskingEnabled, true);
-        expect(service.excludeKeysOnDataMasking, []);
+        expect(service.keysToExcludeOnDataMasking, []);
         expect(service.minimumStartupTime, 5000);
       });
     });
@@ -25,7 +25,7 @@ void main() {
         service.setValues();
 
         expect(service.dataMaskingEnabled, true);
-        expect(service.excludeKeysOnDataMasking, []);
+        expect(service.keysToExcludeOnDataMasking, []);
         expect(service.minimumStartupTime, 5000);
       });
 
@@ -33,12 +33,12 @@ void main() {
         final service = getService();
         service.setValues(
           dataMaskingEnabled: false,
-          excludeKeysOnDataMasking: ['uid'],
+          keysToExcludeOnDataMasking: ['uid'],
           minimumStartupTime: 1000,
         );
 
         expect(service.dataMaskingEnabled, false);
-        expect(service.excludeKeysOnDataMasking, ['uid']);
+        expect(service.keysToExcludeOnDataMasking, ['uid']);
         expect(service.minimumStartupTime, 1000);
       });
 
@@ -47,19 +47,19 @@ void main() {
         service.setValues();
 
         expect(service.dataMaskingEnabled, true);
-        expect(service.excludeKeysOnDataMasking, []);
+        expect(service.keysToExcludeOnDataMasking, []);
         expect(service.minimumStartupTime, 5000);
 
         service.setValues(minimumStartupTime: 1000);
 
         expect(service.dataMaskingEnabled, true);
-        expect(service.excludeKeysOnDataMasking, []);
+        expect(service.keysToExcludeOnDataMasking, []);
         expect(service.minimumStartupTime, 1000);
 
-        service.setValues(excludeKeysOnDataMasking: ['uid', 'token']);
+        service.setValues(keysToExcludeOnDataMasking: ['token', 'headers']);
 
         expect(service.dataMaskingEnabled, true);
-        expect(service.excludeKeysOnDataMasking, ['uid', 'token']);
+        expect(service.keysToExcludeOnDataMasking, ['token', 'headers']);
         expect(service.minimumStartupTime, 1000);
       });
     });

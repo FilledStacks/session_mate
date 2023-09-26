@@ -37,8 +37,6 @@ class DataMaskingService {
   }
 
   dynamic handle(dynamic data) {
-    if (!_configurationService.dataMaskingEnabled) return data;
-
     if (data is String) {
       return stringSubstitution(data);
     }
@@ -67,7 +65,7 @@ class DataMaskingService {
 
     if (data is MapEntry<String, dynamic>) {
       if ((data.value is String || data.value is num) &&
-          _configurationService.excludeKeysOnDataMasking.contains(data.key)) {
+          _configurationService.allKeysToExclude.contains(data.key)) {
         return Map<String, dynamic>.fromEntries([data]);
       }
 
