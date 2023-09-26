@@ -27,14 +27,9 @@ class MainApp extends StatelessWidget {
         StackedService.routeObserver,
       ],
       builder: (context, child) => SessionMateBuilder(
-        excludeKeysOnDataMasking: const [
-          "id",
-          "uid",
-          "token",
-          "code",
+        keysToExcludeOnDataMasking: const [
           "smallThumbnail",
           "thumbnail",
-          "body"
         ],
         minimumStartupTime: 6000,
         child: child!,
