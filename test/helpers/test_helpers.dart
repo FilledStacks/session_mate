@@ -1,6 +1,7 @@
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/session_recording_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
@@ -18,15 +19,21 @@ import 'test_helpers.mocks.dart';
 ])
 MockConfigurationService getAndRegisterConfigurationService({
   bool dataMaskingEnabled = true,
-  List<String> excludeKeysOnDataMasking = const [],
+  List<String> keysToExcludeOnDataMasking = const [],
   int minimumStartupTime = 5000,
 }) {
   _removeRegistrationIfExists<ConfigurationService>();
   final service = MockConfigurationService();
 
   when(service.dataMaskingEnabled).thenReturn(dataMaskingEnabled);
-  when(service.excludeKeysOnDataMasking).thenReturn(excludeKeysOnDataMasking);
+  when(service.keysToExcludeOnDataMasking)
+      .thenReturn(keysToExcludeOnDataMasking);
   when(service.minimumStartupTime).thenReturn(minimumStartupTime);
+
+  when(service.allKeysToExclude).thenReturn([
+    ...commonKeysToExcludeOnDataMasking,
+    ...keysToExcludeOnDataMasking,
+  ]);
 
   locator.registerSingleton<ConfigurationService>(service);
   return service;
