@@ -1,6 +1,10 @@
 import 'dart:async' show Future;
 import 'dart:io';
 
+import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/package_constants.dart';
+import 'package:session_mate/src/services/configuration_service.dart';
+
 import 'event_tracker.dart';
 import 'request_wrapper.dart';
 
@@ -143,16 +147,16 @@ class SessionMateHttpClient implements HttpClient {
     int port,
     String path,
   ) {
-    final uid = _uidGenerator();
+    // TODO: implement similar functionality as openUrl method for local server
     final tracker = HttpEventTracker.fromHost(
       method,
-      uid,
+      _uidGenerator(),
       host,
       port,
       path,
     );
     return _httpClient.open(method, host, port, path).then((request) {
-      return HttpRequestWrapper(request, tracker, uid);
+      return HttpRequestWrapper(request, tracker);
     }).onError((Exception error, stackTrace) {
       tracker.onError(error);
       return Future.error(error, stackTrace);
@@ -161,30 +165,26 @@ class SessionMateHttpClient implements HttpClient {
 
   @override
   Future<HttpClientRequest> openUrl(String method, Uri url) async {
-    // One way to prevent the request to go out
-    // throw TimeoutException('Session Mate swallows this request');
+    // NOTE: what if the request is hashed here ??
+    final tracker = HttpEventTracker.fromUri(method, _uidGenerator(), url);
 
-    // One way to replace the original request with the request below
-    // url = Uri.parse('https://jsonplaceholder.typicode.com/todos/1');
+    Uri? mockedUrl;
+    if (!kRecordUserInteractions) {
+      mockedUrl = url.replace(
+        scheme: kLocalServerScheme,
+        host: kLocalServerHost,
+        port: locator<ConfigurationService>().listeningPort,
+      );
+    }
 
-    // Another way to replace the original request with the request below
-    // using data from the original request
-    // url = Uri(
-    //   scheme: url.scheme,
-    //   userInfo: url.userInfo,
-    //   host: 'fermento.duckdns.org',
-    //   port: url.port,
-    //   path: url.path,
-    //   query: url.query,
-    //   queryParameters: url.queryParameters,
-    //   fragment: url.fragment,
-    // );
+    // NOTE: Proper place to await any request / requestWrapper task
 
-    final uid = _uidGenerator();
+    return _httpClient.openUrl(method, mockedUrl ?? url).then((request) {
+      if (!kRecordUserInteractions) {
+        request.headers.host = url.host;
+      }
 
-    final tracker = HttpEventTracker.fromUri(method, uid, url);
-    return _httpClient.openUrl(method, url).then((request) {
-      return HttpRequestWrapper(request, tracker, uid);
+      return HttpRequestWrapper(request, tracker);
     }).onError((Exception error, stackTrace) {
       tracker.onError(error);
       return Future.error(error, stackTrace);

@@ -32,8 +32,10 @@ class HttpEventTracker {
 
   final _interceptorService = locator<InterceptorService>();
 
+  String get uid => _uid;
+
   void onError(Exception e) {
-    _sendRequestEvent({});
+    _sendRequestEvent({}, '');
 
     _interceptorService.onEvent(
       ResponseEvent(
@@ -51,11 +53,14 @@ class HttpEventTracker {
     data = Uint8List.fromList(bytes);
   }
 
-  void sendRequestEvent(HttpHeaders headers) => _sendRequestEvent(
+  void sendRequestEvent(HttpHeaders headers, String host) => _sendRequestEvent(
         _headersToMap(headers),
+        host,
       );
 
-  void _sendRequestEvent(Map<String, String> headers) {
+  void _sendRequestEvent(Map<String, String> headers, String host) {
+    headers['host'] = host;
+
     _interceptorService.onEvent(RequestEvent(
       uid: _uid,
       url: _url,

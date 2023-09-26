@@ -11,7 +11,6 @@ import 'response_wrapper.dart';
 class HttpRequestWrapper implements HttpClientRequest {
   final HttpClientRequest _httpClientRequest;
   final HttpEventTracker _httpEventTracker;
-  final String? _uid;
 
   final _sessionReplayService = locator<SessionReplayService>();
 
@@ -52,8 +51,7 @@ class HttpRequestWrapper implements HttpClientRequest {
   @override
   set maxRedirects(int value) => _httpClientRequest.maxRedirects = value;
 
-  HttpRequestWrapper(
-      this._httpClientRequest, this._httpEventTracker, this._uid);
+  HttpRequestWrapper(this._httpClientRequest, this._httpEventTracker);
 
   @override
   void add(List<int> data) {
@@ -83,7 +81,9 @@ class HttpRequestWrapper implements HttpClientRequest {
 
   @override
   Future<HttpClientResponse> close() async {
-    _httpEventTracker.sendRequestEvent(headers);
+    _httpEventTracker.sendRequestEvent(headers, headers.host!);
+
+    // NOTE: at this point, the request should be handled by the local server
 
     final List<int> body = [];
     final HttpClientResponse response = await _httpClientRequest.close();
@@ -96,15 +96,19 @@ class HttpRequestWrapper implements HttpClientRequest {
         }, handleError: (error, stackTrace, sink) {
           print("HttpRequestWrapper :: ERROR RESPONSE $error $stackTrace");
         }, handleDone: (sink) async {
+          // NOTE: proper place to await any responseWrapper task
+
           _httpEventTracker.sendSuccessResponse(
             response.statusCode,
             response.headers,
             body,
           );
 
+          // NOTE: proper place to await any response task
+
           sink.add(await _sessionReplayService.getSanitizedData(
             body,
-            uid: _uid,
+            uid: _httpEventTracker.uid,
           ));
 
           sink.close();
