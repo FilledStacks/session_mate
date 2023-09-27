@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide RawKeyEvent;
+import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
@@ -14,6 +15,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   final _sessionService = locator<SessionService>();
   final _widgetFinder = locator<WidgetFinder>();
+  final _routerObserver = locator<SessionMateNavigatorObserver>();
 
   final _notificationController = StreamController<Notification>.broadcast();
 
@@ -115,6 +117,7 @@ TextEditingController.
     if (_activeCommand is InputEvent) {
       _activeCommand = (_activeCommand as InputEvent).copyWith(
         inputData: _activeTextEditingController?.text,
+        view: _routerObserver.routeTracker.currentRoute,
       );
     }
 
@@ -137,6 +140,7 @@ TextEditingController.
 
     _sessionService.addEvent(TapEvent(
       position: EventPosition(x: position.dx, y: position.dy),
+      view: _routerObserver.routeTracker.currentRoute,
     ));
 
     _lastTapPosition = position;
@@ -182,6 +186,7 @@ TextEditingController.
         keyId: keyId,
         keyLabel: keyLabel,
         usbHidUsage: usbHidUsage,
+        view: _routerObserver.routeTracker.currentRoute,
       ),
     );
   }
@@ -235,6 +240,7 @@ TextEditingController.
                 : 0,
           ),
           duration: _scrollTimer?.elapsedMilliseconds,
+          view: _routerObserver.routeTracker.currentRoute,
         ),
       );
 
