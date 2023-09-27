@@ -25,6 +25,7 @@ class MainApp extends StatelessWidget {
       navigatorKey: StackedService.navigatorKey,
       navigatorObservers: [
         StackedService.routeObserver,
+        SessionMateNavigatorObserver.instance,
       ],
       builder: (context, child) => SessionMateBuilder(
         keysToExcludeOnDataMasking: const [
