@@ -27,6 +27,7 @@ void main() {
         expect(service.dataMaskingEnabled, true);
         expect(service.keysToExcludeOnDataMasking, []);
         expect(service.minimumStartupTime, 5000);
+        expect(service.listeningPort, 3000);
       });
 
       test('When called, should set the correct values', () {
@@ -35,11 +36,13 @@ void main() {
           dataMaskingEnabled: false,
           keysToExcludeOnDataMasking: ['uid'],
           minimumStartupTime: 1000,
+          listeningPort: 5000,
         );
 
         expect(service.dataMaskingEnabled, false);
         expect(service.keysToExcludeOnDataMasking, ['uid']);
         expect(service.minimumStartupTime, 1000);
+        expect(service.listeningPort, 5000);
       });
 
       test('When called, should set the correct values', () {
@@ -49,18 +52,28 @@ void main() {
         expect(service.dataMaskingEnabled, true);
         expect(service.keysToExcludeOnDataMasking, []);
         expect(service.minimumStartupTime, 5000);
+        expect(service.listeningPort, 3000);
 
         service.setValues(minimumStartupTime: 1000);
 
         expect(service.dataMaskingEnabled, true);
         expect(service.keysToExcludeOnDataMasking, []);
         expect(service.minimumStartupTime, 1000);
+        expect(service.listeningPort, 3000);
 
         service.setValues(keysToExcludeOnDataMasking: ['token', 'headers']);
 
         expect(service.dataMaskingEnabled, true);
         expect(service.keysToExcludeOnDataMasking, ['token', 'headers']);
         expect(service.minimumStartupTime, 1000);
+        expect(service.listeningPort, 3000);
+
+        service.setValues(listeningPort: 9001);
+
+        expect(service.dataMaskingEnabled, true);
+        expect(service.keysToExcludeOnDataMasking, ['token', 'headers']);
+        expect(service.minimumStartupTime, 1000);
+        expect(service.listeningPort, 9001);
       });
     });
   });
