@@ -1,6 +1,7 @@
 import 'dart:io' show HttpHeaders;
 import 'dart:typed_data' show Uint8List;
 
+import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/services/interceptor_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -31,6 +32,7 @@ class HttpEventTracker {
         _startTime = DateTime.now().millisecondsSinceEpoch;
 
   final _interceptorService = locator<InterceptorService>();
+  final _routerObserver = locator<SessionMateNavigatorObserver>();
 
   String get uid => _uid;
 
@@ -45,6 +47,7 @@ class HttpEventTracker {
         headers: {},
         error: e.toString(),
         body: null,
+        view: _routerObserver.routeTracker.currentRoute,
       ),
     );
   }
@@ -67,6 +70,7 @@ class HttpEventTracker {
       method: _method,
       headers: headers,
       body: data,
+      view: _routerObserver.routeTracker.currentRoute,
     ));
   }
 
@@ -82,6 +86,7 @@ class HttpEventTracker {
       headers: _headersToMap(headers),
       error: null,
       body: Uint8List.fromList(data),
+      view: _routerObserver.routeTracker.currentRoute,
     ));
   }
 
