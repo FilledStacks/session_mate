@@ -21,6 +21,7 @@ MockConfigurationService getAndRegisterConfigurationService({
   bool dataMaskingEnabled = true,
   List<String> keysToExcludeOnDataMasking = const [],
   int minimumStartupTime = 5000,
+  int listeningPort = 3000,
 }) {
   _removeRegistrationIfExists<ConfigurationService>();
   final service = MockConfigurationService();
@@ -29,6 +30,7 @@ MockConfigurationService getAndRegisterConfigurationService({
   when(service.keysToExcludeOnDataMasking)
       .thenReturn(keysToExcludeOnDataMasking);
   when(service.minimumStartupTime).thenReturn(minimumStartupTime);
+  when(service.listeningPort).thenReturn(listeningPort);
 
   when(service.allKeysToExclude).thenReturn([
     ...commonKeysToExcludeOnDataMasking,
