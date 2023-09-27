@@ -12,6 +12,7 @@ const List<String> commonKeysToExcludeOnDataMasking = [
   'uid',
   'id',
   'code',
+  'view',
 ];
 
 const double kHorizontalPadding = 10;

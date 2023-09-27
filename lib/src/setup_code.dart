@@ -37,6 +37,7 @@ Future<void> setupSessionMate() async {
   final bytes = await rootBundle.load(
     'packages/session_mate/assets/images/placeholder.png',
   );
+
   // globalPlaceHolder = base64.encode(bytes.buffer.asUint8List());
   globalPlaceHolder = bytes.buffer.asUint8List();
 
