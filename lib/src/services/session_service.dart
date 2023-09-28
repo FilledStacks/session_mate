@@ -15,6 +15,9 @@ class SessionService {
   final List<UIEvent> _uiEvents = [];
   List<UIEvent> get uiEvents => _uiEvents;
 
+  final List<String> _views = [];
+  List<String> get views => _views;
+
   void addEvent(SessionEvent event) {
     _sessionEvents.add(event);
 
@@ -39,6 +42,10 @@ class SessionService {
     }
   }
 
+  void addView(String view) {
+    _views.add(view);
+  }
+
   void setActiveSession(Session selectedSession) {
     clear();
 
@@ -54,7 +61,11 @@ class SessionService {
     _uiEvents.clear();
   }
 
-  Session captureSession({SessionPriority priority = SessionPriority.low}) {
+  Session captureSession({
+    SessionPriority priority = SessionPriority.high,
+    Object? exception,
+    StackTrace? stackTrace,
+  }) {
     if (_sessionEvents.isEmpty) {
       throw Exception('No session events available, nothing to save.');
     }
@@ -65,6 +76,9 @@ class SessionService {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       events: [..._sessionEvents],
       priority: priority,
+      views: _views,
+      exception: exception.toString(),
+      stackTrace: stackTrace.toString(),
     );
 
     clear();
