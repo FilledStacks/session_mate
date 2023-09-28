@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/extensions/string_extension.dart';
+import 'package:session_mate/src/services/session_service.dart';
 
 class SessionMateRouteTracker extends ChangeNotifier {
   SessionMateRouteTracker._();
 
   static final instance = SessionMateRouteTracker._();
 
-  final log = getLogger('SessionMateRouteTracker');
+  final _logger = getLogger('SessionMateRouteTracker');
+  final _sessionService = locator<SessionService>();
 
   @visibleForTesting
   bool testMode = false;
@@ -23,7 +26,7 @@ class SessionMateRouteTracker extends ChangeNotifier {
       : '';
 
   void setCurrentRoute(String route) {
-    log.i('route: $_currentRoute | previousRoute: $previosRoute');
+    _logger.i('route: $_currentRoute | previousRoute: $previosRoute');
 
     if (testMode) {
       setRoute(route);
@@ -32,6 +35,7 @@ class SessionMateRouteTracker extends ChangeNotifier {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setRoute(route);
+      _sessionService.addView(route);
       notifyListeners();
     });
   }
