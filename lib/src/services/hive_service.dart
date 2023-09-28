@@ -9,27 +9,26 @@ class HiveService {
 
   Future<void> init({bool forceDestroyDB = false}) async {
     final appDirectory = await getApplicationDocumentsDirectory();
-    Hive.init(appDirectory.path);
 
-    Hive.registerAdapter(InteractionTypeAdapter());
-    Hive.registerAdapter(SessionPriorityAdapter());
-    Hive.registerAdapter(SessionAdapter());
-    Hive.registerAdapter(RequestEventAdapter());
-    Hive.registerAdapter(ResponseEventAdapter());
-    Hive.registerAdapter(TapEventAdapter());
-    Hive.registerAdapter(InputEventAdapter());
-    Hive.registerAdapter(ScrollEventAdapter());
-    Hive.registerAdapter(RawKeyEventAdapter());
-    Hive.registerAdapter(EventPositionAdapter());
+    Hive
+      ..init(appDirectory.path)
+      ..registerAdapter(InteractionTypeAdapter())
+      ..registerAdapter(SessionPriorityAdapter())
+      ..registerAdapter(SessionExceptionAdapter())
+      ..registerAdapter(SessionAdapter())
+      ..registerAdapter(RequestEventAdapter())
+      ..registerAdapter(ResponseEventAdapter())
+      ..registerAdapter(TapEventAdapter())
+      ..registerAdapter(InputEventAdapter())
+      ..registerAdapter(ScrollEventAdapter())
+      ..registerAdapter(RawKeyEventAdapter())
+      ..registerAdapter(EventPositionAdapter());
 
     if (forceDestroyDB) {
       await Hive.deleteBoxFromDisk('sessions');
     }
 
     sessionsBox = await Hive.openBox<Session>('sessions');
-
-    // temporary code to delete a session on start
-    // await sessionsBox.delete('1692293778281');
   }
 
   void saveSession(Session session) {

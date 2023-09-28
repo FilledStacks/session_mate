@@ -223,20 +223,31 @@ class MockSessionService extends _i1.Mock implements _i9.SessionService {
         returnValueForMissingStub: null,
       );
   @override
-  _i2.Session captureSession(
-          {_i2.SessionPriority? priority = _i2.SessionPriority.low}) =>
+  _i2.Session captureSession({
+    _i2.SessionPriority? priority = _i2.SessionPriority.high,
+    Object? exception,
+    StackTrace? stackTrace,
+  }) =>
       (super.noSuchMethod(
         Invocation.method(
           #captureSession,
           [],
-          {#priority: priority},
+          {
+            #priority: priority,
+            #exception: exception,
+            #stackTrace: stackTrace,
+          },
         ),
         returnValue: _FakeSession_0(
           this,
           Invocation.method(
             #captureSession,
             [],
-            {#priority: priority},
+            {
+              #priority: priority,
+              #exception: exception,
+              #stackTrace: stackTrace,
+            },
           ),
         ),
         returnValueForMissingStub: _FakeSession_0(
@@ -244,7 +255,11 @@ class MockSessionService extends _i1.Mock implements _i9.SessionService {
           Invocation.method(
             #captureSession,
             [],
-            {#priority: priority},
+            {
+              #priority: priority,
+              #exception: exception,
+              #stackTrace: stackTrace,
+            },
           ),
         ),
       ) as _i2.Session);
