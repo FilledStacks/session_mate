@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 
-import 'session_mate_router_tracker.dart';
+import 'session_mate_route_tracker.dart';
 
 class SessionMateNavigatorObserver extends NavigatorObserver {
   SessionMateNavigatorObserver._();

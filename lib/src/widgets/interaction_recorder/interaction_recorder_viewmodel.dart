@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide RawKeyEvent;
-import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
+import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
@@ -15,7 +15,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   final _sessionService = locator<SessionService>();
   final _widgetFinder = locator<WidgetFinder>();
-  final _routerObserver = locator<SessionMateNavigatorObserver>();
+  final _routeTracker = locator<SessionMateRouteTracker>();
 
   final _notificationController = StreamController<Notification>.broadcast();
 
@@ -117,7 +117,7 @@ TextEditingController.
     if (_activeCommand is InputEvent) {
       _activeCommand = (_activeCommand as InputEvent).copyWith(
         inputData: _activeTextEditingController?.text,
-        view: _routerObserver.routeTracker.currentRoute,
+        view: _routeTracker.currentRoute,
       );
     }
 
@@ -140,7 +140,7 @@ TextEditingController.
 
     _sessionService.addEvent(TapEvent(
       position: EventPosition(x: position.dx, y: position.dy),
-      view: _routerObserver.routeTracker.currentRoute,
+      view: _routeTracker.currentRoute,
     ));
 
     _lastTapPosition = position;
@@ -186,7 +186,7 @@ TextEditingController.
         keyId: keyId,
         keyLabel: keyLabel,
         usbHidUsage: usbHidUsage,
-        view: _routerObserver.routeTracker.currentRoute,
+        view: _routeTracker.currentRoute,
       ),
     );
   }
@@ -240,7 +240,7 @@ TextEditingController.
                 : 0,
           ),
           duration: _scrollTimer?.elapsedMilliseconds,
-          view: _routerObserver.routeTracker.currentRoute,
+          view: _routeTracker.currentRoute,
         ),
       );
 
