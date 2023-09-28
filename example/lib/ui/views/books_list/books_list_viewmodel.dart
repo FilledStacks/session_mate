@@ -30,7 +30,7 @@ class BooksListViewModel extends FutureViewModel<List<Book>> {
   }
 
   void onTap(Book book) {
-    _logger.wtf(book.title);
+    _logger.i(book.title);
 
     _navigationService.navigateToBookDetailsView(book: book);
   }
