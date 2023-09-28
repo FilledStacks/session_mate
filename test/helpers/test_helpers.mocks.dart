@@ -191,6 +191,12 @@ class MockSessionService extends _i1.Mock implements _i9.SessionService {
         returnValueForMissingStub: <_i2.UIEvent>[],
       ) as List<_i2.UIEvent>);
   @override
+  List<String> get views => (super.noSuchMethod(
+        Invocation.getter(#views),
+        returnValue: <String>[],
+        returnValueForMissingStub: <String>[],
+      ) as List<String>);
+  @override
   void addEvent(_i2.SessionEvent? event) => super.noSuchMethod(
         Invocation.method(
           #addEvent,
@@ -203,6 +209,14 @@ class MockSessionService extends _i1.Mock implements _i9.SessionService {
         Invocation.method(
           #addAllEvents,
           [events],
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  void addView(String? view) => super.noSuchMethod(
+        Invocation.method(
+          #addView,
+          [view],
         ),
         returnValueForMissingStub: null,
       );
