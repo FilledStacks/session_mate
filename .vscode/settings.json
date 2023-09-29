@@ -2,5 +2,15 @@
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
         "*.dart": "${capture}.g.dart, ${capture}.freezed.dart"
-    }
+    },
+    "files.exclude": {
+        "android": true,
+        "ios": true,
+        "macos": true,
+        "web": true,
+        "windows": true,
+        "linux": true,
+        "session_mate.iml": true,
+        
+      },
 }
