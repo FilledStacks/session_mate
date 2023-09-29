@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:session_mate/session_mate.dart';
 import 'package:stacked_services/stacked_services.dart';
 
+const String apiKey = String.fromEnvironment('API_KEY');
+
 Future<void> main() async {
   await setupSessionMate();
   await setupLocator();
@@ -28,7 +30,7 @@ class MainApp extends StatelessWidget {
         SessionMateNavigatorObserver.instance,
       ],
       builder: (context, child) => SessionMateBuilder(
-        apiKey: '123345',
+        apiKey: apiKey,
         keysToExcludeOnDataMasking: const [
           "smallThumbnail",
           "thumbnail",
