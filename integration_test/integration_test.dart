@@ -33,5 +33,22 @@ Future<void> main() async {
         expect(result, true);
       },
     );
+
+    testWidgets(
+        'getSessions for com.filledstacks.bookshelf should return 1 result',
+        (widgetTester) async {
+      final sessions = await httpService.getSessions();
+      expect(sessions.length, 1);
+    });
+
+    testWidgets(
+        'after deleteSessions for com.filledstacks.bookshelf, should return 1',
+        (widgetTester) async {
+      final deleteResult = await httpService.deleteSessions();
+      expect(deleteResult, true);
+
+      final sessions = await httpService.getSessions();
+      expect(sessions.length, 0);
+    });
   });
 }

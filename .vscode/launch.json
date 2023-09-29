@@ -14,18 +14,15 @@
             ]
         },
         {
-            "name": "example (profile mode)",
-            "cwd": "example",
+            "name": "Integration tests",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "program": "integration_test/integration_test.dart",
+            "args": [
+                "--dart-define=RECORD_SESSION=true",
+                "--dart-define=INTEGRATION_TEST=true",
+                "--dart-define=TEST_API_KEY=44ee4cf3-37ec-460a-a2c8-bacc61f64f9e",
+            ]
         },
-        {
-            "name": "example (release mode)",
-            "cwd": "example",
-            "request": "launch",
-            "type": "dart",
-            "flutterMode": "release"
-        }
     ]
 }

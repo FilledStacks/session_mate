@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
@@ -47,7 +45,8 @@ class HttpService {
     );
 
     if (response?.statusCode == 200) {
-      final body = jsonDecode(response?.data) as List<dynamic>;
+      final body = response?.data as List<dynamic>;
+      _logger.v('bodyType:${body.runtimeType} -  $body');
       return body
           .map((e) => Session.fromJson(e as Map<String, dynamic>))
           .toList();
@@ -75,6 +74,20 @@ class HttpService {
         'appId': _nativeInformationService.appId,
       },
       body: sessionBody.toJson(),
+    );
+    return response != null;
+  }
+
+  Future<bool> deleteSessions() async {
+    _logger.v('delete sessions');
+
+    final response = await _makeHttpRequest(
+      method: _HttpMethod.delete,
+      path: 'sessions-api/deleteSessions',
+      queryParameteres: {
+        'apiKey': _configurationService.apiKey,
+        'appId': _nativeInformationService.appId,
+      },
     );
     return response != null;
   }

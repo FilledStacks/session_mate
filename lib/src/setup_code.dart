@@ -29,12 +29,10 @@ Future<void> setupSessionMate() async {
     );
   }
 
-  HttpOverrides.global = SessionMateHttpOverrides();
-
-  // Here we can setup our locator since we are going to be using services as well
   await setupLocator();
 
   if (!kRunningIntegrationTest) {
+    HttpOverrides.global = SessionMateHttpOverrides();
     if (!kRecordUserInteractions) {
       HttpServer.bind(InternetAddress.loopbackIPv4, 0)
           .then((HttpServer server) {
