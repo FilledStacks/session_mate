@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:session_mate/src/app/logger.dart';
@@ -8,10 +9,11 @@ class HiveService {
   late final Box<Session> sessionsBox;
 
   Future<void> init({bool forceDestroyDB = false}) async {
-    final appDirectory = await getApplicationDocumentsDirectory();
+    if (!kIsWeb) {
+      Hive.init((await getApplicationDocumentsDirectory()).path);
+    }
 
     Hive
-      ..init(appDirectory.path)
       ..registerAdapter(InteractionTypeAdapter())
       ..registerAdapter(SessionPriorityAdapter())
       ..registerAdapter(SessionExceptionAdapter())
