@@ -15,6 +15,8 @@ const List<String> commonKeysToExcludeOnDataMasking = [
   'view',
 ];
 
+const bool kRunningIntegrationTest = bool.fromEnvironment('INTEGRATION_TEST');
+
 const double kHorizontalPadding = 10;
 const double kVerticalPadding = 30;
 

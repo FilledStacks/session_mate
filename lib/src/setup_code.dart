@@ -34,23 +34,25 @@ Future<void> setupSessionMate() async {
   // Here we can setup our locator since we are going to be using services as well
   await setupLocator();
 
-  final bytes = await rootBundle.load(
-    'packages/session_mate/assets/images/placeholder.png',
-  );
-
-  // globalPlaceHolder = base64.encode(bytes.buffer.asUint8List());
-  globalPlaceHolder = bytes.buffer.asUint8List();
-
-  if (!kRecordUserInteractions) {
-    HttpServer.bind(InternetAddress.loopbackIPv4, 0).then((HttpServer server) {
-      print('📻 listening on ${server.address}, port ${server.port}');
-      locator<ConfigurationService>().setValues(listeningPort: server.port);
-      server.listen((request) {
-        locator<SessionReplayService>().handleMockRequest(request);
+  if (!kRunningIntegrationTest) {
+    if (!kRecordUserInteractions) {
+      HttpServer.bind(InternetAddress.loopbackIPv4, 0)
+          .then((HttpServer server) {
+        print('📻 listening on ${server.address}, port ${server.port}');
+        locator<ConfigurationService>().setValues(listeningPort: server.port);
+        server.listen((request) {
+          locator<SessionReplayService>().handleMockRequest(request);
+        });
       });
-    });
 
-    // NOTE: perhaps we can listen to session_mate_cli to close the server,
-    // otherwise, is going to be closed when the app is killed.
+      // NOTE: perhaps we can listen to session_mate_cli to close the server,
+      // otherwise, is going to be closed when the app is killed.
+
+      final bytes = await rootBundle.load(
+        'packages/session_mate/assets/images/placeholder.png',
+      );
+      // globalPlaceHolder = base64.encode(bytes.buffer.asUint8List());
+      globalPlaceHolder = bytes.buffer.asUint8List();
+    }
   }
 }
