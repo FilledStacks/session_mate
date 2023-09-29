@@ -18,16 +18,22 @@ class ConfigurationService {
   int _listeningPort = 3000;
   int get listeningPort => _listeningPort;
 
+  String? _apiKey;
+  String get apiKey => _apiKey!;
+  bool get hasApiKey => _apiKey != null;
+
   void setValues({
     bool? dataMaskingEnabled,
     List<String>? keysToExcludeOnDataMasking,
     int? minimumStartupTime,
     int? listeningPort,
+    String? apiKey,
   }) {
     _dataMaskingEnabled = dataMaskingEnabled ?? _dataMaskingEnabled;
     _keysToExcludeOnDataMasking =
         keysToExcludeOnDataMasking ?? _keysToExcludeOnDataMasking;
     _minimumStartupTime = minimumStartupTime ?? _minimumStartupTime;
     _listeningPort = listeningPort ?? _listeningPort;
+    _apiKey = apiKey;
   }
 }

@@ -6,7 +6,9 @@ class SessionMateBuilderViewModel extends BaseViewModel {
   final bool dataMaskingEnabled;
   final List<String> keysToExcludeOnDataMasking;
   final int minimumStartupTime;
+  final String apiKey;
   SessionMateBuilderViewModel({
+    required this.apiKey,
     this.dataMaskingEnabled = true,
     this.keysToExcludeOnDataMasking = const [],
     this.minimumStartupTime = 5000,
@@ -19,6 +21,7 @@ class SessionMateBuilderViewModel extends BaseViewModel {
       dataMaskingEnabled: dataMaskingEnabled,
       keysToExcludeOnDataMasking: keysToExcludeOnDataMasking,
       minimumStartupTime: minimumStartupTime,
+      apiKey: apiKey,
     );
   }
 }

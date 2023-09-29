@@ -3,19 +3,38 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+<<<<<<< HEAD
 import 'dart:async' as _i7;
 import 'dart:io' as _i8;
 import 'dart:ui' as _i12;
 
 import 'package:flutter/material.dart' as _i11;
+=======
+import 'dart:async' as _i9;
+import 'dart:ui' as _i13;
+
+import 'package:device_info_plus/device_info_plus.dart' as _i5;
+import 'package:flutter/material.dart' as _i12;
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
 import 'package:logger/src/logger.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:session_mate/src/services/configuration_service.dart' as _i4;
+import 'package:package_info_plus/package_info_plus.dart' as _i4;
+import 'package:session_mate/src/services/configuration_service.dart' as _i6;
+import 'package:session_mate/src/services/http_service.dart' as _i15;
+import 'package:session_mate/src/services/native_inforamation_service.dart'
+    as _i14;
 import 'package:session_mate/src/services/session_recording_service.dart'
+<<<<<<< HEAD
     as _i5;
 import 'package:session_mate/src/services/session_replay_service.dart' as _i6;
 import 'package:session_mate/src/services/session_service.dart' as _i9;
 import 'package:session_mate/src/utils/widget_finder.dart' as _i10;
+=======
+    as _i7;
+import 'package:session_mate/src/services/session_replay_service.dart' as _i8;
+import 'package:session_mate/src/services/session_service.dart' as _i10;
+import 'package:session_mate/src/utils/widget_finder.dart' as _i11;
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
 import 'package:session_mate_core/session_mate_core.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -49,11 +68,53 @@ class _FakeLogger_1 extends _i1.SmartFake implements _i3.Logger {
         );
 }
 
+class _FakePackageInfo_2 extends _i1.SmartFake implements _i4.PackageInfo {
+  _FakePackageInfo_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeDeviceInfoPlugin_3 extends _i1.SmartFake
+    implements _i5.DeviceInfoPlugin {
+  _FakeDeviceInfoPlugin_3(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeAndroidDeviceInfo_4 extends _i1.SmartFake
+    implements _i5.AndroidDeviceInfo {
+  _FakeAndroidDeviceInfo_4(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeIosDeviceInfo_5 extends _i1.SmartFake implements _i5.IosDeviceInfo {
+  _FakeIosDeviceInfo_5(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ConfigurationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockConfigurationService extends _i1.Mock
-    implements _i4.ConfigurationService {
+    implements _i6.ConfigurationService {
   @override
   bool get dataMaskingEnabled => (super.noSuchMethod(
         Invocation.getter(#dataMaskingEnabled),
@@ -79,17 +140,35 @@ class MockConfigurationService extends _i1.Mock
         returnValueForMissingStub: 0,
       ) as int);
   @override
+<<<<<<< HEAD
   int get listeningPort => (super.noSuchMethod(
         Invocation.getter(#listeningPort),
         returnValue: 0,
         returnValueForMissingStub: 0,
       ) as int);
+=======
+  String get apiKey => (super.noSuchMethod(
+        Invocation.getter(#apiKey),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  bool get hasApiKey => (super.noSuchMethod(
+        Invocation.getter(#hasApiKey),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
   @override
   void setValues({
     bool? dataMaskingEnabled,
     List<String>? keysToExcludeOnDataMasking,
     int? minimumStartupTime,
+<<<<<<< HEAD
     int? listeningPort,
+=======
+    String? apiKey,
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -99,7 +178,11 @@ class MockConfigurationService extends _i1.Mock
             #dataMaskingEnabled: dataMaskingEnabled,
             #keysToExcludeOnDataMasking: keysToExcludeOnDataMasking,
             #minimumStartupTime: minimumStartupTime,
+<<<<<<< HEAD
             #listeningPort: listeningPort,
+=======
+            #apiKey: apiKey,
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
           },
         ),
         returnValueForMissingStub: null,
@@ -110,7 +193,7 @@ class MockConfigurationService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionRecordingService extends _i1.Mock
-    implements _i5.SessionRecordingService {
+    implements _i7.SessionRecordingService {
   @override
   void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
         Invocation.method(
@@ -125,7 +208,7 @@ class MockSessionRecordingService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionReplayService extends _i1.Mock
-    implements _i6.SessionReplayService {
+    implements _i8.SessionReplayService {
   @override
   void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
         Invocation.method(
@@ -143,6 +226,7 @@ class MockSessionReplayService extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
+<<<<<<< HEAD
   _i7.Future<void> handleMockRequest(_i8.HttpRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -154,6 +238,9 @@ class MockSessionReplayService extends _i1.Mock
       ) as _i7.Future<void>);
   @override
   _i7.Future<List<int>> getSanitizedData(
+=======
+  _i9.Future<List<int>> getSanitizedData(
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
     List<int>? data, {
     String? uid,
   }) =>
@@ -163,15 +250,19 @@ class MockSessionReplayService extends _i1.Mock
           [data],
           {#uid: uid},
         ),
-        returnValue: _i7.Future<List<int>>.value(<int>[]),
-        returnValueForMissingStub: _i7.Future<List<int>>.value(<int>[]),
-      ) as _i7.Future<List<int>>);
+        returnValue: _i9.Future<List<int>>.value(<int>[]),
+        returnValueForMissingStub: _i9.Future<List<int>>.value(<int>[]),
+      ) as _i9.Future<List<int>>);
 }
 
 /// A class which mocks [SessionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
+<<<<<<< HEAD
 class MockSessionService extends _i1.Mock implements _i9.SessionService {
+=======
+class MockSessionService extends _i1.Mock implements _i10.SessionService {
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
   @override
   List<_i2.NetworkEvent> get networkEvents => (super.noSuchMethod(
         Invocation.getter(#networkEvents),
@@ -282,7 +373,11 @@ class MockSessionService extends _i1.Mock implements _i9.SessionService {
 /// A class which mocks [WidgetFinder].
 ///
 /// See the documentation for Mockito's code generation for more information.
+<<<<<<< HEAD
 class MockWidgetFinder extends _i1.Mock implements _i10.WidgetFinder {
+=======
+class MockWidgetFinder extends _i1.Mock implements _i11.WidgetFinder {
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
   @override
   _i3.Logger get log => (super.noSuchMethod(
         Invocation.getter(#log),
@@ -296,8 +391,13 @@ class MockWidgetFinder extends _i1.Mock implements _i10.WidgetFinder {
         ),
       ) as _i3.Logger);
   @override
+<<<<<<< HEAD
   _i11.TextField? getTextFieldAtPosition({
     required _i12.Offset? position,
+=======
+  _i12.TextField? getTextFieldAtPosition({
+    required _i13.Offset? position,
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
     bool? verbose = false,
   }) =>
       (super.noSuchMethod(
@@ -310,5 +410,153 @@ class MockWidgetFinder extends _i1.Mock implements _i10.WidgetFinder {
           },
         ),
         returnValueForMissingStub: null,
+<<<<<<< HEAD
       ) as _i11.TextField?);
+=======
+      ) as _i12.TextField?);
+}
+
+/// A class which mocks [NativeInformationService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockNativeInformationService extends _i1.Mock
+    implements _i14.NativeInformationService {
+  @override
+  _i4.PackageInfo get packageInfo => (super.noSuchMethod(
+        Invocation.getter(#packageInfo),
+        returnValue: _FakePackageInfo_2(
+          this,
+          Invocation.getter(#packageInfo),
+        ),
+        returnValueForMissingStub: _FakePackageInfo_2(
+          this,
+          Invocation.getter(#packageInfo),
+        ),
+      ) as _i4.PackageInfo);
+  @override
+  set packageInfo(_i4.PackageInfo? _packageInfo) => super.noSuchMethod(
+        Invocation.setter(
+          #packageInfo,
+          _packageInfo,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i5.DeviceInfoPlugin get deviceInfo => (super.noSuchMethod(
+        Invocation.getter(#deviceInfo),
+        returnValue: _FakeDeviceInfoPlugin_3(
+          this,
+          Invocation.getter(#deviceInfo),
+        ),
+        returnValueForMissingStub: _FakeDeviceInfoPlugin_3(
+          this,
+          Invocation.getter(#deviceInfo),
+        ),
+      ) as _i5.DeviceInfoPlugin);
+  @override
+  set deviceInfo(_i5.DeviceInfoPlugin? _deviceInfo) => super.noSuchMethod(
+        Invocation.setter(
+          #deviceInfo,
+          _deviceInfo,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i5.AndroidDeviceInfo get androidDeviceInfo => (super.noSuchMethod(
+        Invocation.getter(#androidDeviceInfo),
+        returnValue: _FakeAndroidDeviceInfo_4(
+          this,
+          Invocation.getter(#androidDeviceInfo),
+        ),
+        returnValueForMissingStub: _FakeAndroidDeviceInfo_4(
+          this,
+          Invocation.getter(#androidDeviceInfo),
+        ),
+      ) as _i5.AndroidDeviceInfo);
+  @override
+  set androidDeviceInfo(_i5.AndroidDeviceInfo? _androidDeviceInfo) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #androidDeviceInfo,
+          _androidDeviceInfo,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i5.IosDeviceInfo get iosDeviceInfo => (super.noSuchMethod(
+        Invocation.getter(#iosDeviceInfo),
+        returnValue: _FakeIosDeviceInfo_5(
+          this,
+          Invocation.getter(#iosDeviceInfo),
+        ),
+        returnValueForMissingStub: _FakeIosDeviceInfo_5(
+          this,
+          Invocation.getter(#iosDeviceInfo),
+        ),
+      ) as _i5.IosDeviceInfo);
+  @override
+  set iosDeviceInfo(_i5.IosDeviceInfo? _iosDeviceInfo) => super.noSuchMethod(
+        Invocation.setter(
+          #iosDeviceInfo,
+          _iosDeviceInfo,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  String get appVersion => (super.noSuchMethod(
+        Invocation.getter(#appVersion),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  String get appId => (super.noSuchMethod(
+        Invocation.getter(#appId),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  String get osVersion => (super.noSuchMethod(
+        Invocation.getter(#osVersion),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  String get platform => (super.noSuchMethod(
+        Invocation.getter(#platform),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  String get uniqueIdentifier => (super.noSuchMethod(
+        Invocation.getter(#uniqueIdentifier),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  _i9.Future<void> intialise() => (super.noSuchMethod(
+        Invocation.method(
+          #intialise,
+          [],
+        ),
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
+}
+
+/// A class which mocks [HttpService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockHttpService extends _i1.Mock implements _i15.HttpService {
+  @override
+  _i9.Future<bool> saveSession({required _i2.Session? session}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #saveSession,
+          [],
+          {#session: session},
+        ),
+        returnValue: _i9.Future<bool>.value(false),
+        returnValueForMissingStub: _i9.Future<bool>.value(false),
+      ) as _i9.Future<bool>);
+>>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
 }

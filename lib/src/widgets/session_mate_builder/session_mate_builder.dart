@@ -9,12 +9,14 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
   final bool dataMaskingEnabled;
   final List<String> keysToExcludeOnDataMasking;
   final int minimumStartupTime;
+  final String apiKey;
   final Widget child;
   const SessionMateBuilder({
     super.key,
     this.dataMaskingEnabled = true,
     this.keysToExcludeOnDataMasking = const [],
     this.minimumStartupTime = 5000,
+    required this.apiKey,
     required this.child,
   });
 
@@ -41,5 +43,6 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
         dataMaskingEnabled: dataMaskingEnabled,
         keysToExcludeOnDataMasking: keysToExcludeOnDataMasking,
         minimumStartupTime: minimumStartupTime,
+        apiKey: apiKey,
       );
 }

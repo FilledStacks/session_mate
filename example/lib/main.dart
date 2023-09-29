@@ -28,6 +28,7 @@ class MainApp extends StatelessWidget {
         SessionMateNavigatorObserver.instance,
       ],
       builder: (context, child) => SessionMateBuilder(
+        apiKey: '123345',
         keysToExcludeOnDataMasking: const [
           "smallThumbnail",
           "thumbnail",

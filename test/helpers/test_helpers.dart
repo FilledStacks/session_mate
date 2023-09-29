@@ -3,6 +3,8 @@ import 'package:mockito/mockito.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
+import 'package:session_mate/src/services/http_service.dart';
+import 'package:session_mate/src/services/native_inforamation_service.dart';
 import 'package:session_mate/src/services/session_recording_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
@@ -16,12 +18,43 @@ import 'test_helpers.mocks.dart';
   MockSpec<SessionReplayService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SessionService>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<WidgetFinder>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<NativeInformationService>(
+      onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<HttpService>(onMissingStub: OnMissingStub.returnDefault),
 ])
+MockNativeInformationService getAndRegisterNativeInformationService({
+  String appVersion = '1.0.0',
+  String appId = 'com.filledstacks.bookshelf',
+  String osVersion = '10.2',
+  String platform = 'android',
+  String uniqueIdentifier = '1',
+}) {
+  _removeRegistrationIfExists<NativeInformationService>();
+  final service = MockNativeInformationService();
+
+  when(service.appVersion).thenReturn(appVersion);
+  when(service.appId).thenReturn(appId);
+  when(service.osVersion).thenReturn(osVersion);
+  when(service.platform).thenReturn(platform);
+  when(service.uniqueIdentifier).thenReturn(uniqueIdentifier);
+
+  locator.registerSingleton<NativeInformationService>(service);
+  return service;
+}
+
+MockHttpService getAndRegisterHttpService() {
+  _removeRegistrationIfExists<HttpService>();
+  final service = MockHttpService();
+  locator.registerSingleton<HttpService>(service);
+  return service;
+}
+
 MockConfigurationService getAndRegisterConfigurationService({
   bool dataMaskingEnabled = true,
   List<String> keysToExcludeOnDataMasking = const [],
   int minimumStartupTime = 5000,
   int listeningPort = 3000,
+  String apiKey = 'NO_API_KEY',
 }) {
   _removeRegistrationIfExists<ConfigurationService>();
   final service = MockConfigurationService();
@@ -36,6 +69,7 @@ MockConfigurationService getAndRegisterConfigurationService({
     ...commonKeysToExcludeOnDataMasking,
     ...keysToExcludeOnDataMasking,
   ]);
+  when(service.apiKey).thenReturn(apiKey);
 
   locator.registerSingleton<ConfigurationService>(service);
   return service;
@@ -75,6 +109,8 @@ void registerServices() {
   getAndRegisterSessionReplayService();
   getAndRegisterSessionService();
   getAndRegisterWidgetFinder();
+  getAndRegisterHttpService();
+  getAndRegisterNativeInformationService();
 }
 
 void _removeRegistrationIfExists<T extends Object>() {

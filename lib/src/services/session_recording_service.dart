@@ -1,5 +1,4 @@
 import 'package:session_mate/src/app/locator_setup.dart';
-import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/helpers/crypto_helper.dart';
 import 'package:session_mate/src/helpers/response_filter_helper.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
@@ -9,7 +8,6 @@ import 'data_masking_service.dart';
 import 'session_service.dart';
 
 class SessionRecordingService {
-  final _logger = getLogger('SessionRecordingService');
   final _configurationService = locator<ConfigurationService>();
   final _dataMaskingService = locator<DataMaskingService>();
 

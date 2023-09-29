@@ -32,6 +32,10 @@ dependencies:
   hive: ^2.2.3
   path_provider: ^2.1.0
   svg_icon: ^0.0.1
+  dio: ^5.3.3
+  talker_dio_logger: ^2.3.0
+  package_info_plus: ^4.1.0
+  device_info_plus: ^9.0.3
 
 dev_dependencies:
   flutter_lints: ^2.0.0
@@ -39,6 +43,9 @@ dev_dependencies:
   json_serializable: ^6.7.1
   build_runner:
   mockito:
+    
+  integration_test:
+    sdk: flutter
 
 flutter:
   uses-material-design: true
