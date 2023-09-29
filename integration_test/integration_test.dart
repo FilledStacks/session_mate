@@ -1,11 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/services/http_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 import 'integration_setup.dart';
-
-final _logger = getLogger('IntegrationTest');
 
 Future<void> main() async {
   await setupIntegrationTests();

@@ -3,38 +3,24 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-<<<<<<< HEAD
-import 'dart:async' as _i7;
-import 'dart:io' as _i8;
-import 'dart:ui' as _i12;
-
-import 'package:flutter/material.dart' as _i11;
-=======
 import 'dart:async' as _i9;
-import 'dart:ui' as _i13;
+import 'dart:io' as _i10;
+import 'dart:ui' as _i14;
 
 import 'package:device_info_plus/device_info_plus.dart' as _i5;
-import 'package:flutter/material.dart' as _i12;
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
+import 'package:flutter/material.dart' as _i13;
 import 'package:logger/src/logger.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:package_info_plus/package_info_plus.dart' as _i4;
 import 'package:session_mate/src/services/configuration_service.dart' as _i6;
-import 'package:session_mate/src/services/http_service.dart' as _i15;
+import 'package:session_mate/src/services/http_service.dart' as _i16;
 import 'package:session_mate/src/services/native_inforamation_service.dart'
-    as _i14;
+    as _i15;
 import 'package:session_mate/src/services/session_recording_service.dart'
-<<<<<<< HEAD
-    as _i5;
-import 'package:session_mate/src/services/session_replay_service.dart' as _i6;
-import 'package:session_mate/src/services/session_service.dart' as _i9;
-import 'package:session_mate/src/utils/widget_finder.dart' as _i10;
-=======
     as _i7;
 import 'package:session_mate/src/services/session_replay_service.dart' as _i8;
-import 'package:session_mate/src/services/session_service.dart' as _i10;
-import 'package:session_mate/src/utils/widget_finder.dart' as _i11;
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
+import 'package:session_mate/src/services/session_service.dart' as _i11;
+import 'package:session_mate/src/utils/widget_finder.dart' as _i12;
 import 'package:session_mate_core/session_mate_core.dart' as _i2;
 
 // ignore_for_file: type=lint
@@ -140,13 +126,12 @@ class MockConfigurationService extends _i1.Mock
         returnValueForMissingStub: 0,
       ) as int);
   @override
-<<<<<<< HEAD
   int get listeningPort => (super.noSuchMethod(
         Invocation.getter(#listeningPort),
         returnValue: 0,
         returnValueForMissingStub: 0,
       ) as int);
-=======
+  @override
   String get apiKey => (super.noSuchMethod(
         Invocation.getter(#apiKey),
         returnValue: '',
@@ -158,17 +143,13 @@ class MockConfigurationService extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
   @override
   void setValues({
     bool? dataMaskingEnabled,
     List<String>? keysToExcludeOnDataMasking,
     int? minimumStartupTime,
-<<<<<<< HEAD
     int? listeningPort,
-=======
     String? apiKey,
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -178,11 +159,8 @@ class MockConfigurationService extends _i1.Mock
             #dataMaskingEnabled: dataMaskingEnabled,
             #keysToExcludeOnDataMasking: keysToExcludeOnDataMasking,
             #minimumStartupTime: minimumStartupTime,
-<<<<<<< HEAD
             #listeningPort: listeningPort,
-=======
             #apiKey: apiKey,
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
           },
         ),
         returnValueForMissingStub: null,
@@ -226,21 +204,17 @@ class MockSessionReplayService extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-<<<<<<< HEAD
-  _i7.Future<void> handleMockRequest(_i8.HttpRequest? request) =>
+  _i9.Future<void> handleMockRequest(_i10.HttpRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #handleMockRequest,
           [request],
         ),
-        returnValue: _i7.Future<void>.value(),
-        returnValueForMissingStub: _i7.Future<void>.value(),
-      ) as _i7.Future<void>);
+        returnValue: _i9.Future<void>.value(),
+        returnValueForMissingStub: _i9.Future<void>.value(),
+      ) as _i9.Future<void>);
   @override
-  _i7.Future<List<int>> getSanitizedData(
-=======
   _i9.Future<List<int>> getSanitizedData(
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
     List<int>? data, {
     String? uid,
   }) =>
@@ -258,11 +232,7 @@ class MockSessionReplayService extends _i1.Mock
 /// A class which mocks [SessionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-<<<<<<< HEAD
-class MockSessionService extends _i1.Mock implements _i9.SessionService {
-=======
-class MockSessionService extends _i1.Mock implements _i10.SessionService {
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
+class MockSessionService extends _i1.Mock implements _i11.SessionService {
   @override
   List<_i2.NetworkEvent> get networkEvents => (super.noSuchMethod(
         Invocation.getter(#networkEvents),
@@ -373,11 +343,7 @@ class MockSessionService extends _i1.Mock implements _i10.SessionService {
 /// A class which mocks [WidgetFinder].
 ///
 /// See the documentation for Mockito's code generation for more information.
-<<<<<<< HEAD
-class MockWidgetFinder extends _i1.Mock implements _i10.WidgetFinder {
-=======
-class MockWidgetFinder extends _i1.Mock implements _i11.WidgetFinder {
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
+class MockWidgetFinder extends _i1.Mock implements _i12.WidgetFinder {
   @override
   _i3.Logger get log => (super.noSuchMethod(
         Invocation.getter(#log),
@@ -391,13 +357,8 @@ class MockWidgetFinder extends _i1.Mock implements _i11.WidgetFinder {
         ),
       ) as _i3.Logger);
   @override
-<<<<<<< HEAD
-  _i11.TextField? getTextFieldAtPosition({
-    required _i12.Offset? position,
-=======
-  _i12.TextField? getTextFieldAtPosition({
-    required _i13.Offset? position,
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
+  _i13.TextField? getTextFieldAtPosition({
+    required _i14.Offset? position,
     bool? verbose = false,
   }) =>
       (super.noSuchMethod(
@@ -410,17 +371,14 @@ class MockWidgetFinder extends _i1.Mock implements _i11.WidgetFinder {
           },
         ),
         returnValueForMissingStub: null,
-<<<<<<< HEAD
-      ) as _i11.TextField?);
-=======
-      ) as _i12.TextField?);
+      ) as _i13.TextField?);
 }
 
 /// A class which mocks [NativeInformationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNativeInformationService extends _i1.Mock
-    implements _i14.NativeInformationService {
+    implements _i15.NativeInformationService {
   @override
   _i4.PackageInfo get packageInfo => (super.noSuchMethod(
         Invocation.getter(#packageInfo),
@@ -546,7 +504,7 @@ class MockNativeInformationService extends _i1.Mock
 /// A class which mocks [HttpService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockHttpService extends _i1.Mock implements _i15.HttpService {
+class MockHttpService extends _i1.Mock implements _i16.HttpService {
   @override
   _i9.Future<bool> saveSession({required _i2.Session? session}) =>
       (super.noSuchMethod(
@@ -558,5 +516,4 @@ class MockHttpService extends _i1.Mock implements _i15.HttpService {
         returnValue: _i9.Future<bool>.value(false),
         returnValueForMissingStub: _i9.Future<bool>.value(false),
       ) as _i9.Future<bool>);
->>>>>>> ffe6cdf (Completes the basic http service with the integration setup)
 }

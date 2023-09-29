@@ -16,7 +16,6 @@ class HiveService {
     Hive
       ..registerAdapter(InteractionTypeAdapter())
       ..registerAdapter(SessionPriorityAdapter())
-      ..registerAdapter(SessionExceptionAdapter())
       ..registerAdapter(SessionAdapter())
       ..registerAdapter(RequestEventAdapter())
       ..registerAdapter(ResponseEventAdapter())
