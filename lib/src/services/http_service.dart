@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
@@ -32,6 +34,26 @@ class HttpService {
     _httpClient.interceptors.add(TalkerDioLogger(
       settings: TalkerDioLoggerSettings(),
     ));
+  }
+
+  Future<List<Session>> getSessions() async {
+    final response = await _makeHttpRequest(
+      method: _HttpMethod.get,
+      path: 'sessions-api/getSessions',
+      queryParameteres: {
+        'apiKey': _configurationService.apiKey,
+        'appId': _nativeInformationService.appId,
+      },
+    );
+
+    if (response?.statusCode == 200) {
+      final body = jsonDecode(response?.data) as List<dynamic>;
+      return body
+          .map((e) => Session.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+
+    return [];
   }
 
   Future<bool> saveSession({required Session session}) async {

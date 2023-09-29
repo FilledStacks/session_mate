@@ -77,6 +77,7 @@ class SessionService {
       views: _views,
       exception: exception.toString(),
       stackTrace: stackTrace.toString(),
+      sessionStats: SessionStats.empty(),
     );
 
     clear();

@@ -7,6 +7,8 @@ import 'integration_setup.dart';
 Future<void> main() async {
   await setupIntegrationTests();
 
+  final httpService = HttpService();
+
   group('Session Mate Integration Tests -', () {
     registerTestKickoff();
 
@@ -24,9 +26,9 @@ Future<void> main() async {
           priority: SessionPriority.low,
           stackTrace: 'Some stack trace at session.dart 14:23',
           views: ['/', 'book-list-view/', 'book-details-view/'],
+          sessionStats: SessionStats.empty(),
         );
 
-        final httpService = HttpService();
         final result = await httpService.saveSession(session: session);
         expect(result, true);
       },
