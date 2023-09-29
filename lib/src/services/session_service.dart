@@ -62,7 +62,6 @@ class SessionService {
   }
 
   Session captureSession({
-    SessionPriority priority = SessionPriority.high,
     Object? exception,
     StackTrace? stackTrace,
   }) {
@@ -75,7 +74,6 @@ class SessionService {
     final session = Session(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       events: [..._sessionEvents],
-      priority: priority,
       views: _views,
       exception: exception.toString(),
       stackTrace: stackTrace.toString(),

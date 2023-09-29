@@ -6,6 +6,8 @@ import 'package:session_mate/src/services/hive_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
+import 'services/http_service.dart';
+
 class SessionMateUtils {
   static void saveSession({
     SessionPriority? priority,
@@ -14,6 +16,7 @@ class SessionMateUtils {
   }) {
     final sessionService = locator<SessionService>();
     final localStorageService = locator<HiveService>();
+    final httpService = locator<HttpService>();
 
     if (!kRecordUserInteractions) {
       print('🎥 Session not recorded, you are not on a recording session.');
@@ -21,11 +24,18 @@ class SessionMateUtils {
     }
 
     try {
-      localStorageService.saveSession(sessionService.captureSession(
-        priority: priority ?? _getRandomPriority(),
-        exception: exception,
-        stackTrace: stackTrace,
-      ));
+      if (kLocalOnlyUsage) {
+        localStorageService.saveSession(sessionService.captureSession(
+          exception: exception,
+          stackTrace: stackTrace,
+        ));
+      } else {
+        httpService.saveSession(
+            session: sessionService.captureSession(
+          exception: exception,
+          stackTrace: stackTrace,
+        ));
+      }
     } catch (e) {
       print(e);
     }
