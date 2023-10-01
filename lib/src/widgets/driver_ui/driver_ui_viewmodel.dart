@@ -1,12 +1,16 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/hive_service.dart';
+import 'package:session_mate/src/services/http_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
+
+const String kLoadingSessionsKey = 'loading-sessions-key';
 
 class DriverUIViewModel extends ReactiveViewModel {
   final VoidCallback onReplayCompleted;
@@ -18,6 +22,7 @@ class DriverUIViewModel extends ReactiveViewModel {
   final _driverCommunicationService = locator<DriverCommunicationService>();
   final _sessionService = locator<SessionService>();
   final _hiveService = locator<HiveService>();
+  final _httpService = locator<HttpService>();
 
   @override
   List<ListenableServiceMixin> get listenableServices => [
@@ -53,14 +58,28 @@ class DriverUIViewModel extends ReactiveViewModel {
   bool get showDebugInformation => _showDebugInformation;
 
   bool _showDriverBar = true;
-  bool get showDriverBar => _showDriverBar;
+  bool get showDriverBar =>
+      _showDriverBar && sessions.isNotEmpty && !busy(kLoadingSessionsKey);
 
   bool _showSessionList = true;
-  bool get showSessionList => _showSessionList;
+  bool get showSessionList =>
+      _showSessionList && sessions.isNotEmpty && !busy(kLoadingSessionsKey);
 
-  void loadSessions() {
-    _sessions = _hiveService.getSessions().toList();
-    notifyListeners();
+  bool _showEmptySessionsMessage = false;
+  bool get showEmptySessionsMessage => _showEmptySessionsMessage;
+
+  Future<void> loadSessions() async {
+    if (kLocalOnlyUsage) {
+      _sessions = _hiveService.getSessions().toList();
+      notifyListeners();
+    } else {
+      _sessions = await runBusyFuture(
+        _httpService.getSessions(),
+        busyObject: kLoadingSessionsKey,
+      );
+    }
+
+    _showEmptySessionsMessage = sessions.isEmpty;
   }
 
   Future<void> startSession() async {
