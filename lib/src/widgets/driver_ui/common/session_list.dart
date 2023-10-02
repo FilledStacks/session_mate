@@ -18,24 +18,77 @@ class SessionList extends ViewModelWidget<DriverUIViewModel> {
       child: Column(
         children: [
           const SessionListHeader(),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * 0.7,
-            child: ListView.builder(
-              padding: const EdgeInsets.only(top: kSessionItemTopPadding),
-              itemCount: viewModel.sessions.length,
-              itemBuilder: (context, index) => GestureDetector(
-                onTap: () => viewModel.selectSession(index),
-                child: Padding(
-                  padding: const EdgeInsets.only(top: kSessionItemTopPadding),
-                  child: SessionCard(
-                    session: viewModel.sessions[index],
-                    isSelected: viewModel.isSessionSelected(index),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          viewModel.isBusy
+              ? const _SessionsLoadingIndicator()
+              : viewModel.showEmptySessionsMessage
+                  ? const _NoSessionsCaptured()
+                  : SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.7,
+                      child: ListView.builder(
+                        padding:
+                            const EdgeInsets.only(top: kSessionItemTopPadding),
+                        itemCount: viewModel.sessions.length,
+                        itemBuilder: (context, index) => GestureDetector(
+                          onTap: () => viewModel.selectSession(index),
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: kSessionItemTopPadding),
+                            child: SessionCard(
+                              session: viewModel.sessions[index],
+                              isSelected: viewModel.isSessionSelected(index),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
         ],
+      ),
+    );
+  }
+}
+
+class _SessionsLoadingIndicator extends StatelessWidget {
+  const _SessionsLoadingIndicator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: const Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircularProgressIndicator(color: Color(0xFFFFFFFF)),
+          SizedBox(height: 20),
+          Text(
+            'Fetching sessions ...',
+            style: TextStyle(
+              color: Color(0xFFFFFFFF),
+              fontSize: 18,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class _NoSessionsCaptured extends StatelessWidget {
+  const _NoSessionsCaptured({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color(0xFF232228),
+      width: double.infinity,
+      height: double.infinity,
+      child: Center(
+        child: Text(
+          'No sessions captured yet',
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 32,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }

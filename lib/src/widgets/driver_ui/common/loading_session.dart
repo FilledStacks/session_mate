@@ -9,7 +9,7 @@ class LoadingSessionOrEmptyMessage extends ViewModelWidget<DriverUIViewModel> {
   Widget build(BuildContext context, DriverUIViewModel viewModel) {
     return AnimatedSwitcher(
       duration: Duration(milliseconds: 2000),
-      child: viewModel.busy(kLoadingSessionsKey)
+      child: viewModel.isBusy
           ? Center(
               child: const Column(
                 mainAxisAlignment: MainAxisAlignment.center,

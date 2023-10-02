@@ -58,12 +58,10 @@ class DriverUIViewModel extends ReactiveViewModel {
   bool get showDebugInformation => _showDebugInformation;
 
   bool _showDriverBar = true;
-  bool get showDriverBar =>
-      _showDriverBar && sessions.isNotEmpty && !busy(kLoadingSessionsKey);
+  bool get showDriverBar => _showDriverBar && sessions.isNotEmpty;
 
   bool _showSessionList = true;
-  bool get showSessionList =>
-      _showSessionList && sessions.isNotEmpty && !busy(kLoadingSessionsKey);
+  bool get showSessionList => _showSessionList;
 
   bool _showEmptySessionsMessage = false;
   bool get showEmptySessionsMessage => _showEmptySessionsMessage;
@@ -75,7 +73,6 @@ class DriverUIViewModel extends ReactiveViewModel {
     } else {
       _sessions = await runBusyFuture(
         _httpService.getSessions(),
-        busyObject: kLoadingSessionsKey,
       );
     }
 

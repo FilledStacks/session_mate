@@ -8,8 +8,6 @@ import 'package:session_mate/src/widgets/hittable_stack.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
-import 'common/loading_session.dart';
-
 class DriverUI extends StackedView<DriverUIViewModel> {
   final Widget child;
   const DriverUI({super.key, required this.child});
@@ -52,14 +50,14 @@ class DriverUI extends StackedView<DriverUIViewModel> {
               }),
             ],
           ),
-          if (viewModel.showSessionList) const SessionList(),
-          if (viewModel.showDriverBar)
+          if (viewModel.showSessionList && viewModel.showReplayUI) ...[
+            const SessionList(),
             Positioned(
               bottom: MediaQuery.of(context).size.height * .025,
               left: MediaQuery.of(context).size.width * .05,
               child: const DriverBar(),
             ),
-          const LoadingSessionOrEmptyMessage(),
+          ]
         ],
       ),
     );
