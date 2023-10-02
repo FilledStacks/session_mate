@@ -5,6 +5,7 @@ import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/event_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -141,6 +142,7 @@ TextEditingController.
     _sessionService.addEvent(TapEvent(
       position: EventPosition(x: position.dx, y: position.dy),
       view: _routeTracker.currentRoute,
+      order: EventUtils.getEventOrder(),
     ));
 
     _lastTapPosition = position;
@@ -187,6 +189,7 @@ TextEditingController.
         keyLabel: keyLabel,
         usbHidUsage: usbHidUsage,
         view: _routeTracker.currentRoute,
+        order: EventUtils.getEventOrder(),
       ),
     );
   }
@@ -241,6 +244,7 @@ TextEditingController.
           ),
           duration: _scrollTimer?.elapsedMilliseconds,
           view: _routeTracker.currentRoute,
+          order: EventUtils.getEventOrder(),
         ),
       );
 
