@@ -11,6 +11,16 @@
             "type": "dart",
             "args": [
                 "--dart-define=RECORD_SESSION=true",
+                "--dart-define=API_KEY=44ee4cf3-37ec-460a-a2c8-bacc61f64f9e"
+            ]
+        },
+        {
+            "name": "Replay mode",
+            "cwd": "example",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--dart-define=API_KEY=44ee4cf3-37ec-460a-a2c8-bacc61f64f9e"
             ]
         },
         {
