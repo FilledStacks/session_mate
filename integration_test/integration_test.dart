@@ -17,6 +17,7 @@ Future<void> main() async {
       (tester) async {
         final session = Session(
           id: '1234',
+          createdAtTimestamp: '1234',
           events: [
             UIEvent.tap(position: EventPosition(x: 0, y: 0)),
             UIEvent.tap(position: EventPosition(x: 1, y: 1)),
