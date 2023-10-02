@@ -5,10 +5,15 @@ import 'package:flutter/foundation.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
+enum _DriverCommunicationState { waitForReplay, replayActive, freshStart }
+
 class DriverCommunicationService with ListenableServiceMixin {
   Completer<String>? _communicationCompleter;
-  bool _readyToReplay = false;
-  bool get readyToReplay => _readyToReplay;
+
+  _DriverCommunicationState _state = _DriverCommunicationState.freshStart;
+
+  bool get readyToReplay => _state == _DriverCommunicationState.waitForReplay;
+  bool get replayActive => _state == _DriverCommunicationState.replayActive;
 
   bool _wasReplayExecuted = false;
   bool get wasReplayExecuted => _wasReplayExecuted;
@@ -25,7 +30,7 @@ class DriverCommunicationService with ListenableServiceMixin {
 
     if (_wasReplayExecuted) _onReplayCompletedCallback?.call();
 
-    _readyToReplay = true;
+    _state = _DriverCommunicationState.waitForReplay;
     notifyListeners();
 
     return _communicationCompleter!.future;
@@ -33,7 +38,7 @@ class DriverCommunicationService with ListenableServiceMixin {
 
   void sendInteractions(List<UIEvent> interactions) {
     print('DriverCommunicationService - Send interactions to driver');
-    _readyToReplay = false;
+    _state = _DriverCommunicationState.replayActive;
     notifyListeners();
 
     _communicationCompleter?.complete(jsonEncode(interactions));

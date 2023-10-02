@@ -3,12 +3,14 @@ import 'package:mockito/mockito.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
+import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/http_service.dart';
 import 'package:session_mate/src/services/native_inforamation_service.dart';
 import 'package:session_mate/src/services/session_recording_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
+import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 
 import 'test_helpers.mocks.dart';
 
@@ -21,7 +23,31 @@ import 'test_helpers.mocks.dart';
   MockSpec<NativeInformationService>(
       onMissingStub: OnMissingStub.returnDefault),
   MockSpec<HttpService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<DriverCommunicationService>(
+      onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<SessionMateRouteTracker>(onMissingStub: OnMissingStub.returnDefault),
 ])
+MockSessionMateRouteTracker getAndRegisterSessionMateRouteTracker() {
+  _removeRegistrationIfExists<SessionMateRouteTracker>();
+  final service = MockSessionMateRouteTracker();
+  locator.registerSingleton<SessionMateRouteTracker>(service);
+  return service;
+}
+
+MockDriverCommunicationService getAndRegisterDriverCommunicationService({
+  bool readyToReplay = false,
+  bool replayActive = true,
+}) {
+  _removeRegistrationIfExists<DriverCommunicationService>();
+  final service = MockDriverCommunicationService();
+
+  when(service.readyToReplay).thenReturn(readyToReplay);
+  when(service.replayActive).thenReturn(replayActive);
+
+  locator.registerSingleton<DriverCommunicationService>(service);
+  return service;
+}
+
 MockNativeInformationService getAndRegisterNativeInformationService({
   String appVersion = '1.0.0',
   String appId = 'com.filledstacks.bookshelf',
@@ -111,6 +137,8 @@ void registerServices() {
   getAndRegisterWidgetFinder();
   getAndRegisterHttpService();
   getAndRegisterNativeInformationService();
+  getAndRegisterDriverCommunicationService();
+  getAndRegisterSessionMateRouteTracker();
 }
 
 void _removeRegistrationIfExists<T extends Object>() {

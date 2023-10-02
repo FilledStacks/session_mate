@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
+import 'package:session_mate/src/services/driver_communication_service.dart';
 
 import 'event_tracker.dart';
 import 'request_wrapper.dart';
@@ -11,6 +12,7 @@ import 'request_wrapper.dart';
 class SessionMateHttpClient implements HttpClient {
   final HttpClient _httpClient;
   final String Function() _uidGenerator;
+  final _driverCommunicationService = locator<DriverCommunicationService>();
 
   SessionMateHttpClient(this._httpClient, this._uidGenerator);
 
@@ -169,7 +171,9 @@ class SessionMateHttpClient implements HttpClient {
     final tracker = HttpEventTracker.fromUri(method, _uidGenerator(), url);
 
     Uri? mockedUrl;
-    if (!kRecordUserInteractions) {
+    final replaceRealRequestWithMockedRequest =
+        !kRecordUserInteractions && _driverCommunicationService.replayActive;
+    if (replaceRealRequestWithMockedRequest) {
       mockedUrl = url.replace(
         scheme: kLocalServerScheme,
         host: kLocalServerHost,
@@ -180,7 +184,7 @@ class SessionMateHttpClient implements HttpClient {
     // NOTE: Proper place to await any request / requestWrapper task
 
     return _httpClient.openUrl(method, mockedUrl ?? url).then((request) {
-      if (!kRecordUserInteractions) {
+      if (replaceRealRequestWithMockedRequest) {
         request.headers.host = url.host;
       }
 

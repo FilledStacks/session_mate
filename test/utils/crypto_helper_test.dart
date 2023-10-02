@@ -5,7 +5,7 @@ import 'package:session_mate_core/session_mate_core.dart';
 void main() {
   group('CryptoHelperTest -', () {
     group('hashEvent -', () {
-      test('When called, should get the correct value', () {
+      test('When called rickandmortyapi, should get the correct value', () {
         final event = RequestEvent(
           uid: '123456',
           url: 'rickandmortyapi.com',
@@ -20,11 +20,11 @@ void main() {
 
         expect(
           hashEvent(event),
-          '0d269061640a2b2b4475dc6ab8b8c641efdcc24146af3c850c87b92d0cdc3294',
+          'fe7e10a46a6fbeabc5d56fe004bab91de4d97bbd547927184b8018aefaef6a19',
         );
       });
 
-      test('When called, should get the correct value', () {
+      test('When called with local host, should get the correct value', () {
         final event = RequestEvent(
           uid: '123456',
           url: 'localhost',
@@ -39,7 +39,7 @@ void main() {
 
         expect(
           hashEvent(event),
-          '2fe52dda1ce1f9a27455ab7b379af1df7e07155119a2746419c04a93f4556181',
+          '63e9c7f773d0db80a0a9a5fd73804317bccd70e2dd939b85a5428baf911267aa',
         );
       });
     });
