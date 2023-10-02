@@ -96,8 +96,13 @@ class DriverUIViewModel extends ReactiveViewModel {
     /// need to find a way to get notified of the event.
     _isGuestAppLoading = false;
 
+    final eventsSortedAscending = _sessionService.uiEvents
+      ..sort(
+        (event1, event2) => event1.order.compareTo(event2.order),
+      );
+
     _driverCommunicationService.sendInteractions(
-      _sessionService.uiEvents,
+      eventsSortedAscending,
     );
   }
 
