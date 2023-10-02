@@ -50,8 +50,8 @@ class DriverUI extends StackedView<DriverUIViewModel> {
               }),
             ],
           ),
-          if (viewModel.showSessionList && viewModel.showReplayUI) ...[
-            const SessionList(),
+          if (viewModel.showReplayUI) ...[
+            if (viewModel.showSessionList) const SessionList(),
             Positioned(
               bottom: MediaQuery.of(context).size.height * .025,
               left: MediaQuery.of(context).size.width * .05,
