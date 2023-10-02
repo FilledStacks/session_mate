@@ -20,7 +20,7 @@ void main() {
 
         expect(
           hashEvent(event),
-          'fe7e10a46a6fbeabc5d56fe004bab91de4d97bbd547927184b8018aefaef6a19',
+          'f551e877d8f514da2ddf747a52dd14ee93a23b3a472f2e75562e81917081ec70',
         );
       });
 
@@ -39,7 +39,7 @@ void main() {
 
         expect(
           hashEvent(event),
-          '63e9c7f773d0db80a0a9a5fd73804317bccd70e2dd939b85a5428baf911267aa',
+          'e3eaa3f4be8dad57cba66d67494b882af4f4365acb665f54aa991d87ed53b028',
         );
       });
     });
