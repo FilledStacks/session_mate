@@ -22,6 +22,7 @@ import 'package:session_mate/src/services/session_recording_service.dart'
     as _i7;
 import 'package:session_mate/src/services/session_replay_service.dart' as _i8;
 import 'package:session_mate/src/services/session_service.dart' as _i11;
+import 'package:session_mate/src/utils/time_utils.dart' as _i19;
 import 'package:session_mate/src/utils/widget_finder.dart' as _i12;
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart'
     as _i18;
@@ -779,4 +780,16 @@ class MockSessionMateRouteTracker extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+}
+
+/// A class which mocks [TimeUtils].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTimeUtils extends _i1.Mock implements _i19.TimeUtils {
+  @override
+  int get timestamp => (super.noSuchMethod(
+        Invocation.getter(#timestamp),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as int);
 }

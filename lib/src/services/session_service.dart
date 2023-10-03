@@ -73,7 +73,7 @@ class SessionService {
 
     final session = Session(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      createdAtTimestamp: DateTime.now().millisecondsSinceEpoch.toString(),
+      createdAtTimestamp: DateTime.now().millisecondsSinceEpoch,
       events: [..._sessionEvents],
       views: _views,
       exception: exception.toString(),

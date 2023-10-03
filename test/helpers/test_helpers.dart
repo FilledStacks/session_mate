@@ -9,6 +9,7 @@ import 'package:session_mate/src/services/native_inforamation_service.dart';
 import 'package:session_mate/src/services/session_recording_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 
@@ -26,7 +27,15 @@ import 'test_helpers.mocks.dart';
   MockSpec<DriverCommunicationService>(
       onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SessionMateRouteTracker>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<TimeUtils>(onMissingStub: OnMissingStub.returnDefault),
 ])
+MockTimeUtils getAndRegisterTimeUtils() {
+  _removeRegistrationIfExists<TimeUtils>();
+  final service = MockTimeUtils();
+  locator.registerSingleton<TimeUtils>(service);
+  return service;
+}
+
 MockSessionMateRouteTracker getAndRegisterSessionMateRouteTracker() {
   _removeRegistrationIfExists<SessionMateRouteTracker>();
   final service = MockSessionMateRouteTracker();

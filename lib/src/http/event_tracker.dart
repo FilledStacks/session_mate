@@ -3,7 +3,7 @@ import 'dart:typed_data' show Uint8List;
 
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/services/interceptor_service.dart';
-import 'package:session_mate/src/utils/event_utils.dart';
+import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
@@ -13,6 +13,8 @@ class HttpEventTracker {
   final String _method;
   final int _startTime;
   Uint8List? data;
+
+  final _timeUtils = locator<TimeUtils>();
 
   HttpEventTracker.fromUri(this._method, this._uid, Uri uri)
       : _url = uri.toString(),
@@ -49,7 +51,7 @@ class HttpEventTracker {
         error: e.toString(),
         body: null,
         view: _routeTracker.currentRoute,
-        order: EventUtils.getEventOrder(),
+        order: _timeUtils.timestamp,
       ),
     );
   }
@@ -73,7 +75,7 @@ class HttpEventTracker {
       headers: headers,
       body: data,
       view: _routeTracker.currentRoute,
-      order: EventUtils.getEventOrder(),
+      order: _timeUtils.timestamp,
     ));
   }
 
@@ -90,7 +92,7 @@ class HttpEventTracker {
       error: null,
       body: Uint8List.fromList(data),
       view: _routeTracker.currentRoute,
-      order: EventUtils.getEventOrder(),
+      order: _timeUtils.timestamp,
     ));
   }
 

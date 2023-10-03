@@ -1,8 +1,9 @@
+import 'package:bookshelf/app/app.locator.dart';
+import 'package:bookshelf/services/api_service.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
-import 'package:bookshelf/app/app.locator.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:bookshelf/services/api_service.dart';
+
 // @stacked-import
 
 import 'test_helpers.mocks.dart';

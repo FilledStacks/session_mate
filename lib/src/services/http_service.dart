@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
@@ -30,7 +32,7 @@ class HttpService {
     );
 
     _httpClient.interceptors.add(TalkerDioLogger(
-      settings: TalkerDioLoggerSettings(),
+      settings: TalkerDioLoggerSettings(printRequestData: false),
     ));
   }
 
@@ -65,6 +67,8 @@ class HttpService {
       platform: _nativeInformationService.platform,
       userId: _nativeInformationService.uniqueIdentifier,
     );
+
+    _logger.i(jsonEncode(sessionBody.toJson()));
 
     final response = await _makeHttpRequest(
       method: _HttpMethod.post,
