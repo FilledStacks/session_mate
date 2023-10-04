@@ -31,6 +31,12 @@ extension OffsetEventPosition on Offset {
   }
 }
 
+extension EventPositionExtension on EventPosition {
+  Offset get asOffset {
+    return Offset(x, y);
+  }
+}
+
 extension ScrollAxisExtension on Axis {
   ScrollAxis get asScrollAxis {
     switch (this) {

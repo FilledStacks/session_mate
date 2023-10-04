@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/widgets/driver_ui/driver_ui_viewmodel.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
-const double _kInteractionWidth = 30;
-const double _kInteractionHeight = 30;
-
-class EventInfo extends ViewModelWidget<DriverUIViewModel> {
+class EventVisual extends ViewModelWidget<DriverUIViewModel> {
   final int index;
   final UIEvent event;
   final bool isScrollEndIndicator;
-  const EventInfo({
+  const EventVisual({
     super.key,
     required this.index,
     required this.event,
@@ -29,8 +27,8 @@ class EventInfo extends ViewModelWidget<DriverUIViewModel> {
         : event.position.y;
 
     return Positioned(
-      top: positionY - _kInteractionHeight / 2,
-      left: positionX - _kInteractionWidth / 2,
+      top: positionY - kEventVisualSize / 2,
+      left: positionX - kEventVisualSize / 2,
       key: Key(key),
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
@@ -71,8 +69,8 @@ class _EventSimple extends ViewModelWidget<DriverUIViewModel> {
   @override
   Widget build(BuildContext context, DriverUIViewModel viewModel) {
     return Container(
-      width: _kInteractionWidth,
-      height: _kInteractionHeight,
+      width: kEventVisualSize,
+      height: kEventVisualSize,
       decoration: BoxDecoration(
         color: isFinalPosition
             ? Color(event.type.alternativeColor)
@@ -115,8 +113,8 @@ class _EventVerbose extends ViewModelWidget<DriverUIViewModel> {
     return Column(
       children: [
         Container(
-          width: _kInteractionWidth,
-          height: _kInteractionHeight,
+          width: kEventVisualSize,
+          height: kEventVisualSize,
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white),
             color: isFinalPosition

@@ -32,7 +32,8 @@ class HttpService {
     );
 
     _httpClient.interceptors.add(TalkerDioLogger(
-      settings: TalkerDioLoggerSettings(printRequestData: false),
+      settings: TalkerDioLoggerSettings(
+          printRequestData: false, printResponseData: false),
     ));
   }
 
@@ -48,7 +49,6 @@ class HttpService {
 
     if (response?.statusCode == 200) {
       final body = response?.data as List<dynamic>;
-      _logger.v('bodyType:${body.runtimeType} -  $body');
       return body
           .map((e) => Session.fromJson(e as Map<String, dynamic>))
           .toList();

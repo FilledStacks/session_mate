@@ -37,12 +37,12 @@ class DriverUIViewModel extends ReactiveViewModel {
 
   final _notificationController = StreamController<Notification>.broadcast();
 
-  ValueNotifier<List<UIEvent>> descriptionsForViewNotifier = ValueNotifier([]);
+  ValueNotifier<List<UIEvent>> eventsNotifier = ValueNotifier([]);
 
-  List<UIEvent> get viewEvents => descriptionsForViewNotifier.value;
+  List<UIEvent> get viewEvents => eventsNotifier.value;
 
   set viewEvents(List<UIEvent> events) {
-    descriptionsForViewNotifier.value = events;
+    eventsNotifier.value = events;
   }
 
   @override
@@ -93,8 +93,9 @@ class DriverUIViewModel extends ReactiveViewModel {
       _sessions = _hiveService.getSessions().toList();
       notifyListeners();
     } else {
-      _sessions = await runBusyFuture(
+      _sessions = await runBusyFuture<List<Session>>(
         _httpService.getSessions(),
+        throwException: true,
       );
     }
 

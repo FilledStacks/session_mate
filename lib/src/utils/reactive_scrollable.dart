@@ -33,7 +33,7 @@ class ReactiveScrollable {
               currentScrollableDescription,
             );
 
-            final included = distance < SCROLLABLE_DETECTION_FORGIVENESS;
+            final included = distance < kScrollableDetectionForgiveness;
             return included;
           },
         );

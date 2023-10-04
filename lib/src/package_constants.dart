@@ -22,4 +22,5 @@ const double kVerticalPadding = 30;
 
 const double kSessionItemTopPadding = 8;
 
-const double SCROLLABLE_DETECTION_FORGIVENESS = 10.0;
+const double kScrollableDetectionForgiveness = 10.0;
+const double kEventVisualSize = 30;

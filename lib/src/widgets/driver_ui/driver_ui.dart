@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/driver_bar.dart';
-import 'package:session_mate/src/widgets/driver_ui/common/event_info.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/session_list.dart';
 import 'package:session_mate/src/widgets/driver_ui/driver_ui_viewmodel.dart';
+import 'package:session_mate/src/widgets/driver_ui/events_visualizer.dart';
 import 'package:session_mate/src/widgets/hittable_stack.dart';
-import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
 class DriverUI extends StackedView<DriverUIViewModel> {
@@ -36,18 +35,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
                   }),
                 ),
               ),
-              ...viewModel.sessionInteractions.asMap().entries.map((i) {
-                return EventInfo(index: i.key, event: i.value);
-              }),
-              ...viewModel.sessionInteractions.asMap().entries.map((i) {
-                if (i.value is! ScrollEvent) return SizedBox.shrink();
-
-                return EventInfo(
-                  index: i.key,
-                  event: i.value,
-                  isScrollEndIndicator: true,
-                );
-              }),
+              const EventsVisualizer(),
             ],
           ),
           if (viewModel.showReplayUI) ...[
