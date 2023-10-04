@@ -28,11 +28,14 @@ class DriverUI extends StackedView<DriverUIViewModel> {
                 child: AnimatedOpacity(
                   opacity: 1.0,
                   duration: const Duration(milliseconds: 600),
-                  child: Builder(builder: (context) {
-                    return child;
+                  child: NotificationListener(
+                    onNotification: viewModel.onClientNotifiaction,
+                    child: Builder(builder: (context) {
+                      return child;
 
-                    // return const SizedBox.shrink();
-                  }),
+                      // return const SizedBox.shrink();
+                    }),
+                  ),
                 ),
               ),
               const EventsVisualizer(),

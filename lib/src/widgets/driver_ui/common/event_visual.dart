@@ -26,28 +26,23 @@ class EventVisual extends ViewModelWidget<DriverUIViewModel> {
         ? event.position.y + (event as ScrollEvent).scrollDelta!.y
         : event.position.y;
 
-    return Positioned(
-      top: positionY - kEventVisualSize / 2,
-      left: positionX - kEventVisualSize / 2,
-      key: Key(key),
-      child: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 300),
-        child: viewModel.showDebugInformation
-            ? _EventVerbose(
-                index: index,
-                event: event,
-                isFinalPosition: isScrollEndIndicator,
-                x: positionX,
-                y: positionY,
-              )
-            : _EventSimple(
-                index: index,
-                event: event,
-                isFinalPosition: isScrollEndIndicator,
-                x: positionX,
-                y: positionY,
-              ),
-      ),
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 300),
+      child: viewModel.showDebugInformation
+          ? _EventVerbose(
+              index: index,
+              event: event,
+              isFinalPosition: isScrollEndIndicator,
+              x: positionX,
+              y: positionY,
+            )
+          : _EventSimple(
+              index: index,
+              event: event,
+              isFinalPosition: isScrollEndIndicator,
+              x: positionX,
+              y: positionY,
+            ),
     );
   }
 }

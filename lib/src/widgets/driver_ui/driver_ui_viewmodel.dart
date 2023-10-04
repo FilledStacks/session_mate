@@ -89,15 +89,36 @@ class DriverUIViewModel extends ReactiveViewModel {
   bool get showEmptySessionsMessage => _showEmptySessionsMessage;
 
   Future<void> loadSessions() async {
-    if (kLocalOnlyUsage) {
-      _sessions = _hiveService.getSessions().toList();
-      notifyListeners();
-    } else {
-      _sessions = await runBusyFuture<List<Session>>(
-        _httpService.getSessions(),
-        throwException: true,
-      );
-    }
+    // if (kLocalOnlyUsage) {
+    //   _sessions = _hiveService.getSessions().toList();
+    //   notifyListeners();
+    // } else {
+    //   _sessions = await runBusyFuture<List<Session>>(
+    //     _httpService.getSessions(),
+    //     throwException: true,
+    //   );
+    // }
+
+    _sessions = [
+      Session(
+        id: '1',
+        events: [
+          TapEvent(
+              position: EventPosition(x: 300, y: 300),
+              id: '123',
+              externalities: [
+                ScrollableDescription(
+                  axis: ScrollAxis.vertical,
+                  rect: ScrollableRect(0, 0, 400, 700),
+                  scrollExtentByPixels: 700,
+                  maxScrollExtentByPixels: 700,
+                )
+              ])
+        ],
+        sessionStats: SessionStats(occurrences: 1),
+        createdAtTimestamp: DateTime.now().millisecondsSinceEpoch,
+      )
+    ];
 
     _showEmptySessionsMessage = sessions.isEmpty;
   }
@@ -151,10 +172,20 @@ class DriverUIViewModel extends ReactiveViewModel {
 
     _sessionService.setActiveSession(_selectedSession!);
 
+    eventsNotifier.value =
+        _selectedSession!.events.whereType<UIEvent>().toList();
+
     print('DriverViewmodel - SessionSelected ${_selectedSession?.id}');
 
     notifyListeners();
   }
 
   bool isSessionSelected(int index) => _selectedSession == sessions[index];
+
+  bool onClientNotifiaction(Notification notification) {
+    _notificationController.add(notification);
+
+    /// We return false to keep the notification bubbling in the widget tree
+    return false;
+  }
 }

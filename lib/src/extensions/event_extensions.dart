@@ -35,6 +35,16 @@ extension EventPositionExtension on EventPosition {
   Offset get asOffset {
     return Offset(x, y);
   }
+
+  EventPosition withScrollable(ScrollableDescription scrollable) {
+    final scrollingPixels = scrollable.scrollExtentByPixels;
+
+    if (scrollable.axis == ScrollAxis.vertical) {
+      return copyWith(x: x, y: y + scrollingPixels);
+    } else {
+      return copyWith(x: x + scrollingPixels, y: y);
+    }
+  }
 }
 
 extension ScrollAxisExtension on Axis {
