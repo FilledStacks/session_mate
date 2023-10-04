@@ -1,5 +1,6 @@
-import 'package:flutter/foundation.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'dart:async';
+
+import 'package:flutter/widgets.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
@@ -7,6 +8,7 @@ import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/hive_service.dart';
 import 'package:session_mate/src/services/http_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/notification_extractor.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
@@ -14,8 +16,17 @@ const String kLoadingSessionsKey = 'loading-sessions-key';
 
 class DriverUIViewModel extends ReactiveViewModel {
   final VoidCallback onReplayCompleted;
+
+  final _notificationExtractor = locator<NotificationExtractor>();
+
   DriverUIViewModel({required this.onReplayCompleted}) {
     _driverCommunicationService.setOnReplayCompletedCallback(onReplayCompleted);
+
+    _notificationController.stream
+        .where(_notificationExtractor.onlyScrollUpdateNotification)
+        .map(_notificationExtractor.notificationToScrollableDescription)
+        .listen((notification) => viewEvents =
+            _notificationExtractor.scrollEvents(notification, viewEvents));
   }
 
   final _configurationService = locator<ConfigurationService>();
@@ -24,9 +35,20 @@ class DriverUIViewModel extends ReactiveViewModel {
   final _hiveService = locator<HiveService>();
   final _httpService = locator<HttpService>();
 
+  final _notificationController = StreamController<Notification>.broadcast();
+
+  ValueNotifier<List<UIEvent>> descriptionsForViewNotifier = ValueNotifier([]);
+
+  List<UIEvent> get viewEvents => descriptionsForViewNotifier.value;
+
+  set viewEvents(List<UIEvent> events) {
+    descriptionsForViewNotifier.value = events;
+  }
+
   @override
   List<ListenableServiceMixin> get listenableServices => [
         _driverCommunicationService,
+        _sessionService,
       ];
 
   List<Session> _sessions = [];

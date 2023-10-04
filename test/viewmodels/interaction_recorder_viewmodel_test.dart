@@ -43,7 +43,7 @@ void main() {
         final sessionSercice = getAndRegisterSessionService();
         final model = _getModel();
 
-        final event = UIEvent.tap(position: EventPosition(x: 1, y: 0));
+        final event = UIEvent.tap(position: EventPosition(x: 1, y: 0), id: '');
 
         model.startCommandRecording(
           position: Offset(1, 0),
@@ -138,6 +138,7 @@ void main() {
               position: EventPosition(x: 0, y: 1),
               scrollDelta: EventPosition(x: 0, y: -100),
               duration: 0,
+              id: '',
             ),
           ),
         );

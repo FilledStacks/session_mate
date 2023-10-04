@@ -15,7 +15,7 @@ void main() {
           () {
         final service = getService();
         service.addEvent(
-          UIEvent.input(position: EventPosition(x: 0, y: 0)),
+          UIEvent.input(position: EventPosition(x: 0, y: 0), id: ''),
         );
 
         expect(service.sessionEvents.length, 1);
@@ -52,16 +52,16 @@ void main() {
           () {
         final service = getService();
         service.addEvent(
-          UIEvent.input(position: EventPosition(x: 0, y: 0)),
+          UIEvent.input(position: EventPosition(x: 0, y: 0), id: ''),
         );
         service.addEvent(
-          UIEvent.input(position: EventPosition(x: 1, y: 0)),
+          UIEvent.input(position: EventPosition(x: 1, y: 0), id: ''),
         );
         service.addEvent(
-          UIEvent.input(position: EventPosition(x: 1, y: 1)),
+          UIEvent.input(position: EventPosition(x: 1, y: 1), id: ''),
         );
         service.addEvent(
-          UIEvent.input(position: EventPosition(x: 0, y: 1)),
+          UIEvent.input(position: EventPosition(x: 0, y: 1), id: ''),
         );
 
         final session = service.captureSession();

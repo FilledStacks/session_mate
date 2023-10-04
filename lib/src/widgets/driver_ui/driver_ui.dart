@@ -25,14 +25,14 @@ class DriverUI extends StackedView<DriverUIViewModel> {
           HittableStack(
             children: [
               IgnorePointer(
-                ignoring: viewModel.showReplayUI,
+                ignoring: viewModel.showDriverBar,
                 child: AnimatedOpacity(
-                  opacity: viewModel.showReplayUI ? 0.5 : 1.0,
+                  opacity: 1.0,
                   duration: const Duration(milliseconds: 600),
                   child: Builder(builder: (context) {
-                    if (!viewModel.showReplayUI) return child;
+                    return child;
 
-                    return const SizedBox.shrink();
+                    // return const SizedBox.shrink();
                   }),
                 ),
               ),
@@ -45,7 +45,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
                 return EventInfo(
                   index: i.key,
                   event: i.value,
-                  isFinalPosition: true,
+                  isScrollEndIndicator: true,
                 );
               }),
             ],

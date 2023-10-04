@@ -3,28 +3,28 @@ import 'package:session_mate/src/widgets/driver_ui/driver_ui_viewmodel.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
-const double _kInteractionWidth = 20;
-const double _kInteractionHeight = 20;
+const double _kInteractionWidth = 30;
+const double _kInteractionHeight = 30;
 
 class EventInfo extends ViewModelWidget<DriverUIViewModel> {
   final int index;
   final UIEvent event;
-  final bool isFinalPosition;
+  final bool isScrollEndIndicator;
   const EventInfo({
     super.key,
     required this.index,
     required this.event,
-    this.isFinalPosition = false,
+    this.isScrollEndIndicator = false,
   });
 
   @override
   Widget build(BuildContext context, DriverUIViewModel viewModel) {
-    final order = isFinalPosition ? '_final' : '';
+    final order = isScrollEndIndicator ? '_final' : '';
     final key = '${event.automationKey}$order';
-    final positionX = isFinalPosition
+    final positionX = isScrollEndIndicator
         ? event.position.x + (event as ScrollEvent).scrollDelta!.x
         : event.position.x;
-    final positionY = isFinalPosition
+    final positionY = isScrollEndIndicator
         ? event.position.y + (event as ScrollEvent).scrollDelta!.y
         : event.position.y;
 
@@ -38,14 +38,14 @@ class EventInfo extends ViewModelWidget<DriverUIViewModel> {
             ? _EventVerbose(
                 index: index,
                 event: event,
-                isFinalPosition: isFinalPosition,
+                isFinalPosition: isScrollEndIndicator,
                 x: positionX,
                 y: positionY,
               )
             : _EventSimple(
                 index: index,
                 event: event,
-                isFinalPosition: isFinalPosition,
+                isFinalPosition: isScrollEndIndicator,
                 x: positionX,
                 y: positionY,
               ),
@@ -75,8 +75,8 @@ class _EventSimple extends ViewModelWidget<DriverUIViewModel> {
       height: _kInteractionHeight,
       decoration: BoxDecoration(
         color: isFinalPosition
-            ? Color(event.type.alternativeColor).withOpacity(0)
-            : Color(event.type.color).withOpacity(0),
+            ? Color(event.type.alternativeColor)
+            : Color(event.type.color),
         shape: BoxShape.circle,
       ),
       child: Center(

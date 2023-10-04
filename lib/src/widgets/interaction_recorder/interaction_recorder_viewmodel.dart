@@ -49,8 +49,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void handleNotifications(Notification notification) {
-    if (notification is UserScrollNotification) {}
-
     if (notification is ScrollStartNotification) {
       _currentScrollStartedByUser = notification.dragDetails != null;
 
@@ -142,6 +140,7 @@ TextEditingController.
     print('🔴 Add tap event - $position');
 
     _sessionService.addEvent(TapEvent(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       position: EventPosition(x: position.dx, y: position.dy),
       view: _routeTracker.currentRoute,
       order: _timeUtils.timestamp,
@@ -187,6 +186,7 @@ TextEditingController.
 
     _sessionService.addEvent(
       UIEvent.rawKeyEvent(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
         keyId: keyId,
         keyLabel: keyLabel,
         usbHidUsage: usbHidUsage,
@@ -232,6 +232,7 @@ TextEditingController.
           _activeScrollEvent!.scrollDirection == Axis.vertical;
       _sessionService.addEvent(
         ScrollEvent(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
           position: EventPosition(
             x: _activeScrollEvent!.scrollOrigin.dx,
             y: _activeScrollEvent!.scrollOrigin.dy,

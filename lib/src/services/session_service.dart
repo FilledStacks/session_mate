@@ -1,9 +1,10 @@
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate_core/session_mate_core.dart';
+import 'package:stacked/stacked.dart';
 
 import 'session_replay_service.dart';
 
-class SessionService {
+class SessionService with ListenableServiceMixin {
   final _sessionReplayService = locator<SessionReplayService>();
 
   final List<NetworkEvent> _networkEvents = [];
@@ -52,6 +53,8 @@ class SessionService {
     addAllEvents(selectedSession.events);
 
     _sessionReplayService.populateCache(networkEvents);
+
+    notifyListeners();
   }
 
   void clear() {

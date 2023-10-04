@@ -21,3 +21,5 @@ const double kHorizontalPadding = 10;
 const double kVerticalPadding = 30;
 
 const double kSessionItemTopPadding = 8;
+
+const double SCROLLABLE_DETECTION_FORGIVENESS = 10.0;

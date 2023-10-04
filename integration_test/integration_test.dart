@@ -19,9 +19,15 @@ Future<void> main() async {
           id: '1234',
           createdAtTimestamp: 0,
           events: [
-            UIEvent.tap(position: EventPosition(x: 0, y: 0)),
-            UIEvent.tap(position: EventPosition(x: 1, y: 1)),
-            UIEvent.tap(position: EventPosition(x: 2, y: 2)),
+            UIEvent.tap(
+              position: EventPosition(x: 0, y: 0),
+              id: '',
+            ),
+            UIEvent.tap(
+              position: EventPosition(x: 1, y: 1),
+              id: '',
+            ),
+            UIEvent.tap(position: EventPosition(x: 2, y: 2), id: ''),
           ],
           exception: 'Exception: Error dude',
           priority: SessionPriority.low,
