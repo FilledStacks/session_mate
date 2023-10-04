@@ -186,3 +186,9 @@ void _removeRegistrationIfExists<T extends Object>() {
     locator.unregister<T>();
   }
 }
+
+T registerServiceInsteadOfMockedOne<T extends Object>(T instance) {
+  _removeRegistrationIfExists<T>();
+  locator.registerSingleton<T>(instance);
+  return instance;
+}
