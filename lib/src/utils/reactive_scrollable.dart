@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:session_mate/src/extensions/event_extensions.dart';
+import 'package:session_mate/src/extensions/event_position_extensions.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 

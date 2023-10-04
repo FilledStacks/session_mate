@@ -27,6 +27,7 @@ class EventVisual extends ViewModelWidget<DriverUIViewModel> {
         : event.position.y;
 
     return AnimatedSwitcher(
+      key: Key(key),
       duration: const Duration(milliseconds: 300),
       child: viewModel.showDebugInformation
           ? _EventVerbose(

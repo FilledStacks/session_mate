@@ -19,6 +19,7 @@ void main() {
         model.startCommandRecording(
           position: Offset(1, 0),
           type: InteractionType.tap,
+          screenSize: Size.zero,
         );
 
         expect(model.hasActiveCommand, true);
@@ -32,9 +33,10 @@ void main() {
         model.startCommandRecording(
           position: Offset(1, 0),
           type: InteractionType.tap,
+          screenSize: Size.zero,
         );
 
-        model.concludeAndClear(Offset(1, 0));
+        model.concludeAndClear();
         expect(model.hasActiveCommand, false);
       });
 
@@ -48,9 +50,10 @@ void main() {
         model.startCommandRecording(
           position: Offset(1, 0),
           type: InteractionType.tap,
+          screenSize: Size.zero,
         );
 
-        model.concludeAndClear(Offset(1, 0));
+        model.concludeAndClear();
         verify(sessionSercice.addEvent(event));
       });
     });
@@ -69,7 +72,7 @@ void main() {
         );
         model.onScrollEnd(endOffset: 100);
 
-        model.onUserTap(Offset(1, 0));
+        model.onUserTap(position: Offset(1, 0), screenSize: Size.zero);
 
         model.onScrollStart(
           scrollDirection: Axis.vertical,
@@ -78,7 +81,7 @@ void main() {
         );
         model.onScrollEnd(endOffset: 200);
 
-        model.onUserTap(Offset(0, 1));
+        model.onUserTap(position: Offset(0, 1), screenSize: Size.zero);
 
         verify(sessionService.addEvent(any)).called(4);
       });
@@ -91,9 +94,10 @@ void main() {
         model.startCommandRecording(
           position: Offset(1, 0),
           type: InteractionType.tap,
+          screenSize: Size.zero,
         );
 
-        model.concludeActiveCommand(Offset(1, 0));
+        model.concludeActiveCommand();
         expect(model.hasActiveTextEditingController, false);
       });
     });

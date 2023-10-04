@@ -11,6 +11,7 @@ class WidgetFinder {
   }) {
     final stopwatch = Stopwatch()..start();
     final textFields = find.byType(TextField).hitTestable().evaluate();
+
     if (verbose) {
       print('⏰ findByType executed in - ${stopwatch.elapsed}');
     }

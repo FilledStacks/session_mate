@@ -5,6 +5,8 @@ import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/scroll_applicator.dart';
+import 'package:session_mate/src/utils/scrollable_finder.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
@@ -18,6 +20,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final _widgetFinder = locator<WidgetFinder>();
   final _routeTracker = locator<SessionMateRouteTracker>();
   final _timeUtils = locator<TimeUtils>();
+  final _scrollFinder = locator<ScrollableFinder>();
+  final _scrollApplicator = locator<ScrollApplicator>();
 
   final _notificationController = StreamController<Notification>.broadcast();
 
@@ -29,6 +33,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
   Stopwatch? _scrollTimer;
 
   Offset? _lastTapPosition;
+
+  late Size currentScreenSize;
 
   bool get hasLastTapPosition => _lastTapPosition != null;
   Offset? get lastTapPosition => _lastTapPosition;
@@ -46,6 +52,10 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   InteractionRecorderViewModel() {
     _notificationController.stream.listen(handleNotifications);
+  }
+
+  void setScreenSize(Size size) {
+    currentScreenSize = size;
   }
 
   void handleNotifications(Notification notification) {
@@ -75,7 +85,10 @@ class InteractionRecorderViewModel extends BaseViewModel {
         if (textField != null) {
           final hasAttachedController = textField.controller != null;
           if (hasAttachedController) {
-            addInputCommand(inputController: textField.controller!);
+            addInputCommand(
+              inputController: textField.controller!,
+              screenSize: currentScreenSize,
+            );
           } else {
             print('''
 
@@ -98,16 +111,22 @@ TextEditingController.
   void startCommandRecording({
     required Offset position,
     required InteractionType type,
+    required Size screenSize,
   }) {
     print('🔴 StartCommandRecording - $position - $type');
 
     _activeCommand = UIEvent.fromJson({
-      "position": EventPosition(x: position.dx, y: position.dy).toJson(),
+      "position": EventPosition(
+        x: position.dx,
+        y: position.dy,
+        capturedDeviceHeight: screenSize.height,
+        capturedDeviceWidth: screenSize.width,
+      ).toJson(),
       "runtimeType": type.name,
     });
   }
 
-  void concludeActiveCommand(Offset position) {
+  void concludeActiveCommand() {
     if (_activeCommand == null) {
       throw Exception(
         'Trying to conclude a command but none is active. This should not happen',
@@ -132,37 +151,57 @@ TextEditingController.
     _activeTextEditingController = null;
   }
 
-  void onUserTap(Offset position) {
+  void onUserTap({
+    required Offset position,
+    required Size screenSize,
+  }) {
     if (hasActiveCommand) {
-      concludeAndClear(_lastTapPosition!);
+      concludeAndClear();
     }
 
     print('🔴 Add tap event - $position');
 
-    _sessionService.addEvent(TapEvent(
+    final scrollables = _scrollFinder.getAllScrollablesOnScreen();
+
+    var rawTapEvent = TapEvent(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      position: EventPosition(x: position.dx, y: position.dy),
+      position: EventPosition(
+        x: position.dx,
+        y: position.dy,
+        capturedDeviceWidth: screenSize.width,
+        capturedDeviceHeight: screenSize.height,
+      ),
       view: _routeTracker.currentRoute,
       order: _timeUtils.timestamp,
-    ));
+    );
+
+    final tapEventWithScrollApplied = _scrollApplicator.applyScrollableToEvent(
+      scrollables,
+      rawTapEvent,
+    );
+
+    _sessionService.addEvent(tapEventWithScrollApplied);
 
     _lastTapPosition = position;
   }
 
-  void addInputCommand({required TextEditingController inputController}) {
+  void addInputCommand({
+    required TextEditingController inputController,
+    required Size screenSize,
+  }) {
     print('🔴 startRecording input command @ $_lastTapPosition ');
 
     _activeTextEditingController = inputController;
 
     if (hasLastTapPosition) {
       if (hasActiveCommand) {
-        concludeAndClear(_lastTapPosition!);
+        concludeAndClear();
       }
 
       startCommandRecording(
-        position: _lastTapPosition!,
-        type: InteractionType.input,
-      );
+          position: _lastTapPosition!,
+          type: InteractionType.input,
+          screenSize: screenSize);
     } else {
       print(
         '🛑 SessionMate 🛑: An input command should not fire before a tap command, something is broken in Flutter.',
@@ -196,8 +235,8 @@ TextEditingController.
     );
   }
 
-  void concludeAndClear(Offset position) {
-    concludeActiveCommand(position);
+  void concludeAndClear() {
+    concludeActiveCommand();
     _clearActiveCommand();
   }
 
@@ -212,7 +251,7 @@ TextEditingController.
     required Axis scrollDirection,
   }) {
     if (hasActiveCommand) {
-      concludeAndClear(_lastTapPosition!);
+      concludeAndClear();
     }
 
     print(

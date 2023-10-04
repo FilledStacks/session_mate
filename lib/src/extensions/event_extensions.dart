@@ -3,17 +3,6 @@ import 'package:flutter/rendering.dart' as rendering;
 import 'package:flutter/widgets.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
-extension EventPositionExtensions on EventPosition {
-  EventPosition applyScroll(ScrollableDescription scrollableDescription) {
-    switch (scrollableDescription.axis) {
-      case ScrollAxis.vertical:
-        return copyWith(y: scrollableDescription.scrollExtentByPixels);
-      case ScrollAxis.horizontal:
-        return copyWith(x: scrollableDescription.scrollExtentByPixels);
-    }
-  }
-}
-
 extension EventListExtension on List<UIEvent> {
   List<UIEvent> replaceInteractions(Iterable<UIEvent> updatedInteractions) {
     final updatedInteractionsIds = updatedInteractions.map((e) => e.id);
@@ -37,7 +26,7 @@ extension EventPositionExtension on EventPosition {
   }
 
   EventPosition withScrollable(ScrollableDescription scrollable) {
-    final scrollingPixels = scrollable.scrollExtentByPixels;
+    final scrollingPixels = scrollable.scrollOffsetInPixels;
 
     if (scrollable.axis == ScrollAxis.vertical) {
       return copyWith(x: x, y: y + scrollingPixels);

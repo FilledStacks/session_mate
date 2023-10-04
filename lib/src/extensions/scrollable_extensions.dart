@@ -14,7 +14,7 @@ extension ScrollableDescriptionExtension on ScrollableDescription {
           nested: true,
           rect: ScrollableRect(
             rect.left,
-            rect.top + scrollableDescription.scrollExtentByPixels,
+            rect.top + scrollableDescription.scrollOffsetInPixels,
             rect.width,
             rect.height,
           ),
@@ -23,7 +23,7 @@ extension ScrollableDescriptionExtension on ScrollableDescription {
         return copyWith(
           nested: true,
           rect: ScrollableRect(
-            rect.left + scrollableDescription.scrollExtentByPixels,
+            rect.left + scrollableDescription.scrollOffsetInPixels,
             rect.top,
             rect.width,
             rect.height,

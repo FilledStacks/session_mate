@@ -89,36 +89,15 @@ class DriverUIViewModel extends ReactiveViewModel {
   bool get showEmptySessionsMessage => _showEmptySessionsMessage;
 
   Future<void> loadSessions() async {
-    // if (kLocalOnlyUsage) {
-    //   _sessions = _hiveService.getSessions().toList();
-    //   notifyListeners();
-    // } else {
-    //   _sessions = await runBusyFuture<List<Session>>(
-    //     _httpService.getSessions(),
-    //     throwException: true,
-    //   );
-    // }
-
-    _sessions = [
-      Session(
-        id: '1',
-        events: [
-          TapEvent(
-              position: EventPosition(x: 300, y: 300),
-              id: '123',
-              externalities: [
-                ScrollableDescription(
-                  axis: ScrollAxis.vertical,
-                  rect: ScrollableRect(0, 0, 400, 700),
-                  scrollExtentByPixels: 700,
-                  maxScrollExtentByPixels: 700,
-                )
-              ])
-        ],
-        sessionStats: SessionStats(occurrences: 1),
-        createdAtTimestamp: DateTime.now().millisecondsSinceEpoch,
-      )
-    ];
+    if (kLocalOnlyUsage) {
+      _sessions = _hiveService.getSessions().toList();
+      notifyListeners();
+    } else {
+      _sessions = await runBusyFuture<List<Session>>(
+        _httpService.getSessions(),
+        throwException: true,
+      );
+    }
 
     _showEmptySessionsMessage = sessions.isEmpty;
   }

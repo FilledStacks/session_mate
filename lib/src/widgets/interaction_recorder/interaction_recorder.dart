@@ -26,13 +26,16 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
       }
     });
 
+    final size = MediaQuery.of(context).size;
+
     return Stack(
       children: [
         NotificationListener(
           onNotification: viewModel.onChildNotification,
           child: CustomGestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: (event) => viewModel.onUserTap(event.position),
+            onTap: (event) =>
+                viewModel.onUserTap(position: event.position, screenSize: size),
             child: this.child,
           ),
         ),

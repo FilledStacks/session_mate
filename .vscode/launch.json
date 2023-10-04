@@ -11,7 +11,8 @@
             "type": "dart",
             "args": [
                 "--dart-define=RECORD_SESSION=true",
-                "--dart-define=API_KEY=44ee4cf3-37ec-460a-a2c8-bacc61f64f9e"
+                "--dart-define=API_KEY=44ee4cf3-37ec-460a-a2c8-bacc61f64f9e",
+                "--dart-define=USE_FAKE_DATA=true"
             ]
         },
         {

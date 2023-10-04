@@ -7,7 +7,7 @@ import 'package:session_mate_core/session_mate_core.dart';
 class ScrollableFinder {
   final log = getLogger('ScrollableFinder');
 
-  Iterable<ScrollableDescription> convertElementsToScrollDescriptions() {
+  Iterable<ScrollableDescription> getAllScrollablesOnScreen() {
     final scrollableItemsInWidgetTree =
         find.byType(Scrollable).hitTestable().evaluate();
     log.v('scrollableItemsInWidgetTree: $scrollableItemsInWidgetTree');
@@ -20,8 +20,8 @@ class ScrollableFinder {
             final position =
                 (item.widget as Scrollable).controller!.positions.first;
 
-            final scrollExtentByPixels = position.pixels;
-            final maxScrollExtentByPixels = position.maxScrollExtent;
+            final scrollOffsetInPixels = position.pixels;
+            final maxscrollOffsetInPixels = position.maxScrollExtent;
             final axis = position.axis;
             final bottomRightPoint = globalPostion.translate(
               renderBox.size.width,
@@ -37,8 +37,8 @@ class ScrollableFinder {
             return ScrollableDescription(
                 axis: axis.asScrollAxis,
                 rect: rect,
-                scrollExtentByPixels: scrollExtentByPixels,
-                maxScrollExtentByPixels: maxScrollExtentByPixels);
+                scrollOffsetInPixels: scrollOffsetInPixels,
+                maxScrollExtentByPixels: maxscrollOffsetInPixels);
           } catch (e) {
             log.e(e);
             return null;

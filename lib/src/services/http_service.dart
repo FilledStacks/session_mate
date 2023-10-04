@@ -33,7 +33,7 @@ class HttpService {
 
     _httpClient.interceptors.add(TalkerDioLogger(
       settings: TalkerDioLoggerSettings(
-          printRequestData: false, printResponseData: false),
+          printRequestData: true, printResponseData: false),
     ));
   }
 
