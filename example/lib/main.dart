@@ -13,8 +13,8 @@ Future<void> main() async {
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
-  // runApp(const SessionMate(child: MainApp()));
-  runApp(const MainApp());
+  runApp(const SessionMate(child: MainApp()));
+  // runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {

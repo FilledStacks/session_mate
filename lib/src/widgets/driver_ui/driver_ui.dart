@@ -26,14 +26,14 @@ class DriverUI extends StackedView<DriverUIViewModel> {
               IgnorePointer(
                 ignoring: viewModel.showDriverBar,
                 child: AnimatedOpacity(
-                  opacity: 1.0,
+                  opacity: viewModel.showReplayUI ? 0.5 : 1.0,
                   duration: const Duration(milliseconds: 600),
                   child: NotificationListener(
                     onNotification: viewModel.onClientNotifiaction,
                     child: Builder(builder: (context) {
-                      return child;
+                      if (!viewModel.showReplayUI) return child;
 
-                      // return const SizedBox.shrink();
+                      return const SizedBox.shrink();
                     }),
                   ),
                 ),

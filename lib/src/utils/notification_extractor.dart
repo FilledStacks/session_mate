@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
-import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/extensions/event_extensions.dart';
 import 'package:session_mate/src/utils/reactive_scrollable.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:session_mate_core/session_mate_core.dart' as core;
 
 class NotificationExtractor {
-  final log = getLogger('NotificationExtractorImp');
-
   final _reactiveScrollable = locator<ReactiveScrollable>();
 
   core.ScrollDirection? scrollDirection;
@@ -18,7 +15,6 @@ class NotificationExtractor {
   ScrollableDescription? lastScrollEvent;
 
   bool onlyScrollUpdateNotification(Notification notification) {
-    log.v(notification);
     _setScrollablePositionAndScrollDirection(notification);
 
     if (notification is ScrollUpdateNotification) {
@@ -57,8 +53,6 @@ class NotificationExtractor {
   ScrollableDescription notificationToScrollableDescription(
     Notification notification,
   ) {
-    log.v(notification);
-
     final notificationMetrics =
         (notification as ScrollUpdateNotification).metrics;
 
