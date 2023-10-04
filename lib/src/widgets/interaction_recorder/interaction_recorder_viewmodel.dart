@@ -6,7 +6,6 @@ import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/scroll_applicator.dart';
-import 'package:session_mate/src/utils/scrollable_finder.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
@@ -20,7 +19,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final _widgetFinder = locator<WidgetFinder>();
   final _routeTracker = locator<SessionMateRouteTracker>();
   final _timeUtils = locator<TimeUtils>();
-  final _scrollFinder = locator<ScrollableFinder>();
+
   final _scrollApplicator = locator<ScrollApplicator>();
 
   final _notificationController = StreamController<Notification>.broadcast();
@@ -161,7 +160,7 @@ TextEditingController.
 
     print('🔴 Add tap event - $position');
 
-    final scrollables = _scrollFinder.getAllScrollablesOnScreen();
+    final scrollables = _widgetFinder.getAllScrollablesOnScreen();
 
     var rawTapEvent = TapEvent(
       id: DateTime.now().millisecondsSinceEpoch.toString(),

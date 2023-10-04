@@ -12,7 +12,6 @@ import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/notification_extractor.dart';
 import 'package:session_mate/src/utils/reactive_scrollable.dart';
 import 'package:session_mate/src/utils/scroll_applicator.dart';
-import 'package:session_mate/src/utils/scrollable_finder.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
@@ -33,7 +32,6 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton(() => TimeUtils());
   locator.registerLazySingleton(() => NotificationExtractor());
   locator.registerLazySingleton(() => ReactiveScrollable());
-  locator.registerLazySingleton(() => ScrollableFinder());
   locator.registerLazySingleton(() => ScrollApplicator());
 
   final hiveStorage = HiveService();

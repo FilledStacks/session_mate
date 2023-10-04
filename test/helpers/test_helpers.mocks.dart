@@ -3,27 +3,30 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i9;
-import 'dart:io' as _i10;
-import 'dart:ui' as _i14;
+import 'dart:async' as _i10;
+import 'dart:io' as _i11;
+import 'dart:ui' as _i6;
 
 import 'package:device_info_plus/device_info_plus.dart' as _i5;
-import 'package:flutter/material.dart' as _i13;
+import 'package:flutter/material.dart' as _i14;
 import 'package:logger/src/logger.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:package_info_plus/package_info_plus.dart' as _i4;
-import 'package:session_mate/src/services/configuration_service.dart' as _i6;
+import 'package:session_mate/src/services/configuration_service.dart' as _i7;
 import 'package:session_mate/src/services/driver_communication_service.dart'
     as _i17;
 import 'package:session_mate/src/services/http_service.dart' as _i16;
 import 'package:session_mate/src/services/native_inforamation_service.dart'
     as _i15;
 import 'package:session_mate/src/services/session_recording_service.dart'
-    as _i7;
-import 'package:session_mate/src/services/session_replay_service.dart' as _i8;
-import 'package:session_mate/src/services/session_service.dart' as _i11;
+    as _i8;
+import 'package:session_mate/src/services/session_replay_service.dart' as _i9;
+import 'package:session_mate/src/services/session_service.dart' as _i12;
+import 'package:session_mate/src/utils/notification_extractor.dart' as _i21;
+import 'package:session_mate/src/utils/reactive_scrollable.dart' as _i22;
+import 'package:session_mate/src/utils/scroll_applicator.dart' as _i20;
 import 'package:session_mate/src/utils/time_utils.dart' as _i19;
-import 'package:session_mate/src/utils/widget_finder.dart' as _i12;
+import 'package:session_mate/src/utils/widget_finder.dart' as _i13;
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart'
     as _i18;
 import 'package:session_mate_core/session_mate_core.dart' as _i2;
@@ -101,11 +104,42 @@ class _FakeIosDeviceInfo_5 extends _i1.SmartFake implements _i5.IosDeviceInfo {
         );
 }
 
+class _FakeUIEvent_6 extends _i1.SmartFake implements _i2.UIEvent {
+  _FakeUIEvent_6(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeScrollableDescription_7 extends _i1.SmartFake
+    implements _i2.ScrollableDescription {
+  _FakeScrollableDescription_7(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeOffset_8 extends _i1.SmartFake implements _i6.Offset {
+  _FakeOffset_8(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [ConfigurationService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockConfigurationService extends _i1.Mock
-    implements _i6.ConfigurationService {
+    implements _i7.ConfigurationService {
   @override
   bool get dataMaskingEnabled => (super.noSuchMethod(
         Invocation.getter(#dataMaskingEnabled),
@@ -176,7 +210,7 @@ class MockConfigurationService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionRecordingService extends _i1.Mock
-    implements _i7.SessionRecordingService {
+    implements _i8.SessionRecordingService {
   @override
   void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
         Invocation.method(
@@ -191,7 +225,7 @@ class MockSessionRecordingService extends _i1.Mock
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockSessionReplayService extends _i1.Mock
-    implements _i8.SessionReplayService {
+    implements _i9.SessionReplayService {
   @override
   void handleEvent(_i2.NetworkEvent? event) => super.noSuchMethod(
         Invocation.method(
@@ -209,17 +243,17 @@ class MockSessionReplayService extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i9.Future<void> handleMockRequest(_i10.HttpRequest? request) =>
+  _i10.Future<void> handleMockRequest(_i11.HttpRequest? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #handleMockRequest,
           [request],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
-  _i9.Future<List<int>> getSanitizedData(
+  _i10.Future<List<int>> getSanitizedData(
     List<int>? data, {
     String? uid,
   }) =>
@@ -229,15 +263,15 @@ class MockSessionReplayService extends _i1.Mock
           [data],
           {#uid: uid},
         ),
-        returnValue: _i9.Future<List<int>>.value(<int>[]),
-        returnValueForMissingStub: _i9.Future<List<int>>.value(<int>[]),
-      ) as _i9.Future<List<int>>);
+        returnValue: _i10.Future<List<int>>.value(<int>[]),
+        returnValueForMissingStub: _i10.Future<List<int>>.value(<int>[]),
+      ) as _i10.Future<List<int>>);
 }
 
 /// A class which mocks [SessionService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockSessionService extends _i1.Mock implements _i11.SessionService {
+class MockSessionService extends _i1.Mock implements _i12.SessionService {
   @override
   List<_i2.NetworkEvent> get networkEvents => (super.noSuchMethod(
         Invocation.getter(#networkEvents),
@@ -383,7 +417,7 @@ class MockSessionService extends _i1.Mock implements _i11.SessionService {
 /// A class which mocks [WidgetFinder].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockWidgetFinder extends _i1.Mock implements _i12.WidgetFinder {
+class MockWidgetFinder extends _i1.Mock implements _i13.WidgetFinder {
   @override
   _i3.Logger get log => (super.noSuchMethod(
         Invocation.getter(#log),
@@ -397,8 +431,18 @@ class MockWidgetFinder extends _i1.Mock implements _i12.WidgetFinder {
         ),
       ) as _i3.Logger);
   @override
-  _i13.TextField? getTextFieldAtPosition({
-    required _i14.Offset? position,
+  Iterable<_i2.ScrollableDescription> getAllScrollablesOnScreen() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllScrollablesOnScreen,
+          [],
+        ),
+        returnValue: <_i2.ScrollableDescription>[],
+        returnValueForMissingStub: <_i2.ScrollableDescription>[],
+      ) as Iterable<_i2.ScrollableDescription>);
+  @override
+  _i14.TextField? getTextFieldAtPosition({
+    required _i6.Offset? position,
     bool? verbose = false,
   }) =>
       (super.noSuchMethod(
@@ -411,7 +455,7 @@ class MockWidgetFinder extends _i1.Mock implements _i12.WidgetFinder {
           },
         ),
         returnValueForMissingStub: null,
-      ) as _i13.TextField?);
+      ) as _i14.TextField?);
 }
 
 /// A class which mocks [NativeInformationService].
@@ -531,14 +575,14 @@ class MockNativeInformationService extends _i1.Mock
         returnValueForMissingStub: '',
       ) as String);
   @override
-  _i9.Future<void> intialise() => (super.noSuchMethod(
+  _i10.Future<void> intialise() => (super.noSuchMethod(
         Invocation.method(
           #intialise,
           [],
         ),
-        returnValue: _i9.Future<void>.value(),
-        returnValueForMissingStub: _i9.Future<void>.value(),
-      ) as _i9.Future<void>);
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
 }
 
 /// A class which mocks [HttpService].
@@ -546,35 +590,35 @@ class MockNativeInformationService extends _i1.Mock
 /// See the documentation for Mockito's code generation for more information.
 class MockHttpService extends _i1.Mock implements _i16.HttpService {
   @override
-  _i9.Future<List<_i2.Session>> getSessions() => (super.noSuchMethod(
+  _i10.Future<List<_i2.Session>> getSessions() => (super.noSuchMethod(
         Invocation.method(
           #getSessions,
           [],
         ),
-        returnValue: _i9.Future<List<_i2.Session>>.value(<_i2.Session>[]),
+        returnValue: _i10.Future<List<_i2.Session>>.value(<_i2.Session>[]),
         returnValueForMissingStub:
-            _i9.Future<List<_i2.Session>>.value(<_i2.Session>[]),
-      ) as _i9.Future<List<_i2.Session>>);
+            _i10.Future<List<_i2.Session>>.value(<_i2.Session>[]),
+      ) as _i10.Future<List<_i2.Session>>);
   @override
-  _i9.Future<bool> saveSession({required _i2.Session? session}) =>
+  _i10.Future<bool> saveSession({required _i2.Session? session}) =>
       (super.noSuchMethod(
         Invocation.method(
           #saveSession,
           [],
           {#session: session},
         ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
+        returnValue: _i10.Future<bool>.value(false),
+        returnValueForMissingStub: _i10.Future<bool>.value(false),
+      ) as _i10.Future<bool>);
   @override
-  _i9.Future<bool> deleteSessions() => (super.noSuchMethod(
+  _i10.Future<bool> deleteSessions() => (super.noSuchMethod(
         Invocation.method(
           #deleteSessions,
           [],
         ),
-        returnValue: _i9.Future<bool>.value(false),
-        returnValueForMissingStub: _i9.Future<bool>.value(false),
-      ) as _i9.Future<bool>);
+        returnValue: _i10.Future<bool>.value(false),
+        returnValueForMissingStub: _i10.Future<bool>.value(false),
+      ) as _i10.Future<bool>);
 }
 
 /// A class which mocks [DriverCommunicationService].
@@ -607,7 +651,7 @@ class MockDriverCommunicationService extends _i1.Mock
         returnValueForMissingStub: 0,
       ) as int);
   @override
-  void setOnReplayCompletedCallback(_i14.VoidCallback? callback) =>
+  void setOnReplayCompletedCallback(_i6.VoidCallback? callback) =>
       super.noSuchMethod(
         Invocation.method(
           #setOnReplayCompletedCallback,
@@ -616,14 +660,14 @@ class MockDriverCommunicationService extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  _i9.Future<String> waitForInteractions() => (super.noSuchMethod(
+  _i10.Future<String> waitForInteractions() => (super.noSuchMethod(
         Invocation.method(
           #waitForInteractions,
           [],
         ),
-        returnValue: _i9.Future<String>.value(''),
-        returnValueForMissingStub: _i9.Future<String>.value(''),
-      ) as _i9.Future<String>);
+        returnValue: _i10.Future<String>.value(''),
+        returnValueForMissingStub: _i10.Future<String>.value(''),
+      ) as _i10.Future<String>);
   @override
   void sendInteractions(List<_i2.UIEvent>? interactions) => super.noSuchMethod(
         Invocation.method(
@@ -788,7 +832,7 @@ class MockSessionMateRouteTracker extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void addListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void addListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #addListener,
           [listener],
@@ -796,7 +840,7 @@ class MockSessionMateRouteTracker extends _i1.Mock
         returnValueForMissingStub: null,
       );
   @override
-  void removeListener(_i14.VoidCallback? listener) => super.noSuchMethod(
+  void removeListener(_i6.VoidCallback? listener) => super.noSuchMethod(
         Invocation.method(
           #removeListener,
           [listener],
@@ -831,4 +875,393 @@ class MockTimeUtils extends _i1.Mock implements _i19.TimeUtils {
         returnValue: 0,
         returnValueForMissingStub: 0,
       ) as int);
+}
+
+/// A class which mocks [ScrollApplicator].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockScrollApplicator extends _i1.Mock implements _i20.ScrollApplicator {
+  @override
+  _i3.Logger get log => (super.noSuchMethod(
+        Invocation.getter(#log),
+        returnValue: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+        returnValueForMissingStub: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+      ) as _i3.Logger);
+  @override
+  _i2.UIEvent applyScrollableToEvent(
+    Iterable<_i2.ScrollableDescription>? scrollables,
+    _i2.UIEvent? event,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #applyScrollableToEvent,
+          [
+            scrollables,
+            event,
+          ],
+        ),
+        returnValue: _FakeUIEvent_6(
+          this,
+          Invocation.method(
+            #applyScrollableToEvent,
+            [
+              scrollables,
+              event,
+            ],
+          ),
+        ),
+        returnValueForMissingStub: _FakeUIEvent_6(
+          this,
+          Invocation.method(
+            #applyScrollableToEvent,
+            [
+              scrollables,
+              event,
+            ],
+          ),
+        ),
+      ) as _i2.UIEvent);
+  @override
+  _i2.UIEvent storeDescriptionInScrollableExternalities(
+    Iterable<_i2.ScrollableDescription>? scrollablesBelowInteraction,
+    _i2.UIEvent? interaction,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #storeDescriptionInScrollableExternalities,
+          [
+            scrollablesBelowInteraction,
+            interaction,
+          ],
+        ),
+        returnValue: _FakeUIEvent_6(
+          this,
+          Invocation.method(
+            #storeDescriptionInScrollableExternalities,
+            [
+              scrollablesBelowInteraction,
+              interaction,
+            ],
+          ),
+        ),
+        returnValueForMissingStub: _FakeUIEvent_6(
+          this,
+          Invocation.method(
+            #storeDescriptionInScrollableExternalities,
+            [
+              scrollablesBelowInteraction,
+              interaction,
+            ],
+          ),
+        ),
+      ) as _i2.UIEvent);
+  @override
+  _i2.UIEvent storeDescriptionInExternalities(
+    Iterable<_i2.ScrollableDescription>? scrollablesBelowInteraction,
+    _i2.UIEvent? event,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #storeDescriptionInExternalities,
+          [
+            scrollablesBelowInteraction,
+            event,
+          ],
+        ),
+        returnValue: _FakeUIEvent_6(
+          this,
+          Invocation.method(
+            #storeDescriptionInExternalities,
+            [
+              scrollablesBelowInteraction,
+              event,
+            ],
+          ),
+        ),
+        returnValueForMissingStub: _FakeUIEvent_6(
+          this,
+          Invocation.method(
+            #storeDescriptionInExternalities,
+            [
+              scrollablesBelowInteraction,
+              event,
+            ],
+          ),
+        ),
+      ) as _i2.UIEvent);
+  @override
+  _i2.ScrollableDescription findBiggestScrollable(
+          Iterable<_i2.ScrollableDescription>? scrollablesBelowInteraction) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #findBiggestScrollable,
+          [scrollablesBelowInteraction],
+        ),
+        returnValue: _FakeScrollableDescription_7(
+          this,
+          Invocation.method(
+            #findBiggestScrollable,
+            [scrollablesBelowInteraction],
+          ),
+        ),
+        returnValueForMissingStub: _FakeScrollableDescription_7(
+          this,
+          Invocation.method(
+            #findBiggestScrollable,
+            [scrollablesBelowInteraction],
+          ),
+        ),
+      ) as _i2.ScrollableDescription);
+}
+
+/// A class which mocks [NotificationExtractor].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockNotificationExtractor extends _i1.Mock
+    implements _i21.NotificationExtractor {
+  @override
+  _i3.Logger get log => (super.noSuchMethod(
+        Invocation.getter(#log),
+        returnValue: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+        returnValueForMissingStub: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+      ) as _i3.Logger);
+  @override
+  set scrollDirection(_i2.ScrollDirection? _scrollDirection) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #scrollDirection,
+          _scrollDirection,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i6.Offset get globalPosition => (super.noSuchMethod(
+        Invocation.getter(#globalPosition),
+        returnValue: _FakeOffset_8(
+          this,
+          Invocation.getter(#globalPosition),
+        ),
+        returnValueForMissingStub: _FakeOffset_8(
+          this,
+          Invocation.getter(#globalPosition),
+        ),
+      ) as _i6.Offset);
+  @override
+  set globalPosition(_i6.Offset? _globalPosition) => super.noSuchMethod(
+        Invocation.setter(
+          #globalPosition,
+          _globalPosition,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  _i6.Offset get localPosition => (super.noSuchMethod(
+        Invocation.getter(#localPosition),
+        returnValue: _FakeOffset_8(
+          this,
+          Invocation.getter(#localPosition),
+        ),
+        returnValueForMissingStub: _FakeOffset_8(
+          this,
+          Invocation.getter(#localPosition),
+        ),
+      ) as _i6.Offset);
+  @override
+  set localPosition(_i6.Offset? _localPosition) => super.noSuchMethod(
+        Invocation.setter(
+          #localPosition,
+          _localPosition,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  set lastScrollEvent(_i2.ScrollableDescription? _lastScrollEvent) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #lastScrollEvent,
+          _lastScrollEvent,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  bool onlyScrollUpdateNotification(_i14.Notification? notification) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #onlyScrollUpdateNotification,
+          [notification],
+        ),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+  @override
+  List<_i2.UIEvent> scrollEvents(
+    _i2.ScrollableDescription? scrollableDescription,
+    List<_i2.UIEvent>? uiEvents,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #scrollEvents,
+          [
+            scrollableDescription,
+            uiEvents,
+          ],
+        ),
+        returnValue: <_i2.UIEvent>[],
+        returnValueForMissingStub: <_i2.UIEvent>[],
+      ) as List<_i2.UIEvent>);
+  @override
+  _i2.ScrollableDescription notificationToScrollableDescription(
+          _i14.Notification? notification) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #notificationToScrollableDescription,
+          [notification],
+        ),
+        returnValue: _FakeScrollableDescription_7(
+          this,
+          Invocation.method(
+            #notificationToScrollableDescription,
+            [notification],
+          ),
+        ),
+        returnValueForMissingStub: _FakeScrollableDescription_7(
+          this,
+          Invocation.method(
+            #notificationToScrollableDescription,
+            [notification],
+          ),
+        ),
+      ) as _i2.ScrollableDescription);
+  @override
+  _i2.UIEvent syncInteractionWithScrollable(_i2.UIEvent? event) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #syncInteractionWithScrollable,
+          [event],
+        ),
+        returnValue: _FakeUIEvent_6(
+          this,
+          Invocation.method(
+            #syncInteractionWithScrollable,
+            [event],
+          ),
+        ),
+        returnValueForMissingStub: _FakeUIEvent_6(
+          this,
+          Invocation.method(
+            #syncInteractionWithScrollable,
+            [event],
+          ),
+        ),
+      ) as _i2.UIEvent);
+}
+
+/// A class which mocks [ReactiveScrollable].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockReactiveScrollable extends _i1.Mock
+    implements _i22.ReactiveScrollable {
+  @override
+  _i3.Logger get log => (super.noSuchMethod(
+        Invocation.getter(#log),
+        returnValue: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+        returnValueForMissingStub: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+      ) as _i3.Logger);
+  @override
+  _i2.ScrollableDescription get currentScrollableDescription =>
+      (super.noSuchMethod(
+        Invocation.getter(#currentScrollableDescription),
+        returnValue: _FakeScrollableDescription_7(
+          this,
+          Invocation.getter(#currentScrollableDescription),
+        ),
+        returnValueForMissingStub: _FakeScrollableDescription_7(
+          this,
+          Invocation.getter(#currentScrollableDescription),
+        ),
+      ) as _i2.ScrollableDescription);
+  @override
+  set currentScrollableDescription(
+          _i2.ScrollableDescription? _currentScrollableDescription) =>
+      super.noSuchMethod(
+        Invocation.setter(
+          #currentScrollableDescription,
+          _currentScrollableDescription,
+        ),
+        returnValueForMissingStub: null,
+      );
+  @override
+  Iterable<_i2.UIEvent> filterAffectedInteractionsByScrollable(
+          List<_i2.UIEvent>? uiEvents) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #filterAffectedInteractionsByScrollable,
+          [uiEvents],
+        ),
+        returnValue: <_i2.UIEvent>[],
+        returnValueForMissingStub: <_i2.UIEvent>[],
+      ) as Iterable<_i2.UIEvent>);
+  @override
+  _i6.Offset calculateOffsetDeviation(
+    _i2.ScrollableDescription? scrollableDescription,
+    _i2.UIEvent? interaction,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #calculateOffsetDeviation,
+          [
+            scrollableDescription,
+            interaction,
+          ],
+        ),
+        returnValue: _FakeOffset_8(
+          this,
+          Invocation.method(
+            #calculateOffsetDeviation,
+            [
+              scrollableDescription,
+              interaction,
+            ],
+          ),
+        ),
+        returnValueForMissingStub: _FakeOffset_8(
+          this,
+          Invocation.method(
+            #calculateOffsetDeviation,
+            [
+              scrollableDescription,
+              interaction,
+            ],
+          ),
+        ),
+      ) as _i6.Offset);
+  @override
+  Iterable<_i2.UIEvent> moveInteractionsWithScrollable(
+          Iterable<_i2.UIEvent>? affectedEvents) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #moveInteractionsWithScrollable,
+          [affectedEvents],
+        ),
+        returnValue: <_i2.UIEvent>[],
+        returnValueForMissingStub: <_i2.UIEvent>[],
+      ) as Iterable<_i2.UIEvent>);
 }

@@ -9,6 +9,9 @@ import 'package:session_mate/src/services/native_inforamation_service.dart';
 import 'package:session_mate/src/services/session_recording_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/notification_extractor.dart';
+import 'package:session_mate/src/utils/reactive_scrollable.dart';
+import 'package:session_mate/src/utils/scroll_applicator.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
@@ -28,7 +31,31 @@ import 'test_helpers.mocks.dart';
       onMissingStub: OnMissingStub.returnDefault),
   MockSpec<SessionMateRouteTracker>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<TimeUtils>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<ScrollApplicator>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<NotificationExtractor>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<ReactiveScrollable>(onMissingStub: OnMissingStub.returnDefault),
 ])
+MockReactiveScrollable getAndRegisterReactiveScrollable() {
+  _removeRegistrationIfExists<ReactiveScrollable>();
+  final service = MockReactiveScrollable();
+  locator.registerSingleton<ReactiveScrollable>(service);
+  return service;
+}
+
+MockNotificationExtractor getAndRegisterNotificationExtractor() {
+  _removeRegistrationIfExists<NotificationExtractor>();
+  final service = MockNotificationExtractor();
+  locator.registerSingleton<NotificationExtractor>(service);
+  return service;
+}
+
+MockScrollApplicator getAndRegisterScrollApplicator() {
+  _removeRegistrationIfExists<ScrollApplicator>();
+  final service = MockScrollApplicator();
+  locator.registerSingleton<ScrollApplicator>(service);
+  return service;
+}
+
 MockTimeUtils getAndRegisterTimeUtils() {
   _removeRegistrationIfExists<TimeUtils>();
   final service = MockTimeUtils();
@@ -148,6 +175,10 @@ void registerServices() {
   getAndRegisterNativeInformationService();
   getAndRegisterDriverCommunicationService();
   getAndRegisterSessionMateRouteTracker();
+  getAndRegisterTimeUtils();
+  getAndRegisterScrollApplicator();
+  getAndRegisterReactiveScrollable();
+  getAndRegisterNotificationExtractor();
 }
 
 void _removeRegistrationIfExists<T extends Object>() {
