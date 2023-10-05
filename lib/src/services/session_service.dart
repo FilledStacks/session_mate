@@ -84,8 +84,6 @@ class SessionService with ListenableServiceMixin {
       sessionStats: SessionStats.empty(),
     );
 
-    clear();
-
     return session;
   }
 }
