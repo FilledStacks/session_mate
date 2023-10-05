@@ -1,6 +1,6 @@
 import 'dart:ui';
 
-import 'package:session_mate/src/extensions/event_extensions.dart';
+import 'package:session_mate/src/extensions/event_position_extensions.dart';
 import 'package:session_mate/src/extensions/ui_extensions.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -19,9 +19,8 @@ class InteractionUtils {
       );
     });
 
-    // TODO (Feature): Add responsive positioning here
     final visible = unionSd?.rect.asRect.contains(
-      interaction.position.asOffset +
+      interaction.position.responsiveOffset(screenSize) +
           Offset(kEventVisualSize / 2, kEventVisualSize / 2),
     );
 

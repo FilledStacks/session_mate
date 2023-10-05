@@ -22,6 +22,7 @@ class EventsVisualizer extends ViewModelWidget<DriverUIViewModel> {
                       InteractionUtils.visibleOnScreen(interaction, size))
                   .map(
                     (event) => Positioned(
+                      key: Key(event.automationKey),
                       top: event.position.responsiveYPosition(size.height),
                       left: event.position.responsiveXPosition(size.width),
                       child: EventVisual(

@@ -31,14 +31,14 @@ extension WidgetPositionExtension on EventPosition {
 
   double responsiveXPosition(double currentScreenWidth) {
     final result = _calculateWidthRatio(currentScreenWidth) * x +
-        (xDeviation ?? 0) -
+        xDeviation -
         (kEventVisualSize / 2);
     return result;
   }
 
   double responsiveYPosition(double currentScreenHeight) {
     final result = _calculateHeightRatio(currentScreenHeight) * y +
-        (yDeviation ?? 0) -
+        yDeviation -
         (kEventVisualSize / 2);
     return result;
   }
@@ -46,20 +46,20 @@ extension WidgetPositionExtension on EventPosition {
   double _calculateHeightRatio(double currentScreenHeight) {
     /// If the [capturedDeviceHeight] is null or 0 return 1
     /// which will leave the original hight unchanged
-    if (capturedDeviceHeight == null || capturedDeviceHeight == 0) {
+    if (capturedDeviceHeight == 0) {
       return 1;
     } else {
-      return currentScreenHeight / capturedDeviceHeight!;
+      return currentScreenHeight / capturedDeviceHeight;
     }
   }
 
   double _calculateWidthRatio(double currentScreenWidth) {
     /// If the [capturedDeviceHeight] is null or 0 return 1
     /// which will leave the original width unchanged
-    if (capturedDeviceWidth == null || capturedDeviceWidth == 0) {
+    if (capturedDeviceWidth == 0) {
       return 1;
     } else {
-      return currentScreenWidth / capturedDeviceWidth!;
+      return currentScreenWidth / capturedDeviceWidth;
     }
   }
 }

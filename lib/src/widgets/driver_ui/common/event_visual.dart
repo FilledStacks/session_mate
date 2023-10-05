@@ -17,8 +17,6 @@ class EventVisual extends ViewModelWidget<DriverUIViewModel> {
 
   @override
   Widget build(BuildContext context, DriverUIViewModel viewModel) {
-    final order = isScrollEndIndicator ? '_final' : '';
-    final key = '${event.automationKey}$order';
     final positionX = isScrollEndIndicator
         ? event.position.x + (event as ScrollEvent).scrollDelta!.x
         : event.position.x;
@@ -27,7 +25,6 @@ class EventVisual extends ViewModelWidget<DriverUIViewModel> {
         : event.position.y;
 
     return AnimatedSwitcher(
-      key: Key(key),
       duration: const Duration(milliseconds: 300),
       child: viewModel.showDebugInformation
           ? _EventVerbose(

@@ -24,7 +24,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
           HittableStack(
             children: [
               IgnorePointer(
-                ignoring: viewModel.showDriverBar,
+                ignoring: viewModel.showReplayUI,
                 child: AnimatedOpacity(
                   opacity: viewModel.showReplayUI ? 0.5 : 1.0,
                   duration: const Duration(milliseconds: 600),
