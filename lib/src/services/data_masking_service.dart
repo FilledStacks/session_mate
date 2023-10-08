@@ -5,7 +5,6 @@ import 'package:session_mate/src/services/configuration_service.dart';
 class DataMaskingService {
   final _configurationService = locator<ConfigurationService>();
 
-  @visibleForTesting
   String stringSubstitution(String item) {
     String output = '';
     final specialCharacters = RegExp(r'[-!@#$%^&*()_+{}\[\]:;<>,.?~\\|]');

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart' hide RawKeyEvent;
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
+import 'package:session_mate/src/services/data_masking_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/scroll_applicator.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
@@ -19,6 +20,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final _widgetFinder = locator<WidgetFinder>();
   final _routeTracker = locator<SessionMateRouteTracker>();
   final _timeUtils = locator<TimeUtils>();
+  final _maskService = locator<DataMaskingService>();
 
   final _scrollApplicator = locator<ScrollApplicator>();
 
@@ -134,7 +136,8 @@ TextEditingController.
 
     if (_activeCommand is InputEvent) {
       _activeCommand = (_activeCommand as InputEvent).copyWith(
-        inputData: _activeTextEditingController?.text,
+        inputData: _maskService
+            .stringSubstitution(_activeTextEditingController?.text ?? ''),
         view: _routeTracker.currentRoute,
         order: _timeUtils.timestamp,
       );
