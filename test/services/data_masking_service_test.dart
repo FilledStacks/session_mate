@@ -27,6 +27,26 @@ void main() {
         expect(masked, 'xxxx xxxxxxx');
         expect(masked.length, input.length);
       });
+
+      test(
+          'When called with dane@filledstacks.com, should return xxxx@xxxxxxxxxxxx.xxx',
+          () {
+        final input = 'dane@filledstacks.com';
+        final service = getService();
+        final result = service.stringSubstitution(input);
+
+        expect(result, 'xxxx@xxxxxxxxxxxx.xxx');
+      });
+
+      test(
+          'When called with +27 (675) 0202-059, should return +99 (999) 9999-999',
+          () {
+        final input = '+27 (675) 0202-059';
+        final service = getService();
+        final result = service.stringSubstitution(input);
+
+        expect(result, '+99 (999) 9999-999');
+      });
     });
 
     group('numSubstitution -', () {

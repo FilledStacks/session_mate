@@ -8,13 +8,22 @@ class DataMaskingService {
   @visibleForTesting
   String stringSubstitution(String item) {
     String output = '';
+    final specialCharacters = RegExp(r'[-!@#$%^&*()_+{}\[\]:;<>,.?~\\|]');
+    final digits = RegExp(r'\d+');
     for (int i = 0; i < item.length; i++) {
-      if (item[i] == " ") {
-        output = '$output ';
+      final currentCharacter = item[i];
+      final characterIsSpecial = specialCharacters.hasMatch(currentCharacter);
+      if (currentCharacter == " " || characterIsSpecial) {
+        output = '$output$currentCharacter';
         continue;
       }
 
-      output = '${output}x';
+      final characterIsDigit = digits.hasMatch(currentCharacter);
+      if (characterIsDigit) {
+        output = '${output}9';
+      } else {
+        output = '${output}x';
+      }
     }
 
     return output;
