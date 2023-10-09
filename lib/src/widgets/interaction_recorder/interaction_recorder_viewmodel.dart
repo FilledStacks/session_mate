@@ -35,7 +35,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   Offset? _lastTapPosition;
 
-  late Size currentScreenSize;
+  late Size _currentScreenSize;
 
   bool get hasLastTapPosition => _lastTapPosition != null;
   Offset? get lastTapPosition => _lastTapPosition;
@@ -55,8 +55,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _notificationController.stream.listen(handleNotifications);
   }
 
-  void setScreenSize(Size size) {
-    currentScreenSize = size;
+  void _setScreenSize(Size size) {
+    _currentScreenSize = size;
   }
 
   void handleNotifications(Notification notification) {
@@ -88,7 +88,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
           if (hasAttachedController) {
             addInputCommand(
               inputController: textField.controller!,
-              screenSize: currentScreenSize,
+              screenSize: _currentScreenSize,
             );
           } else {
             print('''
@@ -157,6 +157,8 @@ TextEditingController.
     required Offset position,
     required Size screenSize,
   }) {
+    _setScreenSize(screenSize);
+
     if (hasActiveCommand) {
       concludeAndClear();
     }
@@ -201,9 +203,10 @@ TextEditingController.
       }
 
       startCommandRecording(
-          position: _lastTapPosition!,
-          type: InteractionType.input,
-          screenSize: screenSize);
+        position: _lastTapPosition!,
+        type: InteractionType.input,
+        screenSize: screenSize,
+      );
     } else {
       print(
         '🛑 SessionMate 🛑: An input command should not fire before a tap command, something is broken in Flutter.',
