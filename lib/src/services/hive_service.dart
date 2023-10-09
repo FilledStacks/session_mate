@@ -28,7 +28,12 @@ class HiveService {
       ..registerAdapter(InputEventAdapter()) // 7
       ..registerAdapter(ScrollEventAdapter()) // 8
       ..registerAdapter(RawKeyEventAdapter()) // 9
-      ..registerAdapter(SessionStatsAdapter()); // 10
+      ..registerAdapter(SessionStatsAdapter()) // 10
+      ..registerAdapter(ScrollableDescriptionAdapter()) // 11
+      ..registerAdapter(ScrollableRectAdapter()) // 12
+      ..registerAdapter(ScrollMetricsAdapter()) // 13
+      ..registerAdapter(ScrollAxisAdapter()) // 14
+      ..registerAdapter(ScrollDirectionAdapter()); // 15
 
     sessionsBox = await Hive.openBox<Session>('sessions');
   }
