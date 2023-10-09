@@ -16,10 +16,7 @@ class SessionMateUtils {
     final localStorageService = locator<HiveService>();
     final httpService = locator<HttpService>();
 
-    if (!kRecordUserInteractions) {
-      print('🎥 Session not recorded, you are not on a recording session.');
-      return;
-    }
+    if (!kRecordUserInteractions) return;
 
     try {
       if (kLocalOnlyUsage) {
