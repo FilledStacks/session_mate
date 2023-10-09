@@ -172,9 +172,12 @@ class SessionMateHttpClient implements HttpClient {
 
     Uri? mockedUrl;
     final replaceRealRequestWithMockedRequest =
-        !kRecordUserInteractions && _driverCommunicationService.replayActive;
+        !kRecordUserInteractions && !url.host.contains('sessionmate');
+    // !kRecordUserInteractions && _driverCommunicationService.replayActive;
+
     print(
         '💙 Client | openUrl - kRecordUserInteractions:$kRecordUserInteractions replayActive: ${_driverCommunicationService.replayActive}');
+
     if (replaceRealRequestWithMockedRequest) {
       mockedUrl = url.replace(
         scheme: kLocalServerScheme,
@@ -202,8 +205,10 @@ class SessionMateHttpClient implements HttpClient {
   @override
   set connectionFactory(
           Future<ConnectionTask<Socket>> Function(
-                  Uri url, String? proxyHost, int? proxyPort)?
-              f) =>
+            Uri url,
+            String? proxyHost,
+            int? proxyPort,
+          )? f) =>
       _httpClient.connectionFactory = f;
 
   @override
