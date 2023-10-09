@@ -8,6 +8,7 @@ String hashEvent(RequestEvent event) {
       .convert(utf8.encode(jsonEncode(event.copyWith(
         uid: '',
         body: event.hasBody ? event.body : null,
+        order: 0,
       ))))
       .toString();
 }
