@@ -34,8 +34,10 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
           onNotification: viewModel.onChildNotification,
           child: CustomGestureDetector(
             behavior: HitTestBehavior.opaque,
-            onTap: (event) =>
-                viewModel.onUserTap(position: event.position, screenSize: size),
+            onTap: (event) => viewModel.onUserTap(
+              position: event.position,
+              screenSize: size,
+            ),
             child: this.child,
           ),
         ),
