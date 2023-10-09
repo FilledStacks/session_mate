@@ -669,15 +669,13 @@ class MockDriverCommunicationService extends _i1.Mock
         returnValueForMissingStub: _i10.Future<String>.value(''),
       ) as _i10.Future<String>);
   @override
-  _i10.Future<void> sendInteractions(List<_i2.UIEvent>? interactions) =>
-      (super.noSuchMethod(
+  void sendInteractions(List<_i2.UIEvent>? interactions) => super.noSuchMethod(
         Invocation.method(
           #sendInteractions,
           [interactions],
         ),
-        returnValue: _i10.Future<void>.value(),
-        returnValueForMissingStub: _i10.Future<void>.value(),
-      ) as _i10.Future<void>);
+        returnValueForMissingStub: null,
+      );
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(

@@ -13,12 +13,12 @@ class SessionReplayService {
   /// Stores the responses that were masked under session recording
   final Map<String, ResponseEvent> _maskedResponses = {};
 
-  NetworkEvent? _currentEvent;
+  RequestEvent? _currentEvent;
 
   // TODO: use only RequestEvent here
   void handleEvent(NetworkEvent event) {
-    _currentEvent = event;
     if (event is RequestEvent) {
+      _currentEvent = event;
       _requestsHashes[event.uid] = hashEvent(event);
     }
   }
@@ -37,13 +37,15 @@ class SessionReplayService {
     try {
       // NOTE: what if we hash the request directly here to avoid using uid?
 
-      final response = _maskedResponses[
-          _requestsHashes[(_currentEvent as RequestEvent).uid]]!;
+      final response = _maskedResponses[_requestsHashes[_currentEvent?.uid]];
 
-      request.response
-        ..headers.host = response.headers['host']
-        ..write(response.body)
-        ..close();
+      if (response != null) {
+        request.response
+          ..headers.host = response.headers['host']
+          ..write(response.body);
+      }
+
+      request.response.close();
     } catch (e) {
       print('$e');
     }
