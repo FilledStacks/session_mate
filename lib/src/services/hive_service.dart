@@ -13,21 +13,22 @@ class HiveService {
       Hive.init((await getApplicationDocumentsDirectory()).path);
     }
 
-    Hive
-      ..registerAdapter(InteractionTypeAdapter())
-      ..registerAdapter(SessionPriorityAdapter())
-      ..registerAdapter(SessionAdapter())
-      ..registerAdapter(RequestEventAdapter())
-      ..registerAdapter(ResponseEventAdapter())
-      ..registerAdapter(TapEventAdapter())
-      ..registerAdapter(InputEventAdapter())
-      ..registerAdapter(ScrollEventAdapter())
-      ..registerAdapter(RawKeyEventAdapter())
-      ..registerAdapter(EventPositionAdapter());
-
     if (forceDestroyDB) {
       await Hive.deleteBoxFromDisk('sessions');
     }
+
+    Hive
+      ..registerAdapter(SessionAdapter()) // 0
+      ..registerAdapter(InteractionTypeAdapter()) // 1
+      ..registerAdapter(EventPositionAdapter()) // 2
+      ..registerAdapter(RequestEventAdapter()) // 3
+      ..registerAdapter(ResponseEventAdapter()) // 4
+      ..registerAdapter(SessionPriorityAdapter()) // 5
+      ..registerAdapter(TapEventAdapter()) // 6
+      ..registerAdapter(InputEventAdapter()) // 7
+      ..registerAdapter(ScrollEventAdapter()) // 8
+      ..registerAdapter(RawKeyEventAdapter()) // 9
+      ..registerAdapter(SessionStatsAdapter()); // 10
 
     sessionsBox = await Hive.openBox<Session>('sessions');
   }
