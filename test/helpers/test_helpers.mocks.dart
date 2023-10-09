@@ -669,13 +669,15 @@ class MockDriverCommunicationService extends _i1.Mock
         returnValueForMissingStub: _i10.Future<String>.value(''),
       ) as _i10.Future<String>);
   @override
-  void sendInteractions(List<_i2.UIEvent>? interactions) => super.noSuchMethod(
+  _i10.Future<void> sendInteractions(List<_i2.UIEvent>? interactions) =>
+      (super.noSuchMethod(
         Invocation.method(
           #sendInteractions,
           [interactions],
         ),
-        returnValueForMissingStub: null,
-      );
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(
@@ -1025,18 +1027,6 @@ class MockScrollApplicator extends _i1.Mock implements _i20.ScrollApplicator {
 /// See the documentation for Mockito's code generation for more information.
 class MockNotificationExtractor extends _i1.Mock
     implements _i21.NotificationExtractor {
-  @override
-  _i3.Logger get log => (super.noSuchMethod(
-        Invocation.getter(#log),
-        returnValue: _FakeLogger_1(
-          this,
-          Invocation.getter(#log),
-        ),
-        returnValueForMissingStub: _FakeLogger_1(
-          this,
-          Invocation.getter(#log),
-        ),
-      ) as _i3.Logger);
   @override
   set scrollDirection(_i2.ScrollDirection? _scrollDirection) =>
       super.noSuchMethod(
