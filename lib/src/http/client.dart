@@ -172,17 +172,12 @@ class SessionMateHttpClient implements HttpClient {
     final replaceRealRequestWithMockedRequest =
         !kRecordUserInteractions && !url.host.contains('sessionmate');
 
-    print(
-        '💙 Client | openUrl - kRecordUserInteractions:$kRecordUserInteractions');
-
     if (replaceRealRequestWithMockedRequest) {
       mockedUrl = url.replace(
         scheme: kLocalServerScheme,
         host: kLocalServerHost,
         port: locator<ConfigurationService>().listeningPort,
       );
-
-      print('💙 Mocked URL used: $mockedUrl');
     }
 
     // NOTE: Proper place to await any request / requestWrapper task
