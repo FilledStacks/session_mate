@@ -55,10 +55,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _notificationController.stream.listen(handleNotifications);
   }
 
-  void _setScreenSize(Size size) {
-    _currentScreenSize = size;
-  }
-
   void handleNotifications(Notification notification) {
     if (notification is ScrollStartNotification) {
       _currentScrollStartedByUser = notification.dragDetails != null;
@@ -157,7 +153,7 @@ TextEditingController.
     required Offset position,
     required Size screenSize,
   }) {
-    _setScreenSize(screenSize);
+    _currentScreenSize = screenSize;
 
     if (hasActiveCommand) {
       concludeAndClear();
