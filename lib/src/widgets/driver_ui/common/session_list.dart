@@ -52,7 +52,7 @@ class _SessionsLoadingIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
+    return Expanded(
       child: const Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -76,10 +76,7 @@ class _NoSessionsCaptured extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Color(0xFF232228),
-      width: double.infinity,
-      height: double.infinity,
+    return Expanded(
       child: Center(
         child: Text(
           'No sessions captured yet',
