@@ -13,7 +13,6 @@ class DriverCommunicationService with ListenableServiceMixin {
   _DriverCommunicationState _state = _DriverCommunicationState.freshStart;
 
   bool get readyToReplay => _state == _DriverCommunicationState.waitForReplay;
-  bool get replayActive => _state == _DriverCommunicationState.replayActive;
 
   bool _wasReplayExecuted = false;
   bool get wasReplayExecuted => _wasReplayExecuted;
