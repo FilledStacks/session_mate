@@ -9,6 +9,7 @@ import 'package:session_mate/src/services/hive_service.dart';
 import 'package:session_mate/src/services/http_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/notification_extractor.dart';
+import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
@@ -27,6 +28,10 @@ class DriverUIViewModel extends ReactiveViewModel {
         .map(_notificationExtractor.notificationToScrollableDescription)
         .listen((notification) => viewEvents =
             _notificationExtractor.scrollEvents(notification, viewEvents));
+
+    _routeTracker.addListener(() {
+      rebuildUi();
+    });
   }
 
   final _configurationService = locator<ConfigurationService>();
@@ -34,12 +39,17 @@ class DriverUIViewModel extends ReactiveViewModel {
   final _sessionService = locator<SessionService>();
   final _hiveService = locator<HiveService>();
   final _httpService = locator<HttpService>();
+  final _routeTracker = locator<SessionMateRouteTracker>();
 
   final _notificationController = StreamController<Notification>.broadcast();
 
   ValueNotifier<List<UIEvent>> eventsNotifier = ValueNotifier([]);
 
   List<UIEvent> get viewEvents => eventsNotifier.value;
+
+  String get currentView => _routeTracker.currentRoute;
+
+  String get currentNavigationStackId => _sessionService.navigationStackId;
 
   set viewEvents(List<UIEvent> events) {
     eventsNotifier.value = events;

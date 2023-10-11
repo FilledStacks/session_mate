@@ -20,27 +20,20 @@ class EventVisual extends ViewModelWidget<DriverUIViewModel> {
     final positionX = isScrollEndIndicator
         ? event.position.x + (event as ScrollEvent).scrollDelta!.x
         : event.position.x;
+
     final positionY = isScrollEndIndicator
         ? event.position.y + (event as ScrollEvent).scrollDelta!.y
         : event.position.y;
 
     return AnimatedSwitcher(
       duration: const Duration(milliseconds: 300),
-      child: viewModel.showDebugInformation
-          ? _EventVerbose(
-              index: index,
-              event: event,
-              isFinalPosition: isScrollEndIndicator,
-              x: positionX,
-              y: positionY,
-            )
-          : _EventSimple(
-              index: index,
-              event: event,
-              isFinalPosition: isScrollEndIndicator,
-              x: positionX,
-              y: positionY,
-            ),
+      child: _EventSimple(
+        index: index,
+        event: event,
+        isFinalPosition: isScrollEndIndicator,
+        x: positionX,
+        y: positionY,
+      ),
     );
   }
 }
@@ -64,20 +57,21 @@ class _EventSimple extends ViewModelWidget<DriverUIViewModel> {
     return Container(
       width: kEventVisualSize,
       height: kEventVisualSize,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
-        color: isFinalPosition
-            ? Color(event.type.alternativeColor)
-            : Color(event.type.color),
+        border: Border.all(
+          color: Color(event.type.color),
+          width: 1,
+        ),
         shape: BoxShape.circle,
       ),
-      child: Center(
-        child: Text(
-          '', //'${event.type.name.substring(0, 1).toUpperCase()}${index + 1}',
-          style: TextStyle(
-            color: Colors.black,
-            fontSize: 9,
-            fontWeight: FontWeight.w600,
-          ),
+      child: Container(
+        width: 2,
+        height: 2,
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: Color(event.type.color),
+          shape: BoxShape.circle,
         ),
       ),
     );

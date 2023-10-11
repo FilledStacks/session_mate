@@ -18,8 +18,12 @@ class EventsVisualizer extends ViewModelWidget<DriverUIViewModel> {
           return Stack(
             children: [
               ...events
-                  .where((interaction) =>
-                      InteractionUtils.visibleOnScreen(interaction, size))
+                  .where(
+                      (event) => InteractionUtils.visibleOnScreen(event, size))
+                  .where((event) =>
+                      event.view == viewModel.currentView &&
+                      event.navigationStackId ==
+                          viewModel.currentNavigationStackId)
                   .map(
                     (event) => Positioned(
                       key: Key(event.automationKey),
