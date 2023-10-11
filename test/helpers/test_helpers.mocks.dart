@@ -13,6 +13,7 @@ import 'package:logger/src/logger.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:package_info_plus/package_info_plus.dart' as _i4;
 import 'package:session_mate/src/services/configuration_service.dart' as _i7;
+import 'package:session_mate/src/services/data_masking_service.dart' as _i23;
 import 'package:session_mate/src/services/driver_communication_service.dart'
     as _i17;
 import 'package:session_mate/src/services/http_service.dart' as _i16;
@@ -633,12 +634,6 @@ class MockDriverCommunicationService extends _i1.Mock
         returnValueForMissingStub: false,
       ) as bool);
   @override
-  bool get replayActive => (super.noSuchMethod(
-        Invocation.getter(#replayActive),
-        returnValue: false,
-        returnValueForMissingStub: false,
-      ) as bool);
-  @override
   bool get wasReplayExecuted => (super.noSuchMethod(
         Invocation.getter(#wasReplayExecuted),
         returnValue: false,
@@ -1252,4 +1247,29 @@ class MockReactiveScrollable extends _i1.Mock
         returnValue: <_i2.UIEvent>[],
         returnValueForMissingStub: <_i2.UIEvent>[],
       ) as Iterable<_i2.UIEvent>);
+}
+
+/// A class which mocks [DataMaskingService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDataMaskingService extends _i1.Mock
+    implements _i23.DataMaskingService {
+  @override
+  String stringSubstitution(String? item) => (super.noSuchMethod(
+        Invocation.method(
+          #stringSubstitution,
+          [item],
+        ),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
+  num numSubstitution(num? item) => (super.noSuchMethod(
+        Invocation.method(
+          #numSubstitution,
+          [item],
+        ),
+        returnValue: 0,
+        returnValueForMissingStub: 0,
+      ) as num);
 }

@@ -45,6 +45,18 @@ void main() {
               'If type NetworkEvent it should also be added to netwwork events list',
         );
       });
+
+      test(
+          'When called with tap, followed by input at the same location, should remove the tap event',
+          () {
+        final service = getService();
+        service.addEvent(
+            TapEvent(position: EventPosition(x: 10, y: 10, xDeviation: 9)));
+        service.addEvent(InputEvent(position: EventPosition(x: 10, y: 10)));
+
+        expect(service.uiEvents.length, 1);
+        expect(service.uiEvents.first.type, InteractionType.input);
+      });
     });
 
     group('captureSession -', () {

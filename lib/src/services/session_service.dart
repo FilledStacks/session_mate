@@ -20,9 +20,19 @@ class SessionService with ListenableServiceMixin {
   List<String> get views => _views;
 
   void addEvent(SessionEvent event) {
+    final removeLastEventBeforeAdding = _checkIfLastEventShouldBeRemoved(event);
+
+    if (removeLastEventBeforeAdding) {
+      _sessionEvents.removeLast();
+    }
+
     _sessionEvents.add(event);
 
     if (event is UIEvent) {
+      if (removeLastEventBeforeAdding) {
+        _uiEvents.removeLast();
+      }
+
       _uiEvents.add(event);
       return;
     }
@@ -85,5 +95,21 @@ class SessionService with ListenableServiceMixin {
     );
 
     return session;
+  }
+
+  bool _checkIfLastEventShouldBeRemoved(SessionEvent event) {
+    if (event is InputEvent && _sessionEvents.isNotEmpty) {
+      final lastAddedSessionEvent = _sessionEvents.last;
+
+      if (lastAddedSessionEvent is TapEvent) {
+        final positionHasExactMatch =
+            lastAddedSessionEvent.position.x == event.position.x &&
+                lastAddedSessionEvent.position.x == event.position.x;
+
+        return positionHasExactMatch;
+      }
+    }
+
+    return false;
   }
 }

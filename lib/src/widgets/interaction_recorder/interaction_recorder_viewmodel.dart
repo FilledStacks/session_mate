@@ -147,6 +147,7 @@ TextEditingController.
   void _clearActiveCommand() {
     _activeCommand = null;
     _activeTextEditingController = null;
+    _lastTapPosition = null;
   }
 
   void onUserTap({
@@ -161,8 +162,6 @@ TextEditingController.
 
     print('🔴 Add tap event - $position');
 
-    final scrollables = _widgetFinder.getAllScrollablesOnScreen();
-
     var rawTapEvent = TapEvent(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       position: EventPosition(
@@ -175,6 +174,7 @@ TextEditingController.
       order: _timeUtils.timestamp,
     );
 
+    final scrollables = _widgetFinder.getAllScrollablesOnScreen();
     final tapEventWithScrollApplied = _scrollApplicator.applyScrollableToEvent(
       scrollables,
       rawTapEvent,
