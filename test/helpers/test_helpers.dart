@@ -16,6 +16,7 @@ import 'package:session_mate/src/utils/scroll_applicator.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
+import 'package:session_mate_core/session_mate_core.dart';
 
 import 'test_helpers.mocks.dart';
 
@@ -61,6 +62,10 @@ MockNotificationExtractor getAndRegisterNotificationExtractor() {
 MockScrollApplicator getAndRegisterScrollApplicator() {
   _removeRegistrationIfExists<ScrollApplicator>();
   final service = MockScrollApplicator();
+
+  when(service.applyScrollableToEvent(any, any))
+      .thenReturn(TapEvent(position: EventPosition(x: 1, y: 0)));
+
   locator.registerSingleton<ScrollApplicator>(service);
   return service;
 }

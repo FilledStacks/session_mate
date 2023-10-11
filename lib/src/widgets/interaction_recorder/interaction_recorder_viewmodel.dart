@@ -120,6 +120,7 @@ TextEditingController.
         capturedDeviceWidth: screenSize.width,
       ).toJson(),
       "runtimeType": type.name,
+      "navigationStackId": _sessionService.navigationStackId,
     });
 
     final scrollables = _widgetFinder.getAllScrollablesOnScreen();
@@ -146,6 +147,8 @@ TextEditingController.
         view: _routeTracker.currentRoute,
         order: _timeUtils.timestamp,
       );
+
+      _lastTapPosition = null;
     }
 
     print('🔴 ConcludeCommand - ${_activeCommand?.toJson()}');
@@ -156,7 +159,6 @@ TextEditingController.
   void _clearActiveCommand() {
     _activeCommand = null;
     _activeTextEditingController = null;
-    _lastTapPosition = null;
   }
 
   void onUserTap({
@@ -181,6 +183,7 @@ TextEditingController.
       ),
       view: _routeTracker.currentRoute,
       order: _timeUtils.timestamp,
+      navigationStackId: _sessionService.navigationStackId,
     );
 
     final scrollables = _widgetFinder.getAllScrollablesOnScreen();
@@ -297,6 +300,7 @@ TextEditingController.
           duration: _scrollTimer?.elapsedMilliseconds,
           view: _routeTracker.currentRoute,
           order: _timeUtils.timestamp,
+          navigationStackId: _sessionService.navigationStackId,
         ),
       );
 
