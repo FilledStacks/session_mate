@@ -3,6 +3,7 @@ import 'package:mockito/mockito.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
+import 'package:session_mate/src/services/data_masking_service.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/http_service.dart';
 import 'package:session_mate/src/services/native_inforamation_service.dart';
@@ -34,7 +35,15 @@ import 'test_helpers.mocks.dart';
   MockSpec<ScrollApplicator>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<NotificationExtractor>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<ReactiveScrollable>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<DataMaskingService>(onMissingStub: OnMissingStub.returnDefault),
 ])
+MockDataMaskingService getAndRegisterDataMaskingService() {
+  _removeRegistrationIfExists<DataMaskingService>();
+  final service = MockDataMaskingService();
+  locator.registerSingleton<DataMaskingService>(service);
+  return service;
+}
+
 MockReactiveScrollable getAndRegisterReactiveScrollable() {
   _removeRegistrationIfExists<ReactiveScrollable>();
   final service = MockReactiveScrollable();
@@ -78,7 +87,6 @@ MockDriverCommunicationService getAndRegisterDriverCommunicationService({
   final service = MockDriverCommunicationService();
 
   when(service.readyToReplay).thenReturn(readyToReplay);
-  when(service.replayActive).thenReturn(replayActive);
 
   locator.registerSingleton<DriverCommunicationService>(service);
   return service;
@@ -179,6 +187,7 @@ void registerServices() {
   getAndRegisterScrollApplicator();
   getAndRegisterReactiveScrollable();
   getAndRegisterNotificationExtractor();
+  getAndRegisterDataMaskingService();
 }
 
 void _removeRegistrationIfExists<T extends Object>() {

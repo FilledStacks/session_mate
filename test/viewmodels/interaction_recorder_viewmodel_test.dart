@@ -58,6 +58,31 @@ void main() {
       });
     });
 
+    group('handleNotification -', () {
+      test(
+          'When called with KeepAliveNotification and no last position, should not get textField from widgetFinder',
+          () {
+        final widgetFinder = getAndRegisterWidgetFinder();
+        final model = _getModel();
+        model.handleNotifications(KeepAliveNotification(ValueNotifier(0)));
+        verifyNever(widgetFinder.getTextFieldAtPosition(
+          position: anyNamed('position'),
+        ));
+      });
+
+      test(
+          'When called with KeepAliveNotification and last position set, should not get textField from widgetFinder',
+          () {
+        final widgetFinder = getAndRegisterWidgetFinder();
+        final model = _getModel();
+        model.onUserTap(position: Offset.zero, screenSize: Size.zero);
+        model.handleNotifications(KeepAliveNotification(ValueNotifier(0)));
+        verify(widgetFinder.getTextFieldAtPosition(
+          position: anyNamed('position'),
+        ));
+      });
+    });
+
     group('Multiple command recording -', () {
       test(
           'When we scroll, tap, scroll, tap, the commands should be in that order when saved',
