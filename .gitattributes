@@ -1,2 +1,3 @@
 *.g.dart -diff
 *.freezed.dart -diff
+*.mocks.dar -diff
