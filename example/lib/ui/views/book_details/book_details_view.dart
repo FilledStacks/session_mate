@@ -36,10 +36,14 @@ class BookDetailsView extends StackedView<BookDetailsViewModel>
                   borderRadius: BorderRadius.circular(20),
                   child: Stack(
                     children: [
-                      Image.network(
-                        book.imageLinks!.thumbnail,
+                      SizedBox(
+                        height: MediaQuery.sizeOf(context).height * .4,
                         width: double.infinity,
-                        fit: BoxFit.fitWidth,
+                        child: Image.network(
+                          book.imageLinks!.thumbnail,
+                          height: MediaQuery.sizeOf(context).height * .4,
+                          fit: BoxFit.fitWidth,
+                        ),
                       ),
                       Positioned.fill(
                         child: Center(
