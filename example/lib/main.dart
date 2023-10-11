@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:session_mate/session_mate.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-const String apiKey = String.fromEnvironment('API_KEY');
+const String? apiKey =
+    bool.hasEnvironment('API_KEY') ? String.fromEnvironment('API_KEY') : null;
 
 Future<void> main() async {
   await setupSessionMate();
