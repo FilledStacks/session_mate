@@ -121,6 +121,15 @@ TextEditingController.
       ).toJson(),
       "runtimeType": type.name,
     });
+
+    final scrollables = _widgetFinder.getAllScrollablesOnScreen();
+    final inputEventWithScrollApplied =
+        _scrollApplicator.applyScrollableToEvent(
+      scrollables,
+      _activeCommand!,
+    );
+
+    _activeCommand = inputEventWithScrollApplied;
   }
 
   void concludeActiveCommand() {
