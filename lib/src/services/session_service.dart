@@ -19,6 +19,8 @@ class SessionService with ListenableServiceMixin {
   final List<String> _views = [];
   List<String> get views => _views;
 
+  String get navigationStackId => _views.join('-');
+
   void addEvent(SessionEvent event) {
     final removeLastEventBeforeAdding = _checkIfLastEventShouldBeRemoved(event);
 
@@ -111,5 +113,10 @@ class SessionService with ListenableServiceMixin {
     }
 
     return false;
+  }
+
+  void clearNavigationStack() {
+    _views.clear();
+    notifyListeners();
   }
 }
