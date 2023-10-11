@@ -5,7 +5,7 @@ const bool kRecordUserInteractions =
 const bool kForceDriverUI = bool.fromEnvironment('FORCE_DRIVER_UI');
 const bool kUseFakeData = bool.fromEnvironment('USE_FAKE_DATA');
 const bool kRunningIntegrationTest = bool.fromEnvironment('INTEGRATION_TEST');
-const bool kLocalOnlyUsage = bool.fromEnvironment('LOCAL_ONLY');
+const bool kLocalOnlyUsage = bool.hasEnvironment('API_KEY') ? false : true;
 
 const String kLocalServerScheme = 'http';
 const String kLocalServerHost = 'localhost';

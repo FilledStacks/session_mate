@@ -3,12 +3,12 @@ import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:stacked/stacked.dart';
 
 class SessionMateBuilderViewModel extends BaseViewModel {
+  final String? apiKey;
   final bool dataMaskingEnabled;
   final List<String> keysToExcludeOnDataMasking;
   final int minimumStartupTime;
-  final String apiKey;
   SessionMateBuilderViewModel({
-    required this.apiKey,
+    this.apiKey,
     this.dataMaskingEnabled = true,
     this.keysToExcludeOnDataMasking = const [],
     this.minimumStartupTime = 5000,
@@ -18,10 +18,10 @@ class SessionMateBuilderViewModel extends BaseViewModel {
 
   void init() {
     _configurationService.setValues(
+      apiKey: apiKey,
       dataMaskingEnabled: dataMaskingEnabled,
       keysToExcludeOnDataMasking: keysToExcludeOnDataMasking,
       minimumStartupTime: minimumStartupTime,
-      apiKey: apiKey,
     );
   }
 }

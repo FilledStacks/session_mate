@@ -6,17 +6,17 @@ import 'package:stacked/stacked.dart';
 import 'session_mate_builder_viewmodel.dart';
 
 class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
+  final String? apiKey;
   final bool dataMaskingEnabled;
   final List<String> keysToExcludeOnDataMasking;
   final int minimumStartupTime;
-  final String apiKey;
   final Widget child;
   const SessionMateBuilder({
     super.key,
+    this.apiKey,
     this.dataMaskingEnabled = true,
     this.keysToExcludeOnDataMasking = const [],
     this.minimumStartupTime = 5000,
-    required this.apiKey,
     required this.child,
   });
 
@@ -40,9 +40,9 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
   @override
   SessionMateBuilderViewModel viewModelBuilder(BuildContext context) =>
       SessionMateBuilderViewModel(
+        apiKey: apiKey,
         dataMaskingEnabled: dataMaskingEnabled,
         keysToExcludeOnDataMasking: keysToExcludeOnDataMasking,
         minimumStartupTime: minimumStartupTime,
-        apiKey: apiKey,
       );
 }
