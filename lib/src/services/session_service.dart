@@ -1,4 +1,5 @@
 import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
@@ -50,6 +51,8 @@ class SessionService with ListenableServiceMixin {
       if (event is UIEvent) {
         _uiEvents.add(event);
       } else if (event is NetworkEvent) {
+        // we can probably change this to response events
+        logResponse(event as ResponseEvent);
         _networkEvents.add(event);
       }
     }
