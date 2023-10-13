@@ -20,6 +20,7 @@ class SessionReplayService {
     if (event is RequestEvent) {
       _currentEvent = event;
       _requestsHashes[event.uid] = hashEvent(event);
+      print('🟡 uid:${event.uid} hash:${_requestsHashes[event.uid]}');
     }
   }
 
@@ -31,11 +32,19 @@ class SessionReplayService {
     for (var e in events) {
       _maskedResponses[(e as ResponseEvent).uid] = e;
     }
+
+    print('🟣 MASKED');
+    _maskedResponses.forEach((key, value) {
+      print('🟣 hash:$key response:${value.toJson()}');
+    });
   }
 
   Future<void> handleMockRequest(HttpRequest request) async {
     try {
       // NOTE: what if we hash the request directly here to avoid using uid?
+
+      print(
+          '🤡 - handleMockRequest - uri:${request.uri} headers:${request.headers}');
 
       final response = _maskedResponses[_requestsHashes[_currentEvent?.uid]];
 
@@ -52,9 +61,12 @@ class SessionReplayService {
   }
 
   Future<List<int>> getSanitizedData(List<int> data, {String? uid}) async {
+    print('🤡 - getSanitizedData - uid:$uid data:$data');
     if (kRecordUserInteractions || uid == null) return data;
 
     final response = _maskedResponses[_requestsHashes[uid]];
+
+    print('🤡 - getSanitizedData - response:${response?.toJson()} ');
 
     if (response == null) return data;
 

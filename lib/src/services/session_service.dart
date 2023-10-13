@@ -50,6 +50,8 @@ class SessionService with ListenableServiceMixin {
       if (event is UIEvent) {
         _uiEvents.add(event);
       } else if (event is NetworkEvent) {
+        // we can probably change this to response events
+        print('🤡 event:${(event as ResponseEvent).toJson()}');
         _networkEvents.add(event);
       }
     }
