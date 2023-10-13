@@ -22,12 +22,16 @@ class ConfigurationService {
   String get apiKey => _apiKey!;
   bool get hasApiKey => _apiKey != null;
 
+  bool _logNetworkData = false;
+  bool get logNetworkData => _logNetworkData;
+
   void setValues({
     bool? dataMaskingEnabled,
     List<String>? keysToExcludeOnDataMasking,
     int? minimumStartupTime,
     int? listeningPort,
     String? apiKey,
+    bool? logNetworkData,
   }) {
     _dataMaskingEnabled = dataMaskingEnabled ?? _dataMaskingEnabled;
     _keysToExcludeOnDataMasking =
@@ -35,5 +39,6 @@ class ConfigurationService {
     _minimumStartupTime = minimumStartupTime ?? _minimumStartupTime;
     _listeningPort = listeningPort ?? _listeningPort;
     _apiKey = apiKey;
+    _logNetworkData = logNetworkData ?? false;
   }
 }

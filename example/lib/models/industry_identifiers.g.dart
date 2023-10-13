@@ -6,15 +6,15 @@ part of 'industry_identifiers.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_IndustryIdentifiers _$$_IndustryIdentifiersFromJson(
+_$IndustryIdentifiersImpl _$$IndustryIdentifiersImplFromJson(
         Map<String, dynamic> json) =>
-    _$_IndustryIdentifiers(
+    _$IndustryIdentifiersImpl(
       type: json['type'] as String?,
       idenfifier: json['idenfifier'] as String?,
     );
 
-Map<String, dynamic> _$$_IndustryIdentifiersToJson(
-        _$_IndustryIdentifiers instance) =>
+Map<String, dynamic> _$$IndustryIdentifiersImplToJson(
+        _$IndustryIdentifiersImpl instance) =>
     <String, dynamic>{
       'type': instance.type,
       'idenfifier': instance.idenfifier,

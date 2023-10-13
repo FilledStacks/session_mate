@@ -69,22 +69,22 @@ class _$ActiveScrollMetricsCopyWithImpl<$Res, $Val extends ActiveScrollMetrics>
 }
 
 /// @nodoc
-abstract class _$$_ActiveScrollMetricsCopyWith<$Res>
+abstract class _$$ActiveScrollMetricsImplCopyWith<$Res>
     implements $ActiveScrollMetricsCopyWith<$Res> {
-  factory _$$_ActiveScrollMetricsCopyWith(_$_ActiveScrollMetrics value,
-          $Res Function(_$_ActiveScrollMetrics) then) =
-      __$$_ActiveScrollMetricsCopyWithImpl<$Res>;
+  factory _$$ActiveScrollMetricsImplCopyWith(_$ActiveScrollMetricsImpl value,
+          $Res Function(_$ActiveScrollMetricsImpl) then) =
+      __$$ActiveScrollMetricsImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({double startingOffset, Axis scrollDirection, Offset scrollOrigin});
 }
 
 /// @nodoc
-class __$$_ActiveScrollMetricsCopyWithImpl<$Res>
-    extends _$ActiveScrollMetricsCopyWithImpl<$Res, _$_ActiveScrollMetrics>
-    implements _$$_ActiveScrollMetricsCopyWith<$Res> {
-  __$$_ActiveScrollMetricsCopyWithImpl(_$_ActiveScrollMetrics _value,
-      $Res Function(_$_ActiveScrollMetrics) _then)
+class __$$ActiveScrollMetricsImplCopyWithImpl<$Res>
+    extends _$ActiveScrollMetricsCopyWithImpl<$Res, _$ActiveScrollMetricsImpl>
+    implements _$$ActiveScrollMetricsImplCopyWith<$Res> {
+  __$$ActiveScrollMetricsImplCopyWithImpl(_$ActiveScrollMetricsImpl _value,
+      $Res Function(_$ActiveScrollMetricsImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_ActiveScrollMetricsCopyWithImpl<$Res>
     Object? scrollDirection = null,
     Object? scrollOrigin = null,
   }) {
-    return _then(_$_ActiveScrollMetrics(
+    return _then(_$ActiveScrollMetricsImpl(
       startingOffset: null == startingOffset
           ? _value.startingOffset
           : startingOffset // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_ActiveScrollMetricsCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ActiveScrollMetrics implements _ActiveScrollMetrics {
-  _$_ActiveScrollMetrics(
+class _$ActiveScrollMetricsImpl implements _ActiveScrollMetrics {
+  _$ActiveScrollMetricsImpl(
       {required this.startingOffset,
       required this.scrollDirection,
       required this.scrollOrigin});
@@ -135,7 +135,7 @@ class _$_ActiveScrollMetrics implements _ActiveScrollMetrics {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ActiveScrollMetrics &&
+            other is _$ActiveScrollMetricsImpl &&
             (identical(other.startingOffset, startingOffset) ||
                 other.startingOffset == startingOffset) &&
             (identical(other.scrollDirection, scrollDirection) ||
@@ -151,8 +151,8 @@ class _$_ActiveScrollMetrics implements _ActiveScrollMetrics {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ActiveScrollMetricsCopyWith<_$_ActiveScrollMetrics> get copyWith =>
-      __$$_ActiveScrollMetricsCopyWithImpl<_$_ActiveScrollMetrics>(
+  _$$ActiveScrollMetricsImplCopyWith<_$ActiveScrollMetricsImpl> get copyWith =>
+      __$$ActiveScrollMetricsImplCopyWithImpl<_$ActiveScrollMetricsImpl>(
           this, _$identity);
 }
 
@@ -160,7 +160,7 @@ abstract class _ActiveScrollMetrics implements ActiveScrollMetrics {
   factory _ActiveScrollMetrics(
       {required final double startingOffset,
       required final Axis scrollDirection,
-      required final Offset scrollOrigin}) = _$_ActiveScrollMetrics;
+      required final Offset scrollOrigin}) = _$ActiveScrollMetricsImpl;
 
   @override
   double get startingOffset;
@@ -170,6 +170,6 @@ abstract class _ActiveScrollMetrics implements ActiveScrollMetrics {
   Offset get scrollOrigin;
   @override
   @JsonKey(ignore: true)
-  _$$_ActiveScrollMetricsCopyWith<_$_ActiveScrollMetrics> get copyWith =>
+  _$$ActiveScrollMetricsImplCopyWith<_$ActiveScrollMetricsImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

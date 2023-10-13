@@ -68,22 +68,22 @@ class _$IndustryIdentifiersCopyWithImpl<$Res, $Val extends IndustryIdentifiers>
 }
 
 /// @nodoc
-abstract class _$$_IndustryIdentifiersCopyWith<$Res>
+abstract class _$$IndustryIdentifiersImplCopyWith<$Res>
     implements $IndustryIdentifiersCopyWith<$Res> {
-  factory _$$_IndustryIdentifiersCopyWith(_$_IndustryIdentifiers value,
-          $Res Function(_$_IndustryIdentifiers) then) =
-      __$$_IndustryIdentifiersCopyWithImpl<$Res>;
+  factory _$$IndustryIdentifiersImplCopyWith(_$IndustryIdentifiersImpl value,
+          $Res Function(_$IndustryIdentifiersImpl) then) =
+      __$$IndustryIdentifiersImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? type, String? idenfifier});
 }
 
 /// @nodoc
-class __$$_IndustryIdentifiersCopyWithImpl<$Res>
-    extends _$IndustryIdentifiersCopyWithImpl<$Res, _$_IndustryIdentifiers>
-    implements _$$_IndustryIdentifiersCopyWith<$Res> {
-  __$$_IndustryIdentifiersCopyWithImpl(_$_IndustryIdentifiers _value,
-      $Res Function(_$_IndustryIdentifiers) _then)
+class __$$IndustryIdentifiersImplCopyWithImpl<$Res>
+    extends _$IndustryIdentifiersCopyWithImpl<$Res, _$IndustryIdentifiersImpl>
+    implements _$$IndustryIdentifiersImplCopyWith<$Res> {
+  __$$IndustryIdentifiersImplCopyWithImpl(_$IndustryIdentifiersImpl _value,
+      $Res Function(_$IndustryIdentifiersImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_IndustryIdentifiersCopyWithImpl<$Res>
     Object? type = freezed,
     Object? idenfifier = freezed,
   }) {
-    return _then(_$_IndustryIdentifiers(
+    return _then(_$IndustryIdentifiersImpl(
       type: freezed == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -107,11 +107,11 @@ class __$$_IndustryIdentifiersCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_IndustryIdentifiers extends _IndustryIdentifiers {
-  _$_IndustryIdentifiers({this.type, this.idenfifier}) : super._();
+class _$IndustryIdentifiersImpl extends _IndustryIdentifiers {
+  _$IndustryIdentifiersImpl({this.type, this.idenfifier}) : super._();
 
-  factory _$_IndustryIdentifiers.fromJson(Map<String, dynamic> json) =>
-      _$$_IndustryIdentifiersFromJson(json);
+  factory _$IndustryIdentifiersImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IndustryIdentifiersImplFromJson(json);
 
   @override
   final String? type;
@@ -127,7 +127,7 @@ class _$_IndustryIdentifiers extends _IndustryIdentifiers {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_IndustryIdentifiers &&
+            other is _$IndustryIdentifiersImpl &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.idenfifier, idenfifier) ||
                 other.idenfifier == idenfifier));
@@ -140,13 +140,13 @@ class _$_IndustryIdentifiers extends _IndustryIdentifiers {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_IndustryIdentifiersCopyWith<_$_IndustryIdentifiers> get copyWith =>
-      __$$_IndustryIdentifiersCopyWithImpl<_$_IndustryIdentifiers>(
+  _$$IndustryIdentifiersImplCopyWith<_$IndustryIdentifiersImpl> get copyWith =>
+      __$$IndustryIdentifiersImplCopyWithImpl<_$IndustryIdentifiersImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_IndustryIdentifiersToJson(
+    return _$$IndustryIdentifiersImplToJson(
       this,
     );
   }
@@ -154,11 +154,11 @@ class _$_IndustryIdentifiers extends _IndustryIdentifiers {
 
 abstract class _IndustryIdentifiers extends IndustryIdentifiers {
   factory _IndustryIdentifiers({final String? type, final String? idenfifier}) =
-      _$_IndustryIdentifiers;
+      _$IndustryIdentifiersImpl;
   _IndustryIdentifiers._() : super._();
 
   factory _IndustryIdentifiers.fromJson(Map<String, dynamic> json) =
-      _$_IndustryIdentifiers.fromJson;
+      _$IndustryIdentifiersImpl.fromJson;
 
   @override
   String? get type;
@@ -166,6 +166,6 @@ abstract class _IndustryIdentifiers extends IndustryIdentifiers {
   String? get idenfifier;
   @override
   @JsonKey(ignore: true)
-  _$$_IndustryIdentifiersCopyWith<_$_IndustryIdentifiers> get copyWith =>
+  _$$IndustryIdentifiersImplCopyWith<_$IndustryIdentifiersImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

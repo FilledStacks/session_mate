@@ -167,9 +167,10 @@ class _$BookCopyWithImpl<$Res, $Val extends Book>
 }
 
 /// @nodoc
-abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
-  factory _$$_BookCopyWith(_$_Book value, $Res Function(_$_Book) then) =
-      __$$_BookCopyWithImpl<$Res>;
+abstract class _$$BookImplCopyWith<$Res> implements $BookCopyWith<$Res> {
+  factory _$$BookImplCopyWith(
+          _$BookImpl value, $Res Function(_$BookImpl) then) =
+      __$$BookImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -193,9 +194,10 @@ abstract class _$$_BookCopyWith<$Res> implements $BookCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
-    implements _$$_BookCopyWith<$Res> {
-  __$$_BookCopyWithImpl(_$_Book _value, $Res Function(_$_Book) _then)
+class __$$BookImplCopyWithImpl<$Res>
+    extends _$BookCopyWithImpl<$Res, _$BookImpl>
+    implements _$$BookImplCopyWith<$Res> {
+  __$$BookImplCopyWithImpl(_$BookImpl _value, $Res Function(_$BookImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -216,7 +218,7 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
     Object? previewLink = freezed,
     Object? infoLink = freezed,
   }) {
-    return _then(_$_Book(
+    return _then(_$BookImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -279,8 +281,8 @@ class __$$_BookCopyWithImpl<$Res> extends _$BookCopyWithImpl<$Res, _$_Book>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Book extends _Book {
-  _$_Book(
+class _$BookImpl extends _Book {
+  _$BookImpl(
       {this.id = 0,
       required this.title,
       required final List<String> authors,
@@ -300,7 +302,8 @@ class _$_Book extends _Book {
         _categories = categories,
         super._();
 
-  factory _$_Book.fromJson(Map<String, dynamic> json) => _$$_BookFromJson(json);
+  factory _$BookImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BookImplFromJson(json);
 
   @override
   @JsonKey()
@@ -364,7 +367,7 @@ class _$_Book extends _Book {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Book &&
+            other is _$BookImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
             const DeepCollectionEquality().equals(other._authors, _authors) &&
@@ -414,12 +417,12 @@ class _$_Book extends _Book {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BookCopyWith<_$_Book> get copyWith =>
-      __$$_BookCopyWithImpl<_$_Book>(this, _$identity);
+  _$$BookImplCopyWith<_$BookImpl> get copyWith =>
+      __$$BookImplCopyWithImpl<_$BookImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BookToJson(
+    return _$$BookImplToJson(
       this,
     );
   }
@@ -440,10 +443,10 @@ abstract class _Book extends Book {
       final ImageLinks? imageLinks,
       final String? language,
       final String? previewLink,
-      final String? infoLink}) = _$_Book;
+      final String? infoLink}) = _$BookImpl;
   _Book._() : super._();
 
-  factory _Book.fromJson(Map<String, dynamic> json) = _$_Book.fromJson;
+  factory _Book.fromJson(Map<String, dynamic> json) = _$BookImpl.fromJson;
 
   @override
   int get id;
@@ -475,5 +478,6 @@ abstract class _Book extends Book {
   String? get infoLink;
   @override
   @JsonKey(ignore: true)
-  _$$_BookCopyWith<_$_Book> get copyWith => throw _privateConstructorUsedError;
+  _$$BookImplCopyWith<_$BookImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }

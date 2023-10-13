@@ -34,7 +34,7 @@ dependencies:
   talker_dio_logger: ^2.3.0
   package_info_plus: ^4.1.0
   device_info_plus: ^9.0.3
-  collection: ^1.17.2
+  collection: ^1.17.0
   flutter_svg: ^2.0.7
 
 dev_dependencies:

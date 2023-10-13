@@ -20,6 +20,16 @@ class SessionRecordingService {
     }
 
     ResponseEvent response = (event as ResponseEvent);
+
+    if (_configurationService.logNetworkData) {
+      print('');
+      print('------- SESSION MATE NETWORKING: Response -------');
+      if (response.hasBody) {
+        // print('Body: ${response.}');
+      }
+      print('-------------------------------------------------');
+      print('');
+    }
     if (_avoidDataMasking(event)) {
       response = response.copyWith(uid: _requests[event.uid]!, body: null);
     } else {

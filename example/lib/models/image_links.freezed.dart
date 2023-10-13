@@ -68,22 +68,22 @@ class _$ImageLinksCopyWithImpl<$Res, $Val extends ImageLinks>
 }
 
 /// @nodoc
-abstract class _$$_ImageLinksCopyWith<$Res>
+abstract class _$$ImageLinksImplCopyWith<$Res>
     implements $ImageLinksCopyWith<$Res> {
-  factory _$$_ImageLinksCopyWith(
-          _$_ImageLinks value, $Res Function(_$_ImageLinks) then) =
-      __$$_ImageLinksCopyWithImpl<$Res>;
+  factory _$$ImageLinksImplCopyWith(
+          _$ImageLinksImpl value, $Res Function(_$ImageLinksImpl) then) =
+      __$$ImageLinksImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String smallThumbnail, String thumbnail});
 }
 
 /// @nodoc
-class __$$_ImageLinksCopyWithImpl<$Res>
-    extends _$ImageLinksCopyWithImpl<$Res, _$_ImageLinks>
-    implements _$$_ImageLinksCopyWith<$Res> {
-  __$$_ImageLinksCopyWithImpl(
-      _$_ImageLinks _value, $Res Function(_$_ImageLinks) _then)
+class __$$ImageLinksImplCopyWithImpl<$Res>
+    extends _$ImageLinksCopyWithImpl<$Res, _$ImageLinksImpl>
+    implements _$$ImageLinksImplCopyWith<$Res> {
+  __$$ImageLinksImplCopyWithImpl(
+      _$ImageLinksImpl _value, $Res Function(_$ImageLinksImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -92,7 +92,7 @@ class __$$_ImageLinksCopyWithImpl<$Res>
     Object? smallThumbnail = null,
     Object? thumbnail = null,
   }) {
-    return _then(_$_ImageLinks(
+    return _then(_$ImageLinksImpl(
       smallThumbnail: null == smallThumbnail
           ? _value.smallThumbnail
           : smallThumbnail // ignore: cast_nullable_to_non_nullable
@@ -107,12 +107,12 @@ class __$$_ImageLinksCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_ImageLinks extends _ImageLinks {
-  _$_ImageLinks({required this.smallThumbnail, required this.thumbnail})
+class _$ImageLinksImpl extends _ImageLinks {
+  _$ImageLinksImpl({required this.smallThumbnail, required this.thumbnail})
       : super._();
 
-  factory _$_ImageLinks.fromJson(Map<String, dynamic> json) =>
-      _$$_ImageLinksFromJson(json);
+  factory _$ImageLinksImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ImageLinksImplFromJson(json);
 
   @override
   final String smallThumbnail;
@@ -128,7 +128,7 @@ class _$_ImageLinks extends _ImageLinks {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ImageLinks &&
+            other is _$ImageLinksImpl &&
             (identical(other.smallThumbnail, smallThumbnail) ||
                 other.smallThumbnail == smallThumbnail) &&
             (identical(other.thumbnail, thumbnail) ||
@@ -142,12 +142,12 @@ class _$_ImageLinks extends _ImageLinks {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ImageLinksCopyWith<_$_ImageLinks> get copyWith =>
-      __$$_ImageLinksCopyWithImpl<_$_ImageLinks>(this, _$identity);
+  _$$ImageLinksImplCopyWith<_$ImageLinksImpl> get copyWith =>
+      __$$ImageLinksImplCopyWithImpl<_$ImageLinksImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ImageLinksToJson(
+    return _$$ImageLinksImplToJson(
       this,
     );
   }
@@ -156,11 +156,11 @@ class _$_ImageLinks extends _ImageLinks {
 abstract class _ImageLinks extends ImageLinks {
   factory _ImageLinks(
       {required final String smallThumbnail,
-      required final String thumbnail}) = _$_ImageLinks;
+      required final String thumbnail}) = _$ImageLinksImpl;
   _ImageLinks._() : super._();
 
   factory _ImageLinks.fromJson(Map<String, dynamic> json) =
-      _$_ImageLinks.fromJson;
+      _$ImageLinksImpl.fromJson;
 
   @override
   String get smallThumbnail;
@@ -168,6 +168,6 @@ abstract class _ImageLinks extends ImageLinks {
   String get thumbnail;
   @override
   @JsonKey(ignore: true)
-  _$$_ImageLinksCopyWith<_$_ImageLinks> get copyWith =>
+  _$$ImageLinksImplCopyWith<_$ImageLinksImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
