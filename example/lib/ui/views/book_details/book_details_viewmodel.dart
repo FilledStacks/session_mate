@@ -1,6 +1,8 @@
 import 'package:bookshelf/app/app.locator.dart';
 import 'package:bookshelf/app/app.logger.dart';
 import 'package:bookshelf/models/book.dart';
+import 'package:bookshelf/services/api_service.dart';
+import 'package:bookshelf/ui/views/book_details/book_details_view.form.dart';
 import 'package:session_mate/session_mate.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -10,6 +12,7 @@ class BookDetailsViewModel extends FormViewModel {
   BookDetailsViewModel({required this.book});
 
   final _logger = getLogger('BookDetailsViewModel');
+  final _api = locator<ApiService>();
   final _dialogService = locator<DialogService>();
 
   Future<void> orderBook() async {
@@ -35,6 +38,14 @@ class BookDetailsViewModel extends FormViewModel {
     } catch (e, s) {
       _logger.e('$e');
       SessionMateUtils.saveSession(exception: e, stackTrace: s);
+    }
+  }
+
+  Future<void> signIn() async {
+    try {
+      await _api.signIn(username: usernameValue!, password: passwordValue!);
+    } catch (e) {
+      _logger.e(e.toString());
     }
   }
 }

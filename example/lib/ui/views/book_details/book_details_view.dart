@@ -11,6 +11,8 @@ import 'book_details_viewmodel.dart';
 
 @FormView(fields: [
   FormTextField(name: 'inscription', validator: BookDetailsValidator.validate),
+  FormTextField(name: 'username'),
+  FormTextField(name: 'password'),
 ])
 class BookDetailsView extends StackedView<BookDetailsViewModel>
     with $BookDetailsView {
@@ -98,6 +100,50 @@ class BookDetailsView extends StackedView<BookDetailsViewModel>
                   ),
                   child: Text(
                     'Order Book',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                ),
+              ),
+              verticalSpaceLarge,
+              Text(
+                'Username',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              verticalSpaceTiny,
+              TextFormField(
+                controller: usernameController,
+                decoration: const InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xFF232228),
+                ),
+              ),
+              verticalSpaceSmall,
+              Text(
+                'Password',
+                style: Theme.of(context).textTheme.titleSmall,
+              ),
+              verticalSpaceTiny,
+              TextFormField(
+                controller: passwordController,
+                decoration: const InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xFF232228),
+                ),
+              ),
+              verticalSpaceLarge,
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: viewModel.signIn,
+                  style: FilledButton.styleFrom(
+                    backgroundColor: const Color(0xFF514DC3),
+                    foregroundColor: const Color(0xFFFFFFFF),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8.0),
+                    ),
+                  ),
+                  child: Text(
+                    'Sign In',
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),

@@ -27,4 +27,31 @@ class ApiService {
       rethrow;
     }
   }
+
+  Future<Map<String, dynamic>> signIn({
+    required String username,
+    required String password,
+  }) async {
+    final url = Uri.https('dummyjson.com', '/auth/login');
+    final body = {
+      'username': username,
+      'password': password,
+      'expiresInMins': 60,
+    };
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        body: jsonEncode(body),
+      );
+
+      _logger.wtf('response:${response.body}');
+
+      return jsonDecode(response.body);
+    } catch (e) {
+      _logger.e(e.toString());
+      rethrow;
+    }
+  }
 }

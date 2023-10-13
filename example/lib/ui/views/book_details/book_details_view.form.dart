@@ -13,6 +13,8 @@ import 'package:stacked/stacked.dart';
 const bool _autoTextFieldValidation = true;
 
 const String InscriptionValueKey = 'inscription';
+const String UsernameValueKey = 'username';
+const String PasswordValueKey = 'password';
 
 final Map<String, TextEditingController>
     _BookDetailsViewTextEditingControllers = {};
@@ -22,13 +24,21 @@ final Map<String, FocusNode> _BookDetailsViewFocusNodes = {};
 final Map<String, String? Function(String?)?> _BookDetailsViewTextValidations =
     {
   InscriptionValueKey: BookDetailsValidator.validate,
+  UsernameValueKey: null,
+  PasswordValueKey: null,
 };
 
 mixin $BookDetailsView {
   TextEditingController get inscriptionController =>
       _getFormTextEditingController(InscriptionValueKey);
+  TextEditingController get usernameController =>
+      _getFormTextEditingController(UsernameValueKey);
+  TextEditingController get passwordController =>
+      _getFormTextEditingController(PasswordValueKey);
 
   FocusNode get inscriptionFocusNode => _getFormFocusNode(InscriptionValueKey);
+  FocusNode get usernameFocusNode => _getFormFocusNode(UsernameValueKey);
+  FocusNode get passwordFocusNode => _getFormFocusNode(PasswordValueKey);
 
   TextEditingController _getFormTextEditingController(
     String key, {
@@ -55,6 +65,8 @@ mixin $BookDetailsView {
   /// with the latest textController values
   void syncFormWithViewModel(FormStateHelper model) {
     inscriptionController.addListener(() => _updateFormData(model));
+    usernameController.addListener(() => _updateFormData(model));
+    passwordController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
   }
@@ -67,6 +79,8 @@ mixin $BookDetailsView {
   )
   void listenToFormUpdated(FormViewModel model) {
     inscriptionController.addListener(() => _updateFormData(model));
+    usernameController.addListener(() => _updateFormData(model));
+    passwordController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
   }
@@ -77,6 +91,8 @@ mixin $BookDetailsView {
       model.formValueMap
         ..addAll({
           InscriptionValueKey: inscriptionController.text,
+          UsernameValueKey: usernameController.text,
+          PasswordValueKey: passwordController.text,
         }),
     );
 
@@ -120,6 +136,8 @@ extension ValueProperties on FormStateHelper {
 
   String? get inscriptionValue =>
       this.formValueMap[InscriptionValueKey] as String?;
+  String? get usernameValue => this.formValueMap[UsernameValueKey] as String?;
+  String? get passwordValue => this.formValueMap[PasswordValueKey] as String?;
 
   set inscriptionValue(String? value) {
     this.setData(
@@ -133,30 +151,74 @@ extension ValueProperties on FormStateHelper {
     }
   }
 
+  set usernameValue(String? value) {
+    this.setData(
+      this.formValueMap..addAll({UsernameValueKey: value}),
+    );
+
+    if (_BookDetailsViewTextEditingControllers.containsKey(UsernameValueKey)) {
+      _BookDetailsViewTextEditingControllers[UsernameValueKey]?.text =
+          value ?? '';
+    }
+  }
+
+  set passwordValue(String? value) {
+    this.setData(
+      this.formValueMap..addAll({PasswordValueKey: value}),
+    );
+
+    if (_BookDetailsViewTextEditingControllers.containsKey(PasswordValueKey)) {
+      _BookDetailsViewTextEditingControllers[PasswordValueKey]?.text =
+          value ?? '';
+    }
+  }
+
   bool get hasInscription =>
       this.formValueMap.containsKey(InscriptionValueKey) &&
       (inscriptionValue?.isNotEmpty ?? false);
+  bool get hasUsername =>
+      this.formValueMap.containsKey(UsernameValueKey) &&
+      (usernameValue?.isNotEmpty ?? false);
+  bool get hasPassword =>
+      this.formValueMap.containsKey(PasswordValueKey) &&
+      (passwordValue?.isNotEmpty ?? false);
 
   bool get hasInscriptionValidationMessage =>
       this.fieldsValidationMessages[InscriptionValueKey]?.isNotEmpty ?? false;
+  bool get hasUsernameValidationMessage =>
+      this.fieldsValidationMessages[UsernameValueKey]?.isNotEmpty ?? false;
+  bool get hasPasswordValidationMessage =>
+      this.fieldsValidationMessages[PasswordValueKey]?.isNotEmpty ?? false;
 
   String? get inscriptionValidationMessage =>
       this.fieldsValidationMessages[InscriptionValueKey];
+  String? get usernameValidationMessage =>
+      this.fieldsValidationMessages[UsernameValueKey];
+  String? get passwordValidationMessage =>
+      this.fieldsValidationMessages[PasswordValueKey];
 }
 
 extension Methods on FormStateHelper {
   setInscriptionValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[InscriptionValueKey] = validationMessage;
+  setUsernameValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[UsernameValueKey] = validationMessage;
+  setPasswordValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[PasswordValueKey] = validationMessage;
 
   /// Clears text input fields on the Form
   void clearForm() {
     inscriptionValue = '';
+    usernameValue = '';
+    passwordValue = '';
   }
 
   /// Validates text input fields on the Form
   void validateForm() {
     this.setValidationMessages({
       InscriptionValueKey: getValidationMessage(InscriptionValueKey),
+      UsernameValueKey: getValidationMessage(UsernameValueKey),
+      PasswordValueKey: getValidationMessage(PasswordValueKey),
     });
   }
 }
@@ -177,4 +239,6 @@ String? getValidationMessage(String key) {
 void updateValidationData(FormStateHelper model) =>
     model.setValidationMessages({
       InscriptionValueKey: getValidationMessage(InscriptionValueKey),
+      UsernameValueKey: getValidationMessage(UsernameValueKey),
+      PasswordValueKey: getValidationMessage(PasswordValueKey),
     });
