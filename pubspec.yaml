@@ -1,6 +1,6 @@
 name: session_mate
 description: Instantly reproduce bugs with a single click, directly from your app.
-version: 0.2.0
+version: 0.3.0
 homepage: https://sessionmate.dev/
 
 environment:
@@ -22,7 +22,7 @@ dependencies:
   logger: ^1.4.0
   stacked: ^3.4.1
   crypto: ^3.0.3
-  vector_math:
+  vector_math: ^2.1.4
   
   session_mate_core: ^0.1.0
 
