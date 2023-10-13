@@ -7,7 +7,6 @@ environment:
   sdk: '>=3.0.6 <4.0.0'
   flutter: ">=1.17.0"
 
-# Add regular dependencies here.
 dependencies:
   flutter:
     sdk: flutter
@@ -25,8 +24,7 @@ dependencies:
   crypto: ^3.0.3
   vector_math:
   
-  session_mate_core:
-    path: ../session_mate_core
+  session_mate_core: ^0.1.0
 
   get_it: ^7.6.0
   hive: ^2.2.3
