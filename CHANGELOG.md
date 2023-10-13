@@ -1,3 +1,7 @@
+## 0.3.1
+
+- Drops `svg_icon` for `flutter_svg`
+
 ## 0.3.0
 
 - Adds input masking

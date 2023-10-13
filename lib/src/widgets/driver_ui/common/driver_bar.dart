@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:session_mate/src/widgets/driver_ui/driver_ui_viewmodel.dart';
 import 'package:stacked/stacked.dart';
-import 'package:svg_icon/svg_icon.dart';
 
 class DriverBar extends ViewModelWidget<DriverUIViewModel> {
   const DriverBar({super.key});
@@ -25,9 +25,11 @@ class DriverBar extends ViewModelWidget<DriverUIViewModel> {
               children: [
                 GestureDetector(
                   onTap: viewModel.toggleDriverBar,
-                  child: SvgIcon(
+                  child: SvgPicture.asset(
                     'packages/session_mate/assets/driver_bar_icons/action-close.svg',
-                    color: Color(0xFFFFFFFF),
+                    theme: SvgTheme(
+                      currentColor: Color(0xFFFFFFFF),
+                    ),
                     width: 35,
                     height: 35,
                   ),
@@ -35,9 +37,11 @@ class DriverBar extends ViewModelWidget<DriverUIViewModel> {
                 const SizedBox(width: 20),
                 GestureDetector(
                   onTap: viewModel.toggleDebugMode,
-                  child: SvgIcon(
+                  child: SvgPicture.asset(
                     'packages/session_mate/assets/driver_bar_icons/action-${viewModel.showDebugInformation ? 'hide' : 'show'}-coordinates.svg',
-                    color: Color(0xFFFFFFFF),
+                    theme: SvgTheme(
+                      currentColor: Color(0xFFFFFFFF),
+                    ),
                     width: 35,
                     height: 35,
                   ),
@@ -45,9 +49,11 @@ class DriverBar extends ViewModelWidget<DriverUIViewModel> {
                 const SizedBox(width: 20),
                 GestureDetector(
                   onTap: viewModel.toggleSessionList,
-                  child: SvgIcon(
+                  child: SvgPicture.asset(
                     'packages/session_mate/assets/driver_bar_icons/action-${viewModel.showSessionList ? 'hide' : 'show'}-ui.svg',
-                    color: Color(0xFFFFFFFF),
+                    theme: SvgTheme(
+                      currentColor: Color(0xFFFFFFFF),
+                    ),
                     width: 35,
                     height: 35,
                   ),
@@ -55,9 +61,11 @@ class DriverBar extends ViewModelWidget<DriverUIViewModel> {
                 const Spacer(),
                 GestureDetector(
                   onTap: viewModel.startSession,
-                  child: SvgIcon(
+                  child: SvgPicture.asset(
                     'packages/session_mate/assets/driver_bar_icons/action-replay-session.svg',
-                    color: Color(0xFFFFFFFF),
+                    theme: SvgTheme(
+                      currentColor: Color(0xFFFFFFFF),
+                    ),
                     width: 35,
                     height: 35,
                   ),
@@ -66,9 +74,11 @@ class DriverBar extends ViewModelWidget<DriverUIViewModel> {
             )
           : GestureDetector(
               onTap: viewModel.toggleDriverBar,
-              child: SvgIcon(
+              child: SvgPicture.asset(
                 'packages/session_mate/assets/driver_bar_icons/action-open.svg',
-                color: Color(0xFFFFFFFF),
+                theme: SvgTheme(
+                  currentColor: Color(0xFFFFFFFF),
+                ),
                 width: 35,
                 height: 35,
               ),
