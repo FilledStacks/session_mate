@@ -298,6 +298,12 @@ class MockSessionService extends _i1.Mock implements _i12.SessionService {
         returnValueForMissingStub: <String>[],
       ) as List<String>);
   @override
+  String get navigationStackId => (super.noSuchMethod(
+        Invocation.getter(#navigationStackId),
+        returnValue: '',
+        returnValueForMissingStub: '',
+      ) as String);
+  @override
   int get listenersCount => (super.noSuchMethod(
         Invocation.getter(#listenersCount),
         returnValue: 0,
@@ -380,6 +386,14 @@ class MockSessionService extends _i1.Mock implements _i12.SessionService {
           ),
         ),
       ) as _i2.Session);
+  @override
+  void clearNavigationStack() => super.noSuchMethod(
+        Invocation.method(
+          #clearNavigationStack,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
       super.noSuchMethod(
