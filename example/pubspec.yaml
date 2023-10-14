@@ -18,6 +18,7 @@ dependencies:
   faker: ^2.1.0
   uuid: ^3.0.7
   json_annotation: ^4.8.1
+  xml: ^5.4.1
 
 dev_dependencies:
   build_runner: ^2.4.5

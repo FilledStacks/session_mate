@@ -670,4 +670,18 @@ class MockApiService extends _i1.Mock implements _i6.ApiService {
         returnValueForMissingStub:
             _i4.Future<Iterable<_i7.Book>>.value(<_i7.Book>[]),
       ) as _i4.Future<Iterable<_i7.Book>>);
+
+  @override
+  _i4.Future<Map<String, dynamic>> getAuthors({bool? forceXML = false}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAuthors,
+          [],
+          {#forceXML: forceXML},
+        ),
+        returnValue:
+            _i4.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+        returnValueForMissingStub:
+            _i4.Future<Map<String, dynamic>>.value(<String, dynamic>{}),
+      ) as _i4.Future<Map<String, dynamic>>);
 }

@@ -1,5 +1,6 @@
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/helpers/crypto_helper.dart';
+import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/helpers/response_filter_helper.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -16,20 +17,14 @@ class SessionRecordingService {
   void handleEvent(NetworkEvent event) {
     if (event is RequestEvent) {
       _requests[event.uid] = hashEvent(event);
+      logRequest(event);
       return;
     }
 
     ResponseEvent response = (event as ResponseEvent);
 
-    if (_configurationService.logNetworkData) {
-      print('');
-      print('------- SESSION MATE NETWORKING: Response -------');
-      if (response.hasBody) {
-        // print('Body: ${response.}');
-      }
-      print('-------------------------------------------------');
-      print('');
-    }
+    logResponse(event);
+
     if (_avoidDataMasking(event)) {
       response = response.copyWith(uid: _requests[event.uid]!, body: null);
     } else {

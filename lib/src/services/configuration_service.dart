@@ -39,6 +39,6 @@ class ConfigurationService {
     _minimumStartupTime = minimumStartupTime ?? _minimumStartupTime;
     _listeningPort = listeningPort ?? _listeningPort;
     _apiKey = apiKey;
-    _logNetworkData = logNetworkData ?? false;
+    _logNetworkData = logNetworkData ?? _logNetworkData;
   }
 }

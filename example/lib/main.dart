@@ -38,6 +38,7 @@ class MainApp extends StatelessWidget {
           "thumbnail",
         ],
         minimumStartupTime: 6000,
+        logNetworkData: true,
         child: child!,
       ),
       theme: ThemeData(

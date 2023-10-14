@@ -10,8 +10,8 @@ class SessionReplayService {
   /// Stores the hash of each request
   final Map<String, String> _requestsHashes = {};
 
-  /// Stores the responses that were masked under session recording
-  final Map<String, ResponseEvent> _maskedResponses = {};
+  /// Stores the responses that were mocked under session recording
+  final Map<String, ResponseEvent> _mockedResponses = {};
 
   RequestEvent? _currentEvent;
 
@@ -26,15 +26,15 @@ class SessionReplayService {
 
   void populateCache(List<NetworkEvent> events) {
     print(
-      'SessionReplayService - populate ${events.length} masked responses into cache',
+      'SessionReplayService - populate ${events.length} mocked responses into cache',
     );
 
     for (var e in events) {
-      _maskedResponses[(e as ResponseEvent).uid] = e;
+      _mockedResponses[(e as ResponseEvent).uid] = e;
     }
 
     print('🟣 MASKED');
-    _maskedResponses.forEach((key, value) {
+    _mockedResponses.forEach((key, value) {
       print('🟣 hash:$key response:${value.toJson()}');
     });
   }
@@ -46,7 +46,7 @@ class SessionReplayService {
       print(
           '🤡 - handleMockRequest - uri:${request.uri} headers:${request.headers}');
 
-      final response = _maskedResponses[_requestsHashes[_currentEvent?.uid]];
+      final response = _mockedResponses[_requestsHashes[_currentEvent?.uid]];
 
       if (response != null) {
         request.response
@@ -61,10 +61,10 @@ class SessionReplayService {
   }
 
   Future<List<int>> getSanitizedData(List<int> data, {String? uid}) async {
-    print('🤡 - getSanitizedData - uid:$uid data:$data');
+    // print('🤡 - getSanitizedData - uid:$uid data:$data');
     if (kRecordUserInteractions || uid == null) return data;
 
-    final response = _maskedResponses[_requestsHashes[uid]];
+    final response = _mockedResponses[_requestsHashes[uid]];
 
     print('🤡 - getSanitizedData - response:${response?.toJson()} ');
 
