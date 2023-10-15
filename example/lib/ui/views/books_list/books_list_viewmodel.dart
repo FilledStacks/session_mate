@@ -34,4 +34,8 @@ class BooksListViewModel extends FutureViewModel<List<Book>> {
 
     _navigationService.navigateToBookDetailsView(book: book);
   }
+
+  void showSettings() {
+    _navigationService.navigateToSettingsView();
+  }
 }

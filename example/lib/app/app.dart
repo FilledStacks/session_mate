@@ -7,6 +7,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:bookshelf/ui/views/books_list/books_list_view.dart';
 import 'package:bookshelf/services/api_service.dart';
 import 'package:bookshelf/ui/views/book_details/book_details_view.dart';
+import 'package:bookshelf/ui/views/settings/settings_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -15,6 +16,7 @@ import 'package:bookshelf/ui/views/book_details/book_details_view.dart';
     MaterialRoute(page: StartupView),
     MaterialRoute(page: BooksListView),
     MaterialRoute(page: BookDetailsView),
+    MaterialRoute(page: SettingsView),
 // @stacked-route
   ],
   dependencies: [

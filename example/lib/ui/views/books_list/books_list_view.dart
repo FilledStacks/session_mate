@@ -14,6 +14,10 @@ class BooksListView extends StackedView<BooksListViewModel> {
     Widget? child,
   ) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: viewModel.showSettings,
+        child: const Icon(Icons.settings, color: Colors.white),
+      ),
       appBar: AppBar(title: const Text('Bookshelf')),
       body: SafeArea(
         child: viewModel.isBusy
