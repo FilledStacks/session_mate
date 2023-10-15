@@ -10,6 +10,10 @@ const String? apiKey =
     bool.hasEnvironment('API_KEY') ? String.fromEnvironment('API_KEY') : null;
 
 Future<void> main() async {
+  if (!kReplaySession) {
+    WidgetsFlutterBinding.ensureInitialized();
+  }
+
   await setupSessionMate();
   await setupLocator();
   setupDialogUi();

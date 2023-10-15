@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 
 const bool kRecordUserInteractions =
     !kDebugMode || bool.fromEnvironment('RECORD_SESSION');
+const bool kReplaySession = bool.fromEnvironment('REPLAY_SESSION');
 const bool kForceDriverUI = bool.fromEnvironment('FORCE_DRIVER_UI');
 const bool kUseFakeData = bool.fromEnvironment('USE_FAKE_DATA');
 const bool kRunningIntegrationTest = bool.fromEnvironment('INTEGRATION_TEST');

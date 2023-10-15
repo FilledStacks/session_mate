@@ -1,6 +1,7 @@
 library;
 
 export 'src/http/overrides.dart';
+export 'src/package_constants.dart';
 export 'src/session_mate_utils.dart';
 export 'src/setup_code.dart';
 export 'src/widgets/driver_ui/driver_ui.dart';

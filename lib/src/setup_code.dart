@@ -21,7 +21,7 @@ late Uint8List globalPlaceHolder;
 Future<void> setupSessionMate() async {
   if (kRecordUserInteractions) {
     WidgetsFlutterBinding.ensureInitialized();
-  } else {
+  } else if (kReplaySession) {
     enableFlutterDriverExtension(
       handler: (message) async {
         return locator<DriverCommunicationService>().waitForInteractions();
