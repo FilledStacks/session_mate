@@ -30,11 +30,11 @@ dependencies:
   hive: ^2.2.3
   path_provider: ^2.1.0
   
-  dio: ^5.3.3
-  talker_dio_logger: ^2.3.0
+  dio: ^5.2.0
+  talker_dio_logger: ^1.2.2
   package_info_plus: ^4.1.0
   device_info_plus: ^9.0.3
-  collection: ^1.17.0
+  collection: ^1.16.0
   flutter_svg: ^2.0.7
 
 dev_dependencies:
