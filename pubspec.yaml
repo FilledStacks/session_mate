@@ -47,6 +47,10 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
+dependency_overrides:
+  path: ../session_mate_core
+
+
 flutter:
   uses-material-design: true
   assets:
