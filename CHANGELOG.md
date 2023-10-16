@@ -1,3 +1,7 @@
+## 0.4.2
+
+- Bumps dart to 3.0.5
+
 ## 0.4.1
 
 - Lowers the dart version and flutter_svg version
