@@ -1,3 +1,7 @@
+## 0.4.1
+
+- Lowers the dart version and flutter_svg version
+
 ## 0.4.0
 
 - Adds `logNetworkEvents` property to `SessionMateBuilder`
