@@ -1,3 +1,7 @@
+## 0.4.3
+
+- Bumps session_mate_core
+
 ## 0.4.2
 
 - Bumps dart to 3.0.5
