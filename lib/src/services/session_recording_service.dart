@@ -23,10 +23,13 @@ class SessionRecordingService {
 
     ResponseEvent response = (event as ResponseEvent);
 
-    logResponse(event);
+    logResponse(response);
 
     if (_avoidDataMasking(event)) {
-      response = response.copyWith(uid: _requests[event.uid]!, body: null);
+      response = response.copyWith(
+        uid: _requests[event.uid]!,
+        body: _avoidSavingData(event) ? null : event.body,
+      );
     } else {
       response = ResponseEvent.fromJson(_dataMaskingService.handle(
         response.copyWith(uid: _requests[event.uid]!).toJson(),
@@ -43,6 +46,12 @@ class SessionRecordingService {
     if (hasImageContentType(event)) return true;
 
     // NOTE: place to add other filters if necessary
+
+    return false;
+  }
+
+  bool _avoidSavingData(ResponseEvent event) {
+    if (hasImageContentType(event)) return true;
 
     return false;
   }
