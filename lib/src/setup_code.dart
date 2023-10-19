@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_driver/driver_extension.dart';
-import 'package:session_mate/session_mate.dart';
+import 'package:session_mate/src/http/overrides.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';

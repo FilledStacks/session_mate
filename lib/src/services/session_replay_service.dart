@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/helpers/crypto_helper.dart';
 import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/helpers/response_filter_helper.dart';
 import 'package:session_mate/src/package_constants.dart';
+import 'package:session_mate/src/setup_code.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class SessionReplayService {

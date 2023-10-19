@@ -1,6 +1,7 @@
 ## 0.4.4
 
 - Update `session_mate_core` package
+- Fix some imports
 
 ## 0.4.3
 

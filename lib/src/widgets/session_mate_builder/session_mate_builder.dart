@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/package_constants.dart';
+import 'package:session_mate/src/widgets/driver_ui/driver_ui.dart';
+import 'package:session_mate/src/widgets/interaction_recorder/interaction_recorder.dart';
 import 'package:stacked/stacked.dart';
 
 import 'session_mate_builder_viewmodel.dart';
