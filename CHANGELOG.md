@@ -1,3 +1,7 @@
+## 0.4.4
+
+- Update `session_mate_core` package
+
 ## 0.4.3
 
 - Bumps session_mate_core
