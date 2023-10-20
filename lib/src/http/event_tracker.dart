@@ -42,6 +42,8 @@ class HttpEventTracker {
   void onError(Exception e) {
     _sendRequestEvent({}, '');
 
+    print('🔴 Request Error:${e.toString()}');
+
     _interceptorService.onEvent(
       ResponseEvent(
         uid: _uid,
