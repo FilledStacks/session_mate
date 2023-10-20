@@ -52,6 +52,15 @@ class WidgetFinder {
     return extractedScrollableDescriptions;
   }
 
+  List<TextField> getAllTextFieldsOnScreen() {
+    return find
+        .byType(TextField)
+        .hitTestable()
+        .evaluate()
+        .map((textFieldElement) => textFieldElement.widget as TextField)
+        .toList();
+  }
+
   TextField? getTextFieldAtPosition({
     required Offset position,
     bool verbose = false,
