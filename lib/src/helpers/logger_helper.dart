@@ -70,3 +70,25 @@ void logResponse(ResponseEvent event) {
   print('--------------------------------------------------------');
   print('');
 }
+
+void logSession(Session session) {
+  if (!_configurationService.logNetworkData) return;
+
+  final uiEvents = session.events.whereType<UIEvent>();
+  final uiEventsDetails =
+      uiEvents.map((e) => 'Type:${e.type}, View:${e.view}').toList();
+  final networkEvents = session.events.whereType<NetworkEvent>();
+
+  print('');
+  print('------- Session Details 📥 -------');
+  print('Id: ${session.id}');
+  print('UI Events: ${uiEvents.length}');
+  for (var e in uiEventsDetails) {
+    print('\n   $e');
+  }
+  print('Response Events: ${networkEvents.length}');
+  print('Views: ${session.views}');
+  print('Created At: ${session.createdAt}');
+  print('---------------------------------');
+  print('');
+}

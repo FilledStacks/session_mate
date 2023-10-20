@@ -87,8 +87,6 @@ class SessionService with ListenableServiceMixin {
       throw Exception('No session events available, nothing to save.');
     }
 
-    print('events count:${_sessionEvents.length}');
-
     final session = Session(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       createdAtTimestamp: DateTime.now().millisecondsSinceEpoch,
@@ -98,6 +96,8 @@ class SessionService with ListenableServiceMixin {
       stackTrace: stackTrace.toString(),
       sessionStats: SessionStats.empty(),
     );
+
+    logSession(session);
 
     return session;
   }
