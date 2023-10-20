@@ -26,6 +26,7 @@ import 'package:session_mate/src/services/session_service.dart' as _i12;
 import 'package:session_mate/src/utils/notification_extractor.dart' as _i21;
 import 'package:session_mate/src/utils/reactive_scrollable.dart' as _i22;
 import 'package:session_mate/src/utils/scroll_applicator.dart' as _i20;
+import 'package:session_mate/src/utils/text_input_recorder.dart' as _i24;
 import 'package:session_mate/src/utils/time_utils.dart' as _i19;
 import 'package:session_mate/src/utils/widget_finder.dart' as _i13;
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart'
@@ -177,6 +178,13 @@ class MockConfigurationService extends _i1.Mock
       ) as int);
 
   @override
+  bool get verboseLogs => (super.noSuchMethod(
+        Invocation.getter(#verboseLogs),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
+
+  @override
   String get apiKey => (super.noSuchMethod(
         Invocation.getter(#apiKey),
         returnValue: '',
@@ -205,6 +213,7 @@ class MockConfigurationService extends _i1.Mock
     int? listeningPort,
     String? apiKey,
     bool? logNetworkData,
+    bool? verboseLogs,
   }) =>
       super.noSuchMethod(
         Invocation.method(
@@ -217,6 +226,7 @@ class MockConfigurationService extends _i1.Mock
             #listeningPort: listeningPort,
             #apiKey: apiKey,
             #logNetworkData: logNetworkData,
+            #verboseLogs: verboseLogs,
           },
         ),
         returnValueForMissingStub: null,
@@ -1394,4 +1404,51 @@ class MockDataMaskingService extends _i1.Mock
         returnValue: 0,
         returnValueForMissingStub: 0,
       ) as num);
+}
+
+/// A class which mocks [TextInputRecorder].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTextInputRecorder extends _i1.Mock implements _i24.TextInputRecorder {
+  @override
+  _i3.Logger get log => (super.noSuchMethod(
+        Invocation.getter(#log),
+        returnValue: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+        returnValueForMissingStub: _FakeLogger_1(
+          this,
+          Invocation.getter(#log),
+        ),
+      ) as _i3.Logger);
+
+  @override
+  _i10.Future<void> populateCurrentTextInfo() => (super.noSuchMethod(
+        Invocation.method(
+          #populateCurrentTextInfo,
+          [],
+        ),
+        returnValue: _i10.Future<void>.value(),
+        returnValueForMissingStub: _i10.Future<void>.value(),
+      ) as _i10.Future<void>);
+
+  @override
+  List<_i2.InputEvent> checkForTextChange() => (super.noSuchMethod(
+        Invocation.method(
+          #checkForTextChange,
+          [],
+        ),
+        returnValue: <_i2.InputEvent>[],
+        returnValueForMissingStub: <_i2.InputEvent>[],
+      ) as List<_i2.InputEvent>);
+
+  @override
+  void clearTextInfo() => super.noSuchMethod(
+        Invocation.method(
+          #clearTextInfo,
+          [],
+        ),
+        returnValueForMissingStub: null,
+      );
 }

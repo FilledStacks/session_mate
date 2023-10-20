@@ -6,6 +6,10 @@ class DataMaskingService {
   final _configurationService = locator<ConfigurationService>();
 
   String stringSubstitution(String item) {
+    if (!_configurationService.dataMaskingEnabled) {
+      return item;
+    }
+
     String output = '';
     final specialCharacters = RegExp(r'[-!@#$%^&*()_+{}\[\]:;<>,.?~\\|]');
     final digits = RegExp(r'\d+');
@@ -30,6 +34,10 @@ class DataMaskingService {
 
   @visibleForTesting
   num numSubstitution(num item) {
+    if (!_configurationService.dataMaskingEnabled) {
+      return item;
+    }
+
     String output = '';
     String itemToString = item.toString();
     for (int i = 0; i < itemToString.length; i++) {

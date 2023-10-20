@@ -1,4 +1,7 @@
+import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
+
+bool get printVerboseLogs => locator<ConfigurationService>().verboseLogs;
 
 class ConfigurationService {
   bool _dataMaskingEnabled = true;

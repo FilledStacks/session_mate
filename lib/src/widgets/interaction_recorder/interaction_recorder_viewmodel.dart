@@ -32,26 +32,32 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   Offset? _lastTapPosition;
 
-  late Size _currentScreenSize;
+  final Size _currentScreenSize;
 
   bool get hasLastTapPosition => _lastTapPosition != null;
   Offset? get lastTapPosition => _lastTapPosition;
 
   bool _currentScrollStartedByUser = false;
+  bool _actuallyScrolled = false;
 
   bool get hasActiveCommand => _activeCommand != null;
 
   List<UIEvent> get uiEvents => _sessionService.uiEvents;
 
-  InteractionRecorderViewModel() {
+  InteractionRecorderViewModel({Size screenSize = Size.zero})
+      : _currentScreenSize = screenSize {
     _notificationController.stream.listen(handleNotifications);
 
-    _routeTracker.addListener(_textInputRecorder.populateCurrentTextInfo);
+    _routeTracker.addListener(() {
+      _textInputRecorder.clearTextInfo();
+      _textInputRecorder.populateCurrentTextInfo();
+    });
   }
 
   void handleNotifications(Notification notification) {
     if (notification is ScrollStartNotification) {
       _currentScrollStartedByUser = notification.dragDetails != null;
+      _actuallyScrolled = false;
 
       if (_currentScrollStartedByUser) {
         onScrollStart(
@@ -61,11 +67,14 @@ class InteractionRecorderViewModel extends BaseViewModel {
         );
       }
     } else if (notification is ScrollEndNotification) {
-      if (_currentScrollStartedByUser) {
+      if (_currentScrollStartedByUser && _actuallyScrolled) {
         onScrollEnd(endOffset: notification.metrics.pixels);
+        _currentScrollStartedByUser = false;
+      } else {
+        _clearActiveScrollCommand();
       }
-
-      _currentScrollStartedByUser = false;
+    } else if (notification is ScrollUpdateNotification) {
+      _actuallyScrolled = true;
     }
   }
 
@@ -106,10 +115,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   void onUserTap({
     required Offset position,
-    required Size screenSize,
   }) {
-    _currentScreenSize = screenSize;
-
     if (hasActiveCommand) {
       concludeAndClear();
     }
@@ -121,8 +127,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
       position: EventPosition(
         x: position.dx,
         y: position.dy,
-        capturedDeviceWidth: screenSize.width,
-        capturedDeviceHeight: screenSize.height,
+        capturedDeviceWidth: _currentScreenSize.width,
+        capturedDeviceHeight: _currentScreenSize.height,
       ),
       view: _routeTracker.currentRoute,
       order: _timeUtils.timestamp,
@@ -132,6 +138,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _sessionService.addEvent(rawTapEvent);
 
     _lastTapPosition = position;
+
+    _checkForInputEvent();
   }
 
   void onRawKeyEvent({
@@ -211,8 +219,21 @@ class InteractionRecorderViewModel extends BaseViewModel {
         ),
       );
 
-      _scrollTimer?.stop();
-      _scrollTimer = null;
+      _clearActiveScrollCommand();
+
+      _textInputRecorder.clearTextInfo();
+      _textInputRecorder.populateCurrentTextInfo();
     }
+  }
+
+  void _clearActiveScrollCommand() {
+    _scrollTimer?.stop();
+    _scrollTimer = null;
+    _activeScrollEvent = null;
+  }
+
+  void _checkForInputEvent() {
+    final inputEventsFromChanges = _textInputRecorder.checkForTextChange();
+    _sessionService.addAllEvents(inputEventsFromChanges);
   }
 }

@@ -43,6 +43,7 @@ class MainApp extends StatelessWidget {
         ],
         minimumStartupTime: 6000,
         logNetworkData: true,
+        verboseLogs: true,
         child: child!,
       ),
       theme: ThemeData(
