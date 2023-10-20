@@ -14,6 +14,7 @@ import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/notification_extractor.dart';
 import 'package:session_mate/src/utils/reactive_scrollable.dart';
 import 'package:session_mate/src/utils/scroll_applicator.dart';
+import 'package:session_mate/src/utils/text_input_recorder.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
@@ -38,7 +39,15 @@ import 'test_helpers.mocks.dart';
   MockSpec<NotificationExtractor>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<ReactiveScrollable>(onMissingStub: OnMissingStub.returnDefault),
   MockSpec<DataMaskingService>(onMissingStub: OnMissingStub.returnDefault),
+  MockSpec<TextInputRecorder>(onMissingStub: OnMissingStub.returnDefault),
 ])
+MockTextInputRecorder getAndRegisterTextInputRecorder() {
+  _removeRegistrationIfExists<TextInputRecorder>();
+  final service = MockTextInputRecorder();
+  locator.registerSingleton<TextInputRecorder>(service);
+  return service;
+}
+
 MockDataMaskingService getAndRegisterDataMaskingService() {
   _removeRegistrationIfExists<DataMaskingService>();
   final service = MockDataMaskingService();
@@ -184,6 +193,13 @@ MockSessionService getAndRegisterSessionService() {
   return service;
 }
 
+DataMaskingService getAndRegisterRealMaskingService() {
+  _removeRegistrationIfExists<DataMaskingService>();
+  final service = DataMaskingService();
+  locator.registerSingleton<DataMaskingService>(service);
+  return service;
+}
+
 void registerServices() {
   getAndRegisterConfigurationService();
   getAndRegisterSessionRecordingService();
@@ -199,6 +215,7 @@ void registerServices() {
   getAndRegisterReactiveScrollable();
   getAndRegisterNotificationExtractor();
   getAndRegisterDataMaskingService();
+  getAndRegisterTextInputRecorder();
 }
 
 void _removeRegistrationIfExists<T extends Object>() {

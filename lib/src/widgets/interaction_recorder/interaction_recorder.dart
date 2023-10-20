@@ -26,8 +26,6 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
       }
     });
 
-    final size = MediaQuery.of(context).size;
-
     return Stack(
       children: [
         NotificationListener(
@@ -36,7 +34,6 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
             behavior: HitTestBehavior.opaque,
             onTap: (event) => viewModel.onUserTap(
               position: event.position,
-              screenSize: size,
             ),
             child: this.child,
           ),
@@ -47,6 +44,7 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
 
   @override
   InteractionRecorderViewModel viewModelBuilder(BuildContext context) {
-    return InteractionRecorderViewModel();
+    final size = MediaQuery.of(context).size;
+    return InteractionRecorderViewModel(screenSize: size);
   }
 }

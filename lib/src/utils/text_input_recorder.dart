@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
+import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/data_masking_service.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -10,14 +11,17 @@ class TextInputRecorder {
   final _widgetFinder = locator<WidgetFinder>();
   final _maskService = locator<DataMaskingService>();
 
-  final Map<Rect, TrackedTextInputItem> _textFieldsOnScreen;
+  List<TrackedTextInputItem> _textFieldsOnScreen;
 
   TextInputRecorder({
-    @visibleForTesting
-    Map<Rect, TrackedTextInputItem> initialTextFieldsOnScreen = const {},
-  }) : _textFieldsOnScreen = initialTextFieldsOnScreen;
+    @visibleForTesting List<TrackedTextInputItem>? initialTextFieldsOnScreen,
+  }) : _textFieldsOnScreen = initialTextFieldsOnScreen ?? [];
 
   Future<void> populateCurrentTextInfo() async {
+    if (printVerboseLogs) {
+      print('🖋️ populateCurrentTextInfo');
+    }
+
     final textFieldInformation = _widgetFinder.getAllTextFieldsOnScreen();
 
     for (var (textEditingController, boundingBox) in textFieldInformation) {
@@ -27,47 +31,65 @@ class TextInputRecorder {
         value: textEditingController.text,
       );
 
-      _textFieldsOnScreen[boundingBox] = trackedInputItem;
+      _textFieldsOnScreen.add(trackedInputItem);
+    }
+
+    if (printVerboseLogs) {
+      print(
+          '🖋️ Tracking ${_textFieldsOnScreen.length} text fields on screen.');
     }
   }
 
   List<InputEvent> checkForTextChange() {
+    if (printVerboseLogs) {
+      print('🖋️ checkForTextChange');
+    }
     final List<InputEvent> textInputEvents = [];
-    final textFieldInformation = _widgetFinder.getAllTextFieldsOnScreen();
 
-    for (var (textEditingController, boundingBox) in textFieldInformation) {
-      final trackedTextFieldItem = _textFieldsOnScreen[boundingBox];
+    if (printVerboseLogs) {
+      log.i('🖋️ --------- Comparing Text Fields ---------');
+      log.v('🖋️ Tracked Field count: ${_textFieldsOnScreen.length}');
+      log.i('🖋️ ------------------------------------------');
+    }
 
-      if (trackedTextFieldItem == null) {
-        log.e(
-            '''SESSION MATE ERROR: No text field is found at the current position $boundingBox
+    for (var trackedTextFieldItem in _textFieldsOnScreen) {
+      final inputHasChanged =
+          trackedTextFieldItem.value != trackedTextFieldItem.controller.text;
+      print(
+          '🖋️ TrackedTextField value: ${trackedTextFieldItem.value} , currentTextFieldValue:${trackedTextFieldItem.controller.text}');
 
-        This means the textField was changed without recalculating the position. Please contact
-        dane@sessionmate.dev with this issue, this should never happen.
-        ''');
-      } else {
-        final inputHasChanged =
-            trackedTextFieldItem.value != textEditingController.text;
+      if (inputHasChanged) {
+        final textInputPosition = trackedTextFieldItem.boundingBox.center;
 
-        if (inputHasChanged) {
-          final textInputPosition = boundingBox.center;
-
-          textInputEvents.add(InputEvent(
-            position: EventPosition(
-              x: textInputPosition.dx,
-              y: textInputPosition.dy,
-            ),
-            inputData:
-                _maskService.stringSubstitution(textEditingController.text),
-          ));
-        }
+        textInputEvents.add(InputEvent(
+          position: EventPosition(
+            x: textInputPosition.dx,
+            y: textInputPosition.dy,
+          ),
+          inputData: _maskService.stringSubstitution(
+            trackedTextFieldItem.controller.text,
+          ),
+        ));
       }
+    }
+    if (printVerboseLogs) {
+      print('🖋️ ---------- Text Field Diffs ----------');
+      print(
+          '🖋️ ${textInputEvents.length} distinct text input changes has occured here are the details:');
+      for (final inputEvent in textInputEvents) {
+        print(
+            '🖋️ Field at (${inputEvent.position.x}, ${inputEvent.position.y}) changed to ${inputEvent.inputData}');
+      }
+      print('🖋️ --------------------------------------');
     }
 
     return textInputEvents;
   }
 
   void clearTextInfo() {
+    if (printVerboseLogs) {
+      log.i('🖋️ clearTextInfo');
+    }
     _textFieldsOnScreen.clear();
   }
 }

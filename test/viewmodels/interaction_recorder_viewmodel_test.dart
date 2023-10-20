@@ -69,18 +69,6 @@ void main() {
           position: anyNamed('position'),
         ));
       });
-
-      test(
-          'When called with KeepAliveNotification and last position set, should not get textField from widgetFinder',
-          () {
-        final widgetFinder = getAndRegisterWidgetFinder();
-        final model = _getModel();
-        model.onUserTap(position: Offset.zero, screenSize: Size.zero);
-        model.handleNotifications(KeepAliveNotification(ValueNotifier(0)));
-        verify(widgetFinder.getTextFieldAtPosition(
-          position: anyNamed('position'),
-        ));
-      });
     });
 
     group('Multiple command recording -', () {
@@ -97,7 +85,7 @@ void main() {
         );
         model.onScrollEnd(endOffset: 100);
 
-        model.onUserTap(position: Offset(1, 0), screenSize: Size.zero);
+        model.onUserTap(position: Offset(1, 0));
 
         model.onScrollStart(
           scrollDirection: Axis.vertical,
@@ -106,24 +94,9 @@ void main() {
         );
         model.onScrollEnd(endOffset: 200);
 
-        model.onUserTap(position: Offset(0, 1), screenSize: Size.zero);
+        model.onUserTap(position: Offset(0, 1));
 
         verify(sessionService.addEvent(any)).called(4);
-      });
-    });
-
-    group('concludeActiveCommand -', () {
-      test('When called, should clear activeTextEditingController', () {
-        final model = _getModel();
-
-        model.startCommandRecording(
-          position: Offset(1, 0),
-          type: InteractionType.tap,
-          screenSize: Size.zero,
-        );
-
-        model.concludeActiveCommand();
-        expect(model.hasActiveTextEditingController, false);
       });
     });
 
