@@ -18,6 +18,9 @@ class ConfigurationService {
   int _listeningPort = 3000;
   int get listeningPort => _listeningPort;
 
+  bool _verboseLogs = false;
+  bool get verboseLogs => _verboseLogs;
+
   String? _apiKey;
   String get apiKey => _apiKey!;
   bool get hasApiKey => _apiKey != null;
@@ -32,6 +35,7 @@ class ConfigurationService {
     int? listeningPort,
     String? apiKey,
     bool? logNetworkData,
+    bool? verboseLogs,
   }) {
     _dataMaskingEnabled = dataMaskingEnabled ?? _dataMaskingEnabled;
     _keysToExcludeOnDataMasking =
@@ -40,5 +44,6 @@ class ConfigurationService {
     _listeningPort = listeningPort ?? _listeningPort;
     _apiKey = apiKey;
     _logNetworkData = logNetworkData ?? _logNetworkData;
+    _verboseLogs = verboseLogs ?? false;
   }
 }

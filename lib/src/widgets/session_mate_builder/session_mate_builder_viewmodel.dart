@@ -8,6 +8,7 @@ class SessionMateBuilderViewModel extends BaseViewModel {
   final List<String> keysToExcludeOnDataMasking;
   final int minimumStartupTime;
   final bool logNetworkData;
+  final bool verboseLogs;
 
   SessionMateBuilderViewModel({
     this.apiKey,
@@ -15,6 +16,7 @@ class SessionMateBuilderViewModel extends BaseViewModel {
     this.keysToExcludeOnDataMasking = const [],
     this.minimumStartupTime = 5000,
     this.logNetworkData = false,
+    this.verboseLogs = false,
   });
 
   final _configurationService = locator<ConfigurationService>();
@@ -26,6 +28,7 @@ class SessionMateBuilderViewModel extends BaseViewModel {
       keysToExcludeOnDataMasking: keysToExcludeOnDataMasking,
       minimumStartupTime: minimumStartupTime,
       logNetworkData: logNetworkData,
+      verboseLogs: verboseLogs,
     );
   }
 }
