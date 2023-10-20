@@ -8,13 +8,18 @@ class TextInputRecorder {
   final log = getLogger('TextInputRecorder');
   final _widgetFinder = locator<WidgetFinder>();
 
-  final Map<Rect, _TrackedTextInputItem> _textFieldsOnScreen = {};
+  final Map<Rect, TrackedTextInputItem> _textFieldsOnScreen;
+
+  TextInputRecorder(
+      {@visibleForTesting
+      Map<Rect, TrackedTextInputItem> initialTextFieldsOnScreen = const {}})
+      : _textFieldsOnScreen = initialTextFieldsOnScreen;
 
   Future<void> populateCurrentTextInfo() async {
     final textFieldInformation = _widgetFinder.getAllTextFieldsOnScreen();
 
     for (var (textEditingController, boundingBox) in textFieldInformation) {
-      final trackedInputItem = _TrackedTextInputItem(
+      final trackedInputItem = TrackedTextInputItem(
         controller: textEditingController,
         boundingBox: boundingBox,
         value: textEditingController.text,
@@ -50,6 +55,7 @@ class TextInputRecorder {
               x: textInputPosition.dx,
               y: textInputPosition.dy,
             ),
+            inputData: textEditingController.text,
           ));
         }
       }
@@ -63,12 +69,12 @@ class TextInputRecorder {
   }
 }
 
-class _TrackedTextInputItem {
+class TrackedTextInputItem {
   final TextEditingController controller;
   final Rect boundingBox;
   final String value;
 
-  _TrackedTextInputItem({
+  TrackedTextInputItem({
     required this.controller,
     required this.boundingBox,
     required this.value,

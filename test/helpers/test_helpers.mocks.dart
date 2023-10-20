@@ -493,6 +493,17 @@ class MockWidgetFinder extends _i1.Mock implements _i13.WidgetFinder {
       ) as Iterable<_i2.ScrollableDescription>);
 
   @override
+  List<(_i14.TextEditingController, _i6.Rect)> getAllTextFieldsOnScreen() =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #getAllTextFieldsOnScreen,
+          [],
+        ),
+        returnValue: <(_i14.TextEditingController, _i6.Rect)>[],
+        returnValueForMissingStub: <(_i14.TextEditingController, _i6.Rect)>[],
+      ) as List<(_i14.TextEditingController, _i6.Rect)>);
+
+  @override
   _i14.TextField? getTextFieldAtPosition({
     required _i6.Offset? position,
     bool? verbose = false,

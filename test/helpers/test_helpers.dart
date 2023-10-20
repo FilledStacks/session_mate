@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
@@ -157,9 +158,14 @@ MockSessionRecordingService getAndRegisterSessionRecordingService() {
   return service;
 }
 
-MockWidgetFinder getAndRegisterWidgetFinder() {
+MockWidgetFinder getAndRegisterWidgetFinder({
+  List<(TextEditingController, Rect)> allTextFieldsOnScreen = const [],
+}) {
   _removeRegistrationIfExists<WidgetFinder>();
   final service = MockWidgetFinder();
+
+  when(service.getAllTextFieldsOnScreen()).thenReturn(allTextFieldsOnScreen);
+
   locator.registerSingleton<WidgetFinder>(service);
   return service;
 }
