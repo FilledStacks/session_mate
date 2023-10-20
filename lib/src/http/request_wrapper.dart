@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
 
 import 'event_tracker.dart';
@@ -81,6 +83,13 @@ class HttpRequestWrapper implements HttpClientRequest {
 
   @override
   Future<HttpClientResponse> close() async {
+    logRawRequest(
+      uri: _httpClientRequest.uri,
+      method: _httpClientRequest.method,
+      headers: headers,
+      body: _httpEventTracker.data,
+    );
+
     _httpEventTracker.sendRequestEvent(headers, headers.host!);
 
     // NOTE: at this point, the request should be handled by the local server
@@ -96,6 +105,14 @@ class HttpRequestWrapper implements HttpClientRequest {
         }, handleError: (error, stackTrace, sink) {
           print("HttpRequestWrapper :: ERROR RESPONSE $error $stackTrace");
         }, handleDone: (sink) async {
+          logRawResponse(
+            uri: uri,
+            method: method,
+            statusCode: response.statusCode,
+            headers: response.headers,
+            body: Uint8List.fromList(body),
+          );
+
           // NOTE: proper place to await any responseWrapper task
 
           _httpEventTracker.sendSuccessResponse(
