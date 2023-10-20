@@ -59,7 +59,7 @@ class TextInputRecorder {
   }
 
   void clearTextInfo() {
-    // 1. Clear the local text field data
+    _textFieldsOnScreen.clear();
   }
 }
 
