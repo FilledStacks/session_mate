@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
+import 'package:session_mate/src/services/data_masking_service.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class TextInputRecorder {
   final log = getLogger('TextInputRecorder');
   final _widgetFinder = locator<WidgetFinder>();
+  final _maskService = locator<DataMaskingService>();
 
   final Map<Rect, TrackedTextInputItem> _textFieldsOnScreen;
 
-  TextInputRecorder(
-      {@visibleForTesting
-      Map<Rect, TrackedTextInputItem> initialTextFieldsOnScreen = const {}})
-      : _textFieldsOnScreen = initialTextFieldsOnScreen;
+  TextInputRecorder({
+    @visibleForTesting
+    Map<Rect, TrackedTextInputItem> initialTextFieldsOnScreen = const {},
+  }) : _textFieldsOnScreen = initialTextFieldsOnScreen;
 
   Future<void> populateCurrentTextInfo() async {
     final textFieldInformation = _widgetFinder.getAllTextFieldsOnScreen();
@@ -55,7 +57,8 @@ class TextInputRecorder {
               x: textInputPosition.dx,
               y: textInputPosition.dy,
             ),
-            inputData: textEditingController.text,
+            inputData:
+                _maskService.stringSubstitution(textEditingController.text),
           ));
         }
       }

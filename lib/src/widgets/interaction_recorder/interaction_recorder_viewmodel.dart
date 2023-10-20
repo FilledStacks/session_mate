@@ -4,7 +4,6 @@ import 'package:flutter/material.dart' hide RawKeyEvent;
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
-import 'package:session_mate/src/services/data_masking_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
@@ -19,7 +18,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final _widgetFinder = locator<WidgetFinder>();
   final _routeTracker = locator<SessionMateRouteTracker>();
   final _timeUtils = locator<TimeUtils>();
-  final _maskService = locator<DataMaskingService>();
 
   final _notificationController = StreamController<Notification>.broadcast();
 
@@ -37,14 +35,9 @@ class InteractionRecorderViewModel extends BaseViewModel {
   bool get hasLastTapPosition => _lastTapPosition != null;
   Offset? get lastTapPosition => _lastTapPosition;
 
-  TextEditingController? _activeTextEditingController;
-
   bool _currentScrollStartedByUser = false;
 
   bool get hasActiveCommand => _activeCommand != null;
-
-  bool get hasActiveTextEditingController =>
-      _activeTextEditingController != null;
 
   List<UIEvent> get uiEvents => _sessionService.uiEvents;
 
@@ -69,36 +62,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
       }
 
       _currentScrollStartedByUser = false;
-    } else if (notification is KeepAliveNotification) {
-      // Potential bug: we are dependent on the keepAlive notification to
-      // fire after the tap function has set _lastTapPosition to complete.
-      if (hasLastTapPosition) {
-        final textField =
-            _widgetFinder.getTextFieldAtPosition(position: _lastTapPosition!);
-
-        if (textField != null) {
-          final hasAttachedController = textField.controller != null;
-          if (hasAttachedController) {
-            addInputCommand(
-              inputController: textField.controller!,
-              screenSize: _currentScreenSize,
-            );
-          } else {
-            print('''
-
-🛑 SessionMate ERROR 🛑 
-
-You are trying to record text input that has no controller.
-This probably means you are using an example app where this bug would not have
-been caught.
-
-To capture text in Flutter and use it in your codebase you need to use a 
-TextEditingController. 
-
-''');
-          }
-        }
-      }
     }
   }
 
@@ -128,17 +91,6 @@ TextEditingController.
       );
     }
 
-    if (_activeCommand is InputEvent) {
-      _activeCommand = (_activeCommand as InputEvent).copyWith(
-        inputData: _maskService
-            .stringSubstitution(_activeTextEditingController?.text ?? ''),
-        view: _routeTracker.currentRoute,
-        order: _timeUtils.timestamp,
-      );
-
-      _lastTapPosition = null;
-    }
-
     print('🔴 ConcludeCommand - ${_activeCommand?.toJson()}');
 
     _sessionService.addEvent(_activeCommand!);
@@ -146,7 +98,6 @@ TextEditingController.
 
   void _clearActiveCommand() {
     _activeCommand = null;
-    _activeTextEditingController = null;
   }
 
   void onUserTap({
@@ -177,38 +128,6 @@ TextEditingController.
     _sessionService.addEvent(rawTapEvent);
 
     _lastTapPosition = position;
-  }
-
-  void addInputCommand({
-    required TextEditingController inputController,
-    required Size screenSize,
-  }) {
-    print('🔴 startRecording input command @ $_lastTapPosition ');
-
-    _activeTextEditingController = inputController;
-
-    if (hasLastTapPosition) {
-      if (hasActiveCommand) {
-        concludeAndClear();
-      }
-
-      startCommandRecording(
-        position: _lastTapPosition!,
-        type: InteractionType.input,
-        screenSize: screenSize,
-      );
-    } else {
-      print(
-        '🛑 SessionMate 🛑: An input command should not fire before a tap command, something is broken in Flutter.',
-      );
-    }
-  }
-
-  void onScrollEvent(
-    Offset position,
-    Offset scrollDelta,
-  ) {
-    // print('postion: $position, scrollDelta: $scrollDelta');
   }
 
   void onRawKeyEvent({
@@ -278,6 +197,8 @@ TextEditingController.
             y: scrollIsVertical
                 ? _activeScrollEvent!.startingOffset - endOffset
                 : 0,
+            capturedDeviceHeight: _currentScreenSize.height,
+            capturedDeviceWidth: _currentScreenSize.width,
           ),
           duration: _scrollTimer?.elapsedMilliseconds,
           view: _routeTracker.currentRoute,
