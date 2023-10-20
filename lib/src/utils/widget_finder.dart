@@ -52,13 +52,26 @@ class WidgetFinder {
     return extractedScrollableDescriptions;
   }
 
-  List<TextField> getAllTextFieldsOnScreen() {
+  List<(TextEditingController, Rect)> getAllTextFieldsOnScreen() {
     return find
         .byType(TextField)
         .hitTestable()
         .evaluate()
-        .map((textFieldElement) => textFieldElement.widget as TextField)
-        .toList();
+        .map((textFieldElement) {
+      final renderObject = textFieldElement.findRenderObject() as RenderBox;
+      final translation = renderObject.getTransformTo(null).getTranslation();
+      final offset = Offset(translation.x, translation.y);
+      final textFieldRect = renderObject.paintBounds.shift(offset);
+
+      final textField = textFieldElement.widget as TextField;
+
+      if (textField.controller == null) {
+        log.e(
+            'SESSION MATE ERROR: TextField in the UI tree has no controller. This means we cannot record your input events');
+      }
+
+      return (textField.controller ?? TextEditingController(), textFieldRect);
+    }).toList();
   }
 
   TextField? getTextFieldAtPosition({

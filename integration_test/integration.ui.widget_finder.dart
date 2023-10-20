@@ -11,9 +11,9 @@ void registerWidgetFinderTests() {
         home: Scaffold(
             body: Column(
           children: [
-            TextField(),
-            TextField(),
-            TextField(),
+            TextField(controller: TextEditingController()),
+            TextField(controller: TextEditingController()),
+            TextField(controller: TextEditingController()),
           ],
         )),
       ));
