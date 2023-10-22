@@ -10,7 +10,7 @@ class WidgetFinder {
   Iterable<ScrollableDescription> getAllScrollablesOnScreen() {
     final scrollableItemsInWidgetTree =
         find.byType(Scrollable).hitTestable().evaluate();
-    log.v('scrollableItemsInWidgetTree: $scrollableItemsInWidgetTree');
+    // log.v('scrollableItemsInWidgetTree: $scrollableItemsInWidgetTree');
     final extractedScrollableDescriptions = scrollableItemsInWidgetTree
         .map((item) {
           try {
@@ -47,7 +47,7 @@ class WidgetFinder {
         .where((element) => element != null)
         .cast<ScrollableDescription>();
 
-    log.i('extractedScrollableDescriptions: $extractedScrollableDescriptions');
+    // log.i('extractedScrollableDescriptions: $extractedScrollableDescriptions');
 
     return extractedScrollableDescriptions;
   }
