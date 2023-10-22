@@ -42,7 +42,6 @@ class MainApp extends StatelessWidget {
           "thumbnail",
         ],
         minimumStartupTime: 6000,
-        logNetworkData: true,
         verboseLogs: true,
         child: child!,
       ),
