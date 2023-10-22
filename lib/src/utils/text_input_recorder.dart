@@ -3,6 +3,7 @@ import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/data_masking_service.dart';
+import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
@@ -10,6 +11,7 @@ class TextInputRecorder {
   final log = getLogger('TextInputRecorder');
   final _widgetFinder = locator<WidgetFinder>();
   final _maskService = locator<DataMaskingService>();
+  final _timeUtils = locator<TimeUtils>();
 
   List<TrackedTextInputItem> _textFieldsOnScreen;
 
@@ -69,6 +71,7 @@ class TextInputRecorder {
           inputData: _maskService.stringSubstitution(
             trackedTextFieldItem.controller.text,
           ),
+          order: _timeUtils.timestamp,
         ));
       }
     }
