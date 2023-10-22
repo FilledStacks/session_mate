@@ -52,7 +52,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _routeTracker.onPreNavigation(() {
       print('========= onPreNavigation ==========');
       print('');
-      _saveInputEventsAndRepopulate();
+      _saveInputEventsAndRepopulate(source: 'onPreNavigation');
     });
 
     _routeTracker.addListener(() {
@@ -128,7 +128,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
       concludeAndClear();
     }
 
-    _saveInputEventsAndRepopulate();
+    _saveInputEventsAndRepopulate(source: 'onUserTap');
 
     print('🔴 Add tap event - $position');
 
@@ -241,9 +241,9 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _activeScrollEvent = null;
   }
 
-  void _saveInputEventsAndRepopulate() {
+  void _saveInputEventsAndRepopulate({String? source}) {
     print('');
-    print('----------- Check for Input and clear ------------');
+    print('----------- Check for Input and clear from $source ------------');
     final inputEventsFromChanges = _textInputRecorder.checkForTextChange();
     _sessionService.addAllEvents(inputEventsFromChanges);
 
