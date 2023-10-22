@@ -3,8 +3,10 @@ import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/data_masking_service.dart';
+import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
+import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class TextInputRecorder {
@@ -12,6 +14,8 @@ class TextInputRecorder {
   final _widgetFinder = locator<WidgetFinder>();
   final _maskService = locator<DataMaskingService>();
   final _timeUtils = locator<TimeUtils>();
+  final _sessionService = locator<SessionService>();
+  final _routeTracker = locator<SessionMateRouteTracker>();
 
   List<TrackedTextInputItem> _textFieldsOnScreen;
 
@@ -72,6 +76,8 @@ class TextInputRecorder {
             trackedTextFieldItem.controller.text,
           ),
           order: _timeUtils.timestamp,
+          navigationStackId: _sessionService.navigationStackId,
+          view: _routeTracker.currentRoute,
         ));
       }
     }
