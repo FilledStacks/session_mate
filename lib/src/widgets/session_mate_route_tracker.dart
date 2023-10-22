@@ -25,6 +25,12 @@ class SessionMateRouteTracker extends ChangeNotifier {
       ? _currentRoute.convertViewNameToValidFormat
       : '';
 
+  Function()? _onPreNavigation;
+
+  void onPreNavigation(Function() callback) {
+    _onPreNavigation = callback;
+  }
+
   void setCurrentRoute(String route) {
     _logger.i('route: $_currentRoute | previousRoute: $previosRoute');
 
@@ -32,6 +38,8 @@ class SessionMateRouteTracker extends ChangeNotifier {
       setRoute(route);
       return;
     }
+
+    _onPreNavigation?.call();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setRoute(route);
