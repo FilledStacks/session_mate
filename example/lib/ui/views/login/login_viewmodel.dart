@@ -14,7 +14,11 @@ class LoginViewModel extends FormViewModel {
   Future<void> login() async {
     log.i('email:$emailValue, password:$passwordValue');
 
-    await Future.delayed(Duration(seconds: 2));
+    setBusy(true);
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    setBusy(false);
 
     _navigationService.replaceWithBooksListView();
   }
