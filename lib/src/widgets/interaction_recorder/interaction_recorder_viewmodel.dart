@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart' hide RawKeyEvent;
+import 'package:flutter/scheduler.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
@@ -49,8 +50,12 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _notificationController.stream.listen(handleNotifications);
 
     _routeTracker.addListener(() {
+      _checkForInputEvent();
       _textInputRecorder.clearTextInfo();
-      _textInputRecorder.populateCurrentTextInfo();
+
+      SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
+        _textInputRecorder.populateCurrentTextInfo();
+      });
     });
   }
 

@@ -5,16 +5,17 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:bookshelf/models/book.dart' as _i8;
+import 'package:bookshelf/models/book.dart' as _i9;
 import 'package:bookshelf/ui/views/book_details/book_details_view.dart' as _i5;
 import 'package:bookshelf/ui/views/books_list/books_list_view.dart' as _i4;
 import 'package:bookshelf/ui/views/home/home_view.dart' as _i2;
+import 'package:bookshelf/ui/views/login/login_view.dart' as _i7;
 import 'package:bookshelf/ui/views/settings/settings_view.dart' as _i6;
 import 'package:bookshelf/ui/views/startup/startup_view.dart' as _i3;
-import 'package:flutter/material.dart' as _i7;
+import 'package:flutter/material.dart' as _i8;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i9;
+import 'package:stacked_services/stacked_services.dart' as _i10;
 
 class Routes {
   static const homeView = '/home-view';
@@ -27,12 +28,15 @@ class Routes {
 
   static const settingsView = '/settings-view';
 
+  static const loginView = '/login-view';
+
   static const all = <String>{
     homeView,
     startupView,
     booksListView,
     bookDetailsView,
     settingsView,
+    loginView,
   };
 }
 
@@ -58,38 +62,48 @@ class StackedRouter extends _i1.RouterBase {
       Routes.settingsView,
       page: _i6.SettingsView,
     ),
+    _i1.RouteDef(
+      Routes.loginView,
+      page: _i7.LoginView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i7.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i7.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.BooksListView: (data) {
-      return _i7.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.BooksListView(),
         settings: data,
       );
     },
     _i5.BookDetailsView: (data) {
       final args = data.getArgs<BookDetailsViewArguments>(nullOk: false);
-      return _i7.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) =>
             _i5.BookDetailsView(key: args.key, book: args.book),
         settings: data,
       );
     },
     _i6.SettingsView: (data) {
-      return _i7.MaterialPageRoute<dynamic>(
+      return _i8.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.SettingsView(),
+        settings: data,
+      );
+    },
+    _i7.LoginView: (data) {
+      return _i8.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i7.LoginView(),
         settings: data,
       );
     },
@@ -108,9 +122,9 @@ class BookDetailsViewArguments {
     required this.book,
   });
 
-  final _i7.Key? key;
+  final _i8.Key? key;
 
-  final _i8.Book book;
+  final _i9.Book book;
 
   @override
   String toString() {
@@ -129,7 +143,7 @@ class BookDetailsViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i9.NavigationService {
+extension NavigatorStateExtension on _i10.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -173,8 +187,8 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> navigateToBookDetailsView({
-    _i7.Key? key,
-    required _i8.Book book,
+    _i8.Key? key,
+    required _i9.Book book,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -197,6 +211,20 @@ extension NavigatorStateExtension on _i9.NavigationService {
         transition,
   ]) async {
     return navigateTo<dynamic>(Routes.settingsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToLoginView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.loginView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -246,8 +274,8 @@ extension NavigatorStateExtension on _i9.NavigationService {
   }
 
   Future<dynamic> replaceWithBookDetailsView({
-    _i7.Key? key,
-    required _i8.Book book,
+    _i8.Key? key,
+    required _i9.Book book,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
@@ -270,6 +298,20 @@ extension NavigatorStateExtension on _i9.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.settingsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithLoginView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.loginView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
