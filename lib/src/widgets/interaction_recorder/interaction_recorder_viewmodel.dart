@@ -49,10 +49,13 @@ class InteractionRecorderViewModel extends BaseViewModel {
       : _currentScreenSize = screenSize {
     _notificationController.stream.listen(handleNotifications);
 
-    _routeTracker.addListener(() {
-      _checkForInputEvent();
-      _textInputRecorder.clearTextInfo();
+    _routeTracker.onPreNavigation(() {
+      print('========= onPreNavigation ==========');
+      print('');
+      _saveInputEventsAndRepopulate();
+    });
 
+    _routeTracker.addListener(() {
       SchedulerBinding.instance.addPostFrameCallback((timeStamp) {
         _textInputRecorder.populateCurrentTextInfo();
       });
@@ -125,6 +128,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
       concludeAndClear();
     }
 
+    _saveInputEventsAndRepopulate();
+
     print('🔴 Add tap event - $position');
 
     final rawTapEvent = TapEvent(
@@ -143,8 +148,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _sessionService.addEvent(rawTapEvent);
 
     _lastTapPosition = position;
-
-    _checkForInputEvent();
   }
 
   void onRawKeyEvent({
@@ -162,6 +165,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
         usbHidUsage: usbHidUsage,
         view: _routeTracker.currentRoute,
         order: _timeUtils.timestamp,
+        navigationStackId: _sessionService.navigationStackId,
       ),
     );
   }
@@ -237,8 +241,14 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _activeScrollEvent = null;
   }
 
-  void _checkForInputEvent() {
+  void _saveInputEventsAndRepopulate() {
+    print('');
+    print('----------- Check for Input and clear ------------');
     final inputEventsFromChanges = _textInputRecorder.checkForTextChange();
     _sessionService.addAllEvents(inputEventsFromChanges);
+
+    _textInputRecorder.clearTextInfo();
+    _textInputRecorder.populateCurrentTextInfo();
+    print('');
   }
 }
