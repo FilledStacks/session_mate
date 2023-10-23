@@ -160,9 +160,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _sessionService.addEvent(
       UIEvent.rawKeyEvent(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        keyId: keyId,
-        keyLabel: keyLabel,
-        usbHidUsage: usbHidUsage,
         view: _routeTracker.currentRoute,
         order: _timeUtils.timestamp,
         navigationStackId: _sessionService.navigationStackId,
