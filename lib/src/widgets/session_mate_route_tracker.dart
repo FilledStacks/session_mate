@@ -10,7 +10,6 @@ class SessionMateRouteTracker extends ChangeNotifier {
   static final instance = SessionMateRouteTracker._();
 
   final _logger = getLogger('SessionMateRouteTracker');
-  final _sessionService = locator<SessionService>();
 
   @visibleForTesting
   bool testMode = false;
@@ -43,8 +42,8 @@ class SessionMateRouteTracker extends ChangeNotifier {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setRoute(route);
-      _sessionService.addView(route);
-      _sessionService.checkForEnterPressed('Navigation');
+      locator<SessionService>().addView(route);
+      locator<SessionService>().checkForEnterPressed('Navigation');
       notifyListeners();
     });
   }

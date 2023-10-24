@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/services/configuration_service.dart';
 
 import 'session_mate_route_tracker.dart';
 
@@ -8,23 +9,30 @@ class SessionMateNavigatorObserver extends NavigatorObserver {
 
   static final instance = SessionMateNavigatorObserver._();
 
-  final routeTracker = locator<SessionMateRouteTracker>();
+  final _configurationService = locator<ConfigurationService>();
+  final _routeTracker = locator<SessionMateRouteTracker>();
 
   @override
   void didPop(Route route, Route? previousRoute) {
-    routeTracker.setCurrentRoute(_getRouteName(previousRoute));
+    if (!_configurationService.enabled) return;
+
+    _routeTracker.setCurrentRoute(_getRouteName(previousRoute));
     super.didPop(route, previousRoute);
   }
 
   @override
   void didPush(Route route, Route? previousRoute) {
-    routeTracker.setCurrentRoute(_getRouteName(route));
+    if (!_configurationService.enabled) return;
+
+    _routeTracker.setCurrentRoute(_getRouteName(route));
     super.didPush(route, previousRoute);
   }
 
   @override
   void didReplace({Route? newRoute, Route? oldRoute}) {
-    routeTracker.setCurrentRoute(_getRouteName(newRoute));
+    if (!_configurationService.enabled) return;
+
+    _routeTracker.setCurrentRoute(_getRouteName(newRoute));
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
   }
 
@@ -34,7 +42,9 @@ class SessionMateNavigatorObserver extends NavigatorObserver {
     required int index,
     required String viewName,
   }) {
-    routeTracker.changeRouteIndex(viewName, index);
+    if (!_configurationService.enabled) return;
+
+    _routeTracker.changeRouteIndex(viewName, index);
   }
 
   String _getRouteName(Route? route) {
