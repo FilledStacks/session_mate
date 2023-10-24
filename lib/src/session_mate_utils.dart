@@ -1,5 +1,6 @@
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/package_constants.dart';
+import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/hive_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -12,11 +13,13 @@ class SessionMateUtils {
     Object? exception,
     StackTrace? stackTrace,
   }) async {
+    if (!locator<ConfigurationService>().enabled) return;
+
+    if (!kRecordUserInteractions) return;
+
     final sessionService = locator<SessionService>();
     final localStorageService = locator<HiveService>();
     final httpService = locator<HttpService>();
-
-    if (!kRecordUserInteractions) return;
 
     try {
       if (kLocalOnlyUsage) {
@@ -33,7 +36,7 @@ class SessionMateUtils {
         );
       }
     } catch (e) {
-      print(e);
+      print('🔴 Error:${e.toString()}');
     }
   }
 }
