@@ -18,10 +18,14 @@ class SessionReplayService {
 
   // TODO: use only RequestEvent here
   void handleEvent(NetworkEvent event) {
-    if (event is RequestEvent) {
-      _currentEvent = event;
-      _requestsHashes[event.uid] = hashEvent(event);
-      logRequest(event);
+    try {
+      if (event is RequestEvent) {
+        _currentEvent = event;
+        _requestsHashes[event.uid] = hashEvent(event);
+        logRequest(event);
+      }
+    } catch (e, s) {
+      print('🔴 Error:${e.toString()} StackTrace:\n$s');
     }
   }
 

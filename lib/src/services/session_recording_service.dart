@@ -15,29 +15,33 @@ class SessionRecordingService {
   final Map<String, String> _requests = {};
 
   void handleEvent(NetworkEvent event) {
-    if (event is RequestEvent) {
-      _requests[event.uid] = hashEvent(event);
-      logRequest(event);
-      return;
+    try {
+      if (event is RequestEvent) {
+        _requests[event.uid] = hashEvent(event);
+        logRequest(event);
+        return;
+      }
+
+      ResponseEvent response = (event as ResponseEvent);
+
+      logResponse(response);
+
+      if (_avoidDataMasking(event)) {
+        response = response.copyWith(
+          uid: _requests[event.uid]!,
+          body: _avoidSavingData(event) ? null : event.body,
+        );
+      } else {
+        response = ResponseEvent.fromJson(_dataMaskingService.handle(
+          response.copyWith(uid: _requests[event.uid]!).toJson(),
+        ));
+      }
+
+      locator<SessionService>().addEvent(response);
+      _requests.remove(event.uid);
+    } catch (e, s) {
+      print('🔴 Error:${e.toString()} StackTrace:\n$s');
     }
-
-    ResponseEvent response = (event as ResponseEvent);
-
-    logResponse(response);
-
-    if (_avoidDataMasking(event)) {
-      response = response.copyWith(
-        uid: _requests[event.uid]!,
-        body: _avoidSavingData(event) ? null : event.body,
-      );
-    } else {
-      response = ResponseEvent.fromJson(_dataMaskingService.handle(
-        response.copyWith(uid: _requests[event.uid]!).toJson(),
-      ));
-    }
-
-    locator<SessionService>().addEvent(response);
-    _requests.remove(event.uid);
   }
 
   bool _avoidDataMasking(ResponseEvent event) {
