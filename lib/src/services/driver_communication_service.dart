@@ -84,13 +84,16 @@ class DriverCommunicationService with ListenableServiceMixin {
   }
 
   Future<String> prepareInteraction(UIEvent event) async {
-    print('DriverCommunicationService - Prepare interaction to driver');
+    print(
+        'DriverCommunicationService - Prepare interaction for event ${event.type} ');
+
+    if (event.type == InteractionType.input) {
+      FocusManager.instance.primaryFocus?.unfocus();
+    }
+
+    await Future.delayed(Duration(milliseconds: 350));
 
     _interactionStreamController.add(event);
-
-    print('⏰⏰⏰⏰⏰ Wait');
-    await Future.delayed(Duration(seconds: 3));
-    print('⏰⏰⏰⏰⏰ Wait done');
 
     return Future.value(jsonEncode(event));
   }

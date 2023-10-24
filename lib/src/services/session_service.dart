@@ -29,6 +29,10 @@ class SessionService with ListenableServiceMixin {
 
     if (event is UIEvent) {
       _uiEvents.add(event);
+
+      if (event.type == InteractionType.onKeyboardEnterEvent) {
+        addEvent(RawKeyEvent(type: InteractionType.backPressEvent));
+      }
       return;
     }
 

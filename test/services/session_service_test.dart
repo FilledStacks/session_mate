@@ -27,6 +27,25 @@ void main() {
       });
 
       test(
+          'When adding a RawKeyEvent for enterPressed, should add a backButtonPress as well',
+          () {
+        final service = getService();
+        service.addEvent(
+          RawKeyEvent(type: InteractionType.onKeyboardEnterEvent),
+        );
+
+        expect(service.sessionEvents.length, 2);
+        expect(
+          service.uiEvents.length,
+          2,
+          reason: 'If type UI event it should also be added to UI events list',
+        );
+        expect(
+            service.uiEvents.first.type, InteractionType.onKeyboardEnterEvent);
+        expect(service.uiEvents.last.type, InteractionType.backPressEvent);
+      });
+
+      test(
           'When called with a NetworkEvent, should have 1 in session and network events',
           () {
         final service = getService();
@@ -56,8 +75,7 @@ void main() {
 
         service.checkForEnterPressed('Test');
 
-        expect(
-            service.uiEvents.last.type, InteractionType.onKeyboardEnterEvent);
+        expect(service.uiEvents[1].type, InteractionType.onKeyboardEnterEvent);
       });
       test(
           'When called and the last even is tap, should NOT add keyboardEnterEvent',
