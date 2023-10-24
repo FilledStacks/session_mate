@@ -6,7 +6,6 @@ import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/data_masking_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
-import 'package:session_mate/src/utils/scroll_applicator.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
@@ -21,8 +20,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final _routeTracker = locator<SessionMateRouteTracker>();
   final _timeUtils = locator<TimeUtils>();
   final _maskService = locator<DataMaskingService>();
-
-  final _scrollApplicator = locator<ScrollApplicator>();
 
   final _notificationController = StreamController<Notification>.broadcast();
 
@@ -122,15 +119,6 @@ TextEditingController.
       "runtimeType": type.name,
       "navigationStackId": _sessionService.navigationStackId,
     });
-
-    final scrollables = _widgetFinder.getAllScrollablesOnScreen();
-    final inputEventWithScrollApplied =
-        _scrollApplicator.applyScrollableToEvent(
-      scrollables,
-      _activeCommand!,
-    );
-
-    _activeCommand = inputEventWithScrollApplied;
   }
 
   void concludeActiveCommand() {
@@ -173,7 +161,7 @@ TextEditingController.
 
     print('🔴 Add tap event - $position');
 
-    var rawTapEvent = TapEvent(
+    final rawTapEvent = TapEvent(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       position: EventPosition(
         x: position.dx,
@@ -186,13 +174,7 @@ TextEditingController.
       navigationStackId: _sessionService.navigationStackId,
     );
 
-    final scrollables = _widgetFinder.getAllScrollablesOnScreen();
-    final tapEventWithScrollApplied = _scrollApplicator.applyScrollableToEvent(
-      scrollables,
-      rawTapEvent,
-    );
-
-    _sessionService.addEvent(tapEventWithScrollApplied);
+    _sessionService.addEvent(rawTapEvent);
 
     _lastTapPosition = position;
   }
