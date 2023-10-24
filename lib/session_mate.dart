@@ -9,3 +9,6 @@ export 'src/widgets/interaction_recorder/interaction_recorder.dart';
 export 'src/widgets/session_mate.dart';
 export 'src/widgets/session_mate_builder/session_mate_builder.dart';
 export 'src/widgets/session_mate_navigator_observer.dart';
+
+/// Session Mate Core
+export 'package:session_mate_core/src/enums/session_priority.dart';
