@@ -21,6 +21,8 @@ class SessionMateBuilderViewModel extends BaseViewModel {
 
   final _configurationService = locator<ConfigurationService>();
 
+  bool get enabled => _configurationService.enabled;
+
   void init() {
     _configurationService.setValues(
       apiKey: apiKey,
