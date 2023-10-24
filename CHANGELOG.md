@@ -1,3 +1,7 @@
+## 0.5.0
+
+- Adds improved interaction replay
+
 ## 0.4.4
 
 - Update `session_mate_core` package

@@ -715,6 +715,13 @@ class MockHttpService extends _i1.Mock implements _i16.HttpService {
 class MockDriverCommunicationService extends _i1.Mock
     implements _i17.DriverCommunicationService {
   @override
+  _i10.Stream<dynamic> get interactionStream => (super.noSuchMethod(
+        Invocation.getter(#interactionStream),
+        returnValue: _i10.Stream<dynamic>.empty(),
+        returnValueForMissingStub: _i10.Stream<dynamic>.empty(),
+      ) as _i10.Stream<dynamic>);
+
+  @override
   bool get readyToReplay => (super.noSuchMethod(
         Invocation.getter(#readyToReplay),
         returnValue: false,
@@ -746,6 +753,17 @@ class MockDriverCommunicationService extends _i1.Mock
       );
 
   @override
+  _i10.Future<String> handleInstruction(String? sweetCoreInstruction) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #handleInstruction,
+          [sweetCoreInstruction],
+        ),
+        returnValue: _i10.Future<String>.value(''),
+        returnValueForMissingStub: _i10.Future<String>.value(''),
+      ) as _i10.Future<String>);
+
+  @override
   _i10.Future<String> waitForInteractions() => (super.noSuchMethod(
         Invocation.method(
           #waitForInteractions,
@@ -756,13 +774,32 @@ class MockDriverCommunicationService extends _i1.Mock
       ) as _i10.Future<String>);
 
   @override
-  void sendInteractions(List<_i2.UIEvent>? interactions) => super.noSuchMethod(
+  void sendInteractions({
+    required List<_i2.UIEvent>? interactions,
+    String? sessionId = r'active_session',
+  }) =>
+      super.noSuchMethod(
         Invocation.method(
           #sendInteractions,
-          [interactions],
+          [],
+          {
+            #interactions: interactions,
+            #sessionId: sessionId,
+          },
         ),
         returnValueForMissingStub: null,
       );
+
+  @override
+  _i10.Future<String> prepareInteraction(_i2.UIEvent? event) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #prepareInteraction,
+          [event],
+        ),
+        returnValue: _i10.Future<String>.value(''),
+        returnValueForMissingStub: _i10.Future<String>.value(''),
+      ) as _i10.Future<String>);
 
   @override
   void listenToReactiveValues(List<dynamic>? reactiveValues) =>
@@ -876,6 +913,15 @@ class MockSessionMateRouteTracker extends _i1.Mock
         returnValue: false,
         returnValueForMissingStub: false,
       ) as bool);
+
+  @override
+  void onPreNavigation(dynamic Function()? callback) => super.noSuchMethod(
+        Invocation.method(
+          #onPreNavigation,
+          [callback],
+        ),
+        returnValueForMissingStub: null,
+      );
 
   @override
   void setCurrentRoute(String? route) => super.noSuchMethod(

@@ -73,42 +73,4 @@ class WidgetFinder {
       return (textField.controller ?? TextEditingController(), textFieldRect);
     }).toList();
   }
-
-  TextField? getTextFieldAtPosition({
-    required Offset position,
-    bool verbose = false,
-  }) {
-    final stopwatch = Stopwatch()..start();
-    final textFields = find.byType(TextField).hitTestable().evaluate();
-
-    if (verbose) {
-      print('⏰ findByType executed in - ${stopwatch.elapsed}');
-    }
-
-    for (final textFieldElement in textFields) {
-      try {
-        final renderObject = textFieldElement.findRenderObject() as RenderBox;
-        if (verbose) {
-          print('⏰ FindRenderObject executed in - ${stopwatch.elapsed}');
-        }
-        final translation = renderObject.getTransformTo(null).getTranslation();
-        if (verbose) {
-          print('⏰ getTransformTo executed in - ${stopwatch.elapsed}');
-        }
-
-        final offset = Offset(translation.x, translation.y);
-        final textFieldRect = renderObject.paintBounds.shift(offset);
-
-        print('⏰ - TextField rect: $textFieldRect and position: $position');
-
-        if (textFieldRect.contains(position)) {
-          return textFieldElement.widget as TextField;
-        }
-      } catch (e) {
-        log.e(e);
-      }
-    }
-
-    return null;
-  }
 }

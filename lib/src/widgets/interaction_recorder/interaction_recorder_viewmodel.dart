@@ -149,14 +149,13 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void onRawKeyEvent({
-    required int keyId,
-    required String keyLabel,
-    required int usbHidUsage,
+    required InteractionType type,
   }) {
-    print('🔴 Add rawKeyEvent - keyLabel:$keyLabel');
+    print('🔴 Add rawKeyEvent $type');
 
     _sessionService.addEvent(
       UIEvent.rawKeyEvent(
+        type: type,
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         view: _routeTracker.currentRoute,
         order: _timeUtils.timestamp,

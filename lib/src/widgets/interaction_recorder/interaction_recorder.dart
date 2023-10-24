@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:session_mate/src/widgets/custom_gesture_detector.dart';
 import 'package:session_mate/src/widgets/interaction_recorder/interaction_recorder_viewmodel.dart';
+import 'package:session_mate_core/session_mate_core.dart' as core;
 import 'package:stacked/stacked.dart';
 
 class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
@@ -14,18 +15,6 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
     InteractionRecorderViewModel viewModel,
     Widget? child,
   ) {
-    RawKeyboard.instance.addListener((keyEvent) {
-      if (keyEvent is RawKeyUpEvent) {
-        if (keyEvent.logicalKey == LogicalKeyboardKey.goBack) {
-          viewModel.onRawKeyEvent(
-            keyId: keyEvent.logicalKey.keyId,
-            keyLabel: keyEvent.logicalKey.keyLabel,
-            usbHidUsage: keyEvent.physicalKey.usbHidUsage,
-          );
-        }
-      }
-    });
-
     return Stack(
       children: [
         NotificationListener(
@@ -40,6 +29,17 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
         ),
       ],
     );
+  }
+
+  @override
+  void onViewModelReady(InteractionRecorderViewModel viewModel) {
+    RawKeyboard.instance.addListener((keyEvent) {
+      if (keyEvent is RawKeyUpEvent) {
+        if (keyEvent.logicalKey == LogicalKeyboardKey.goBack) {
+          viewModel.onRawKeyEvent(type: core.InteractionType.backPressEvent);
+        }
+      }
+    });
   }
 
   @override
