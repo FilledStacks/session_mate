@@ -30,16 +30,14 @@ extension WidgetPositionExtension on EventPosition {
   }
 
   double responsiveXPosition(double currentScreenWidth) {
-    final result = _calculateWidthRatio(currentScreenWidth) * x +
-        xDeviation -
-        (kEventVisualSize / 2);
+    final result =
+        _calculateWidthRatio(currentScreenWidth) * x - (kEventVisualSize / 2);
     return result;
   }
 
   double responsiveYPosition(double currentScreenHeight) {
-    final result = _calculateHeightRatio(currentScreenHeight) * y +
-        yDeviation -
-        (kEventVisualSize / 2);
+    final result =
+        _calculateHeightRatio(currentScreenHeight) * y - (kEventVisualSize / 2);
     return result;
   }
 
