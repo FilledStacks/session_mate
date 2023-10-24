@@ -72,8 +72,6 @@ void logResponse(ResponseEvent event) {
 }
 
 void logSession(Session session) {
-  if (!_configurationService.logNetworkData) return;
-
   final uiEvents = session.events.whereType<UIEvent>();
   final uiEventsDetails =
       uiEvents.map((e) => 'Type:${e.type}, View:${e.view}').toList();
