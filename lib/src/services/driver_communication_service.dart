@@ -14,6 +14,10 @@ class DriverCommunicationService with ListenableServiceMixin {
 
   Completer<String>? _communicationCompleter;
 
+  final _interactionStreamController = StreamController<dynamic>.broadcast();
+
+  Stream<dynamic> get interactionStream => _interactionStreamController.stream;
+
   _DriverCommunicationState _state = _DriverCommunicationState.freshStart;
 
   bool get readyToReplay => _state == _DriverCommunicationState.waitForReplay;
@@ -27,7 +31,32 @@ class DriverCommunicationService with ListenableServiceMixin {
     _onReplayCompletedCallback = callback;
   }
 
-  Future<String> waitForInteractions() {
+  Future<String> handleInstruction(String? sweetCoreInstruction) async {
+    if (sweetCoreInstruction == null) {
+      throw 'Something went wrong, empty instruction received';
+    }
+
+    try {
+      final instruction = SweetCoreInstruction.fromJson(
+        jsonDecode(sweetCoreInstruction),
+      );
+
+      switch (instruction.type) {
+        case SweetCoreInstructionType.waitForInteractions:
+          return await waitForInteractions();
+        case SweetCoreInstructionType.prepareInteraction:
+          final uiEvent = UIEvent.fromJson(instruction.data);
+          return await prepareInteraction(uiEvent);
+        default:
+          return 'Instruction not recognized';
+      }
+    } catch (e) {
+      print('🔴 Error:${e.toString()}');
+      return '';
+    }
+  }
+
+  Future<String> waitForInteractions() async {
     print('DriverCommunicationService - waitForInteractions');
     _communicationCompleter = Completer<String>();
 
@@ -40,12 +69,23 @@ class DriverCommunicationService with ListenableServiceMixin {
     return _communicationCompleter!.future;
   }
 
-  void sendInteractions(List<UIEvent> interactions) {
+  void sendInteractions({
+    required List<UIEvent> interactions,
+    String? sessionId = 'active_session',
+  }) {
     print('DriverCommunicationService - Send interactions to driver');
     _state = _DriverCommunicationState.replayActive;
     notifyListeners();
 
-    _communicationCompleter?.complete(jsonEncode(interactions));
+    _communicationCompleter?.complete(jsonEncode(PackageInstruction(
+      data: {'sessionId': sessionId, 'interactions': interactions},
+    )));
     _wasReplayExecuted = true;
+  }
+
+  Future<String> prepareInteraction(UIEvent event) async {
+    print('DriverCommunicationService - Prepare interaction to driver');
+    _interactionStreamController.add(event);
+    return Future.value(jsonEncode(event));
   }
 }

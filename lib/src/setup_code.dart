@@ -9,6 +9,7 @@ import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
+import 'package:session_mate_core/session_mate_core.dart';
 
 import 'app/locator_setup.dart';
 
@@ -23,8 +24,10 @@ Future<void> setupSessionMate() async {
     WidgetsFlutterBinding.ensureInitialized();
   } else if (kReplaySession) {
     enableFlutterDriverExtension(
-      handler: (message) async {
-        return locator<DriverCommunicationService>().waitForInteractions();
+      handler: (instruction) async {
+        return locator<DriverCommunicationService>().handleInstruction(
+          instruction,
+        );
       },
     );
   }

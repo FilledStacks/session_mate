@@ -26,10 +26,19 @@ class DriverUIViewModel extends ReactiveViewModel {
     _notificationController.stream
         .where(_notificationExtractor.onlyScrollUpdateNotification)
         .map(_notificationExtractor.notificationToScrollableDescription)
-        .listen((notification) => viewEvents =
-            _notificationExtractor.scrollEvents(notification, viewEvents));
+        .listen(
+          (notification) => viewEvents = _notificationExtractor.scrollEvents(
+            notification,
+            viewEvents,
+          ),
+        );
 
     _routeTracker.addListener(() {
+      rebuildUi();
+    });
+
+    _driverCommunicationService.interactionStream.listen((interaction) {
+      eventsNotifier.value = [interaction];
       rebuildUi();
     });
   }
@@ -130,7 +139,8 @@ class DriverUIViewModel extends ReactiveViewModel {
     _isGuestAppLoading = false;
 
     _driverCommunicationService.sendInteractions(
-      _sessionService.uiEvents,
+      sessionId: _selectedSession?.id,
+      interactions: _sessionService.uiEvents,
     );
   }
 
@@ -160,9 +170,6 @@ class DriverUIViewModel extends ReactiveViewModel {
     _selectedSession = _sessions[index];
 
     _sessionService.setActiveSession(_selectedSession!);
-
-    eventsNotifier.value =
-        _selectedSession!.events.whereType<UIEvent>().toList();
 
     print('DriverViewmodel - SessionSelected ${_selectedSession?.id}');
 
