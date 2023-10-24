@@ -18,9 +18,9 @@ void logRawRequest({
 
   print('');
   print('------- SESSION MATE NETWORKING: HttpRequest 🌎 -------');
-  print('Uri:$uri');
-  print('Method:$method');
-  print('Headers:$headers');
+  print('Uri: $uri');
+  print('Method: $method');
+  print('Headers: $headers');
   print('Body: ${toReadableString(body)}');
   print('-------------------------------------------------------');
   print('');
@@ -83,8 +83,8 @@ void logSession(Session session) {
   print('------- Session Details 📥 -------');
   print('Id: ${session.id}');
   print('UI Events: ${uiEvents.length}');
-  for (var e in uiEventsDetails) {
-    print('\n   $e');
+  for (final (i, e) in uiEventsDetails.indexed) {
+    print('\n   ${i + 1}) $e');
   }
   print('Response Events: ${networkEvents.length}');
   print('Views: ${session.views}');
