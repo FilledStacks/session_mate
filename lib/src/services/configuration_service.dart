@@ -31,6 +31,9 @@ class ConfigurationService {
   bool _logNetworkData = false;
   bool get logNetworkData => _logNetworkData;
 
+  bool _enabled = true;
+  bool get enabled => _enabled;
+
   void setValues({
     bool? dataMaskingEnabled,
     List<String>? keysToExcludeOnDataMasking,
@@ -39,6 +42,7 @@ class ConfigurationService {
     String? apiKey,
     bool? logNetworkData,
     bool? verboseLogs,
+    bool? enabled,
   }) {
     _dataMaskingEnabled = dataMaskingEnabled ?? _dataMaskingEnabled;
     _keysToExcludeOnDataMasking =
@@ -47,6 +51,7 @@ class ConfigurationService {
     _listeningPort = listeningPort ?? _listeningPort;
     _apiKey = apiKey;
     _logNetworkData = logNetworkData ?? _logNetworkData;
-    _verboseLogs = verboseLogs ?? false;
+    _verboseLogs = verboseLogs ?? _verboseLogs;
+    _enabled = enabled ?? _enabled;
   }
 }
