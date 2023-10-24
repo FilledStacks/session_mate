@@ -67,7 +67,8 @@ class WidgetFinder {
 
       if (textField.controller == null) {
         log.e(
-            'SESSION MATE ERROR: TextField in the UI tree has no controller. This means we cannot record your input events');
+          'SESSION MATE ERROR: TextField in the UI tree has no controller. This means we cannot record your input events',
+        );
       }
 
       return (textField.controller ?? TextEditingController(), textFieldRect);
