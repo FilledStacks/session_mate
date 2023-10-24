@@ -44,6 +44,7 @@ class SessionMateRouteTracker extends ChangeNotifier {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setRoute(route);
       _sessionService.addView(route);
+      _sessionService.checkForEnterPressed();
       notifyListeners();
     });
   }
