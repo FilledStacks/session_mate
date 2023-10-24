@@ -9,6 +9,7 @@ import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
+import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 
 import 'app/locator_setup.dart';
 
@@ -18,7 +19,14 @@ final gPlaceHolder = base64Decode(
 
 late Uint8List globalPlaceHolder;
 
-Future<void> setupSessionMate() async {
+Future<void> setupSessionMate({bool enabled = true}) async {
+  if (!enabled) {
+    locator.registerLazySingleton(() => ConfigurationService());
+    locator.registerLazySingleton(() => SessionMateRouteTracker.instance);
+    locator<ConfigurationService>().setValues(enabled: enabled);
+    return;
+  }
+
   if (kRecordUserInteractions) {
     WidgetsFlutterBinding.ensureInitialized();
   } else if (kReplaySession) {
