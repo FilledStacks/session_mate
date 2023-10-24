@@ -48,8 +48,8 @@ dev_dependencies:
     sdk: flutter
 
 dependency_overrides:
-  session_mate_core:
-    path: ../session_mate_core
+  # session_mate_core:
+  #   path: ../session_mate_core
 
 
 flutter:
