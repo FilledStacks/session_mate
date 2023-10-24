@@ -8,7 +8,6 @@ import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/text_input_recorder.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
-import 'package:session_mate/src/utils/widget_finder.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
@@ -17,7 +16,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final log = getLogger('InteractionRecorderViewModel');
 
   final _sessionService = locator<SessionService>();
-  final _widgetFinder = locator<WidgetFinder>();
   final _routeTracker = locator<SessionMateRouteTracker>();
   final _timeUtils = locator<TimeUtils>();
   final _textInputRecorder = locator<TextInputRecorder>();
