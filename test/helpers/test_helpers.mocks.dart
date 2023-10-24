@@ -512,23 +512,6 @@ class MockWidgetFinder extends _i1.Mock implements _i13.WidgetFinder {
         returnValue: <(_i14.TextEditingController, _i6.Rect)>[],
         returnValueForMissingStub: <(_i14.TextEditingController, _i6.Rect)>[],
       ) as List<(_i14.TextEditingController, _i6.Rect)>);
-
-  @override
-  _i14.TextField? getTextFieldAtPosition({
-    required _i6.Offset? position,
-    bool? verbose = false,
-  }) =>
-      (super.noSuchMethod(
-        Invocation.method(
-          #getTextFieldAtPosition,
-          [],
-          {
-            #position: position,
-            #verbose: verbose,
-          },
-        ),
-        returnValueForMissingStub: null,
-      ) as _i14.TextField?);
 }
 
 /// A class which mocks [NativeInformationService].

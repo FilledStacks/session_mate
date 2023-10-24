@@ -58,7 +58,7 @@ class ReactiveScrollable {
     UIEvent interaction,
   ) {
     late Offset offsetDeviation;
-    if (scrollableDescription.axis == Axis.vertical) {
+    if (scrollableDescription.axis == ScrollAxis.vertical) {
       offsetDeviation = Offset(interaction.position.x, 0);
     } else {
       offsetDeviation = Offset(0, -(interaction.position.y));

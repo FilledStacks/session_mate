@@ -17,7 +17,7 @@ class TextInputRecorder {
   final _sessionService = locator<SessionService>();
   final _routeTracker = locator<SessionMateRouteTracker>();
 
-  List<TrackedTextInputItem> _textFieldsOnScreen;
+  final List<TrackedTextInputItem> _textFieldsOnScreen;
 
   TextInputRecorder({
     @visibleForTesting List<TrackedTextInputItem>? initialTextFieldsOnScreen,

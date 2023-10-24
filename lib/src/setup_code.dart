@@ -9,7 +9,6 @@ import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
 import 'package:session_mate/src/services/session_replay_service.dart';
-import 'package:session_mate_core/session_mate_core.dart';
 
 import 'app/locator_setup.dart';
 
