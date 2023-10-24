@@ -45,17 +45,29 @@ void main() {
               'If type NetworkEvent it should also be added to netwwork events list',
         );
       });
+    });
 
+    group('checkForEnterPressed -', () {
       test(
-          'When called with tap, followed by input at the same location, should remove the tap event',
+          'When called and the last even is input, should add keyboardEnterEvent',
           () {
         final service = getService();
-        service.addEvent(
-            TapEvent(position: EventPosition(x: 10, y: 10, xDeviation: 9)));
-        service.addEvent(InputEvent(position: EventPosition(x: 10, y: 10)));
+        service.addEvent(InputEvent(position: EventPosition()));
 
-        expect(service.uiEvents.length, 1);
-        expect(service.uiEvents.first.type, InteractionType.input);
+        service.checkForEnterPressed();
+
+        expect(
+            service.uiEvents.last.type, InteractionType.onKeyboardEnterEvent);
+      });
+      test(
+          'When called and the last even is tap, should NOT add keyboardEnterEvent',
+          () {
+        final service = getService();
+        service.addEvent(TapEvent(position: EventPosition()));
+
+        service.checkForEnterPressed();
+
+        expect(service.uiEvents.last.type, InteractionType.tap);
       });
     });
 
