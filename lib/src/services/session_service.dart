@@ -1,5 +1,6 @@
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/helpers/logger_helper.dart';
+import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
@@ -7,6 +8,7 @@ import 'session_replay_service.dart';
 
 class SessionService with ListenableServiceMixin {
   final _sessionReplayService = locator<SessionReplayService>();
+  final _timeUtils = locator<TimeUtils>();
 
   final List<NetworkEvent> _networkEvents = [];
   List<NetworkEvent> get networkEvents => _networkEvents;
@@ -97,9 +99,14 @@ class SessionService with ListenableServiceMixin {
     notifyListeners();
   }
 
-  void checkForEnterPressed() {
+  void checkForEnterPressed(String triggerType) {
     if (_uiEvents.isNotEmpty && _uiEvents.last.type == InteractionType.input) {
-      addEvent(RawKeyEvent(type: InteractionType.onKeyboardEnterEvent));
+      print(
+          'We received a $triggerType immediately after input. Add onKeyboardEnterEvent to session.');
+      addEvent(RawKeyEvent(
+        type: InteractionType.onKeyboardEnterEvent,
+        order: _timeUtils.timestamp,
+      ));
     }
   }
 }

@@ -54,7 +54,7 @@ void main() {
         final service = getService();
         service.addEvent(InputEvent(position: EventPosition()));
 
-        service.checkForEnterPressed();
+        service.checkForEnterPressed('Test');
 
         expect(
             service.uiEvents.last.type, InteractionType.onKeyboardEnterEvent);
@@ -65,7 +65,7 @@ void main() {
         final service = getService();
         service.addEvent(TapEvent(position: EventPosition()));
 
-        service.checkForEnterPressed();
+        service.checkForEnterPressed('Test');
 
         expect(service.uiEvents.last.type, InteractionType.tap);
       });

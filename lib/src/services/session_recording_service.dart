@@ -19,7 +19,7 @@ class SessionRecordingService {
       if (event is RequestEvent) {
         _requests[event.uid] = hashEvent(event);
         logRequest(event);
-        locator<SessionService>().checkForEnterPressed();
+        locator<SessionService>().checkForEnterPressed('RequestEvent');
         return;
       }
 

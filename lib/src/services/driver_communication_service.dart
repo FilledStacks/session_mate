@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -85,7 +85,13 @@ class DriverCommunicationService with ListenableServiceMixin {
 
   Future<String> prepareInteraction(UIEvent event) async {
     print('DriverCommunicationService - Prepare interaction to driver');
+
     _interactionStreamController.add(event);
+
+    print('⏰⏰⏰⏰⏰ Wait');
+    await Future.delayed(Duration(seconds: 3));
+    print('⏰⏰⏰⏰⏰ Wait done');
+
     return Future.value(jsonEncode(event));
   }
 }
