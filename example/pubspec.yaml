@@ -11,8 +11,12 @@ dependencies:
     sdk: flutter
   stacked: ^3.4.1
   stacked_services: ^1.3.0
+  
   session_mate:
     path: ../
+  session_mate_core:
+  
+
   http: ^1.1.0
   freezed_annotation: ^2.4.1
   faker: ^2.1.0
@@ -28,6 +32,10 @@ dev_dependencies:
   stacked_generator: ^1.5.0
   freezed: ^2.4.1
   json_serializable: ^6.7.1
+
+dependency_overrides:
+  session_mate_core:
+    path: ../../session_mate_core
 
 flutter:
   uses-material-design: true
