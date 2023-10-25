@@ -11,7 +11,13 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
   final bool dataMaskingEnabled;
   final List<String> keysToExcludeOnDataMasking;
   final int minimumStartupTime;
-  final bool logNetworkData;
+  final bool logRawNetworkEvents;
+  final bool logNetworkEvents;
+  final bool logUIEvents;
+  final bool logNavigationEvents;
+  final bool logCliEvents;
+  final bool logSweetCoreEvents;
+  final bool logGuestAppEvents;
   final bool verboseLogs;
   final Widget child;
 
@@ -21,7 +27,13 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
     this.dataMaskingEnabled = true,
     this.keysToExcludeOnDataMasking = const [],
     this.minimumStartupTime = 5000,
-    this.logNetworkData = false,
+    this.logRawNetworkEvents = false,
+    this.logNetworkEvents = false,
+    this.logUIEvents = false,
+    this.logNavigationEvents = false,
+    this.logCliEvents = false,
+    this.logSweetCoreEvents = false,
+    this.logGuestAppEvents = false,
     this.verboseLogs = false,
     required this.child,
   });
@@ -50,7 +62,13 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
         dataMaskingEnabled: dataMaskingEnabled,
         keysToExcludeOnDataMasking: keysToExcludeOnDataMasking,
         minimumStartupTime: minimumStartupTime,
-        logNetworkData: logNetworkData,
+        logRawNetworkEvents: logRawNetworkEvents,
+        logNetworkEvents: logNetworkEvents,
+        logUIEvents: logUIEvents,
+        logNavigationEvents: logNavigationEvents,
+        logCliEvents: logCliEvents,
+        logSweetCoreEvents: logSweetCoreEvents,
+        logGuestAppEvents: logGuestAppEvents,
         verboseLogs: verboseLogs,
       );
 }

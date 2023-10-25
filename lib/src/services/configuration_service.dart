@@ -28,8 +28,26 @@ class ConfigurationService {
   String get apiKey => _apiKey!;
   bool get hasApiKey => _apiKey != null;
 
-  bool _logNetworkData = false;
-  bool get logNetworkData => _logNetworkData;
+  bool _logRawNetworkEvents = false;
+  bool get logRawNetworkEvents => _logRawNetworkEvents || verboseLogs;
+
+  bool _logNetworkEvents = false;
+  bool get logNetworkEvents => _logNetworkEvents || verboseLogs;
+
+  bool _logUIEvents = false;
+  bool get logUIEvents => _logUIEvents || verboseLogs;
+
+  bool _logNavigationEvents = false;
+  bool get logNavigationEvents => _logNavigationEvents || verboseLogs;
+
+  bool _logCliEvents = false;
+  bool get logCliEvents => _logCliEvents || verboseLogs;
+
+  bool _logSweetCoreEvents = false;
+  bool get logSweetCoreEvents => _logSweetCoreEvents || verboseLogs;
+
+  bool _logGuestAppEvents = false;
+  bool get logGuestAppEvents => _logGuestAppEvents || verboseLogs;
 
   void setValues({
     bool? dataMaskingEnabled,
@@ -37,7 +55,13 @@ class ConfigurationService {
     int? minimumStartupTime,
     int? listeningPort,
     String? apiKey,
-    bool? logNetworkData,
+    bool? logRawNetworkEvents,
+    bool? logNetworkEvents,
+    bool? logUIEvents,
+    bool? logNavigationEvents,
+    bool? logCliEvents,
+    bool? logSweetCoreEvents,
+    bool? logGuestAppEvents,
     bool? verboseLogs,
   }) {
     _dataMaskingEnabled = dataMaskingEnabled ?? _dataMaskingEnabled;
@@ -46,7 +70,13 @@ class ConfigurationService {
     _minimumStartupTime = minimumStartupTime ?? _minimumStartupTime;
     _listeningPort = listeningPort ?? _listeningPort;
     _apiKey = apiKey;
-    _logNetworkData = logNetworkData ?? _logNetworkData;
-    _verboseLogs = verboseLogs ?? false;
+    _logRawNetworkEvents = logRawNetworkEvents ?? _logRawNetworkEvents;
+    _logNetworkEvents = logNetworkEvents ?? _logNetworkEvents;
+    _logUIEvents = logUIEvents ?? _logUIEvents;
+    _logNavigationEvents = logNavigationEvents ?? _logNavigationEvents;
+    _logCliEvents = logCliEvents ?? _logCliEvents;
+    _logSweetCoreEvents = logSweetCoreEvents ?? _logSweetCoreEvents;
+    _logGuestAppEvents = logGuestAppEvents ?? _logGuestAppEvents;
+    _verboseLogs = verboseLogs ?? _verboseLogs;
   }
 }
