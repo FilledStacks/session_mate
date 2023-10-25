@@ -22,7 +22,7 @@ class ConfigurationService {
   int get listeningPort => _listeningPort;
 
   bool _verboseLogs = false;
-  bool get verboseLogs => _verboseLogs;
+  bool get verboseLogs => kReplaySession ? kVerboseLogs : _verboseLogs;
 
   String? _apiKey;
   String get apiKey => _apiKey!;
