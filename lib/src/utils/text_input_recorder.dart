@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
-import 'package:session_mate/src/app/logger.dart';
+import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/data_masking_service.dart';
 import 'package:session_mate/src/services/session_service.dart';
@@ -10,7 +10,6 @@ import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class TextInputRecorder {
-  final log = getLogger('TextInputRecorder');
   final _widgetFinder = locator<WidgetFinder>();
   final _maskService = locator<DataMaskingService>();
   final _timeUtils = locator<TimeUtils>();
@@ -24,9 +23,7 @@ class TextInputRecorder {
   }) : _textFieldsOnScreen = initialTextFieldsOnScreen ?? [];
 
   Future<void> populateCurrentTextInfo() async {
-    if (printVerboseLogs) {
-      print('🖋️ populateCurrentTextInfo');
-    }
+    logUIEvent('🖋️ populateCurrentTextInfo', onlyOnVerbose: true);
 
     final textFieldInformation = _widgetFinder.getAllTextFieldsOnScreen();
 
@@ -40,29 +37,30 @@ class TextInputRecorder {
       _textFieldsOnScreen.add(trackedInputItem);
     }
 
-    if (printVerboseLogs) {
-      print(
-          '🖋️ Tracking ${_textFieldsOnScreen.length} text fields on screen.');
-    }
+    logUIEvent(
+      '🖋️ Tracking ${_textFieldsOnScreen.length} text fields on screen.',
+      onlyOnVerbose: true,
+    );
   }
 
   List<InputEvent> checkForTextChange() {
-    if (printVerboseLogs) {
-      print('🖋️ checkForTextChange');
-    }
+    logUIEvent('🖋️ checkForTextChange', onlyOnVerbose: true);
     final List<InputEvent> textInputEvents = [];
 
-    if (printVerboseLogs) {
-      log.i('🖋️ --------- Comparing Text Fields ---------');
-      log.v('🖋️ Tracked Field count: ${_textFieldsOnScreen.length}');
-      log.i('🖋️ ------------------------------------------');
-    }
+    logUIEvent(
+      '''
+🖋️ --------- Comparing Text Fields ---------
+🖋️ Tracked Field count: ${_textFieldsOnScreen.length}
+🖋️ ------------------------------------------''',
+      onlyOnVerbose: true,
+    );
 
     for (var trackedTextFieldItem in _textFieldsOnScreen) {
       final inputHasChanged =
           trackedTextFieldItem.value != trackedTextFieldItem.controller.text;
-      print(
-          '🖋️ TrackedTextField value: ${trackedTextFieldItem.value} , currentTextFieldValue:${trackedTextFieldItem.controller.text}');
+      logUIEvent(
+        '🖋️ TrackedTextField value: ${trackedTextFieldItem.value} , currentTextFieldValue:${trackedTextFieldItem.controller.text}',
+      );
 
       if (inputHasChanged) {
         final textInputPosition = trackedTextFieldItem.boundingBox.center;
@@ -81,24 +79,26 @@ class TextInputRecorder {
         ));
       }
     }
+
     if (printVerboseLogs) {
-      print('🖋️ ---------- Text Field Diffs ----------');
-      print(
-          '🖋️ ${textInputEvents.length} distinct text input changes has occured here are the details:');
+      List<String> events = [];
       for (final inputEvent in textInputEvents) {
-        print(
-            '🖋️ Field at (${inputEvent.position.x}, ${inputEvent.position.y}) changed to ${inputEvent.inputData}');
+        events.add(
+          '🖋️ Field at (${inputEvent.position.x}, ${inputEvent.position.y}) changed to ${inputEvent.inputData}',
+        );
       }
-      print('🖋️ --------------------------------------');
+
+      logUIEvent('''
+🖋️ ---------- Text Field Diffs ----------
+🖋️ ${textInputEvents.length} distinct text input changes has occured here are the details: ${(events.isNotEmpty) ? events.join("\n") : ''}
+🖋️ --------------------------------------''');
     }
 
     return textInputEvents;
   }
 
   void clearTextInfo() {
-    if (printVerboseLogs) {
-      log.i('🖋️ clearTextInfo');
-    }
+    logUIEvent('🖋️ clearTextInfo', onlyOnVerbose: true);
     _textFieldsOnScreen.clear();
   }
 }

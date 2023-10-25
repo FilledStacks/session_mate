@@ -1,17 +1,15 @@
-import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/extensions/event_extensions.dart';
 import 'package:session_mate/src/extensions/scrollable_extensions.dart';
 import 'package:session_mate/src/extensions/ui_extensions.dart';
+import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class ScrollApplicator {
-  final log = getLogger('ScrollApplicator');
-
   UIEvent applyScrollableToEvent(
     Iterable<ScrollableDescription> scrollables,
     UIEvent event,
   ) {
-    log.v(event);
+    logUIEvent(null, event: event);
     final scrollablesBelowInteraction = scrollables.where(
       (element) => element.rect.asRect.contains(
         event.position.asOffset,
@@ -39,7 +37,7 @@ class ScrollApplicator {
     Iterable<ScrollableDescription> scrollablesBelowInteraction,
     UIEvent interaction,
   ) {
-    log.v(scrollablesBelowInteraction);
+    logUIEvent('$scrollablesBelowInteraction');
 
     /// When interaction type is scrollable and there is only one list below it,
     /// Shouldn't add the list to externalities of the interaction cause it will
