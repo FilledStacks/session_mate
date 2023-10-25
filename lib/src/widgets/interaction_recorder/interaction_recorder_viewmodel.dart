@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart' hide RawKeyEvent;
 import 'package:flutter/scheduler.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
-import 'package:session_mate/src/app/logger.dart';
+import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
 import 'package:session_mate/src/utils/text_input_recorder.dart';
@@ -13,8 +13,6 @@ import 'package:session_mate_core/session_mate_core.dart';
 import 'package:stacked/stacked.dart';
 
 class InteractionRecorderViewModel extends BaseViewModel {
-  final log = getLogger('InteractionRecorderViewModel');
-
   final _sessionService = locator<SessionService>();
   final _routeTracker = locator<SessionMateRouteTracker>();
   final _timeUtils = locator<TimeUtils>();
@@ -48,8 +46,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _notificationController.stream.listen(handleNotifications);
 
     _routeTracker.onPreNavigation(() {
-      print('========= onPreNavigation ==========');
-      print('');
+      logNavigationEvent('========= onPreNavigation ==========\n');
       _saveInputEventsAndRepopulate(source: 'onPreNavigation');
     });
 
@@ -89,7 +86,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
     required InteractionType type,
     required Size screenSize,
   }) {
-    print('🔴 StartCommandRecording - $position - $type');
+    logUIEvent('🔴 StartCommandRecording - $position - $type');
 
     _activeCommand = UIEvent.fromJson({
       "position": EventPosition(
@@ -110,7 +107,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
       );
     }
 
-    print('🔴 ConcludeCommand - ${_activeCommand?.toJson()}');
+    logUIEvent('🔴 ConcludeCommand - ${_activeCommand?.toJson()}');
 
     _sessionService.addEvent(_activeCommand!);
   }
@@ -128,7 +125,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
     _saveInputEventsAndRepopulate(source: 'onUserTap');
 
-    print('🔴 Add tap event - $position');
+    logUIEvent('🔴 Add tap event - $position');
 
     final rawTapEvent = TapEvent(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -148,10 +145,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _lastTapPosition = position;
   }
 
-  void onRawKeyEvent({
-    required InteractionType type,
-  }) {
-    print('🔴 Add rawKeyEvent $type');
+  void onRawKeyEvent({required InteractionType type}) {
+    logUIEvent('🔴 Add rawKeyEvent $type');
 
     _sessionService.addEvent(
       UIEvent.rawKeyEvent(
@@ -183,8 +178,10 @@ class InteractionRecorderViewModel extends BaseViewModel {
       concludeAndClear();
     }
 
-    print(
-        '🔴 onScrollStart - origin:$scrollOrigin offsetStart:$startingOffset scrollDirection:$scrollDirection');
+    logUIEvent(
+      '🔴 onScrollStart - origin:$scrollOrigin offsetStart:$startingOffset scrollDirection:$scrollDirection',
+    );
+
     _scrollTimer = Stopwatch()..start();
     _activeScrollEvent = ActiveScrollMetrics(
       scrollDirection: scrollDirection,
@@ -195,7 +192,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   void onScrollEnd({required double endOffset}) {
     if (_activeScrollEvent != null) {
-      print('🔴 onScrollEnd - onScrollEnd:$endOffset');
+      logUIEvent('🔴 onScrollEnd - onScrollEnd:$endOffset');
       final scrollIsVertical =
           _activeScrollEvent!.scrollDirection == Axis.vertical;
       _sessionService.addEvent(
@@ -236,13 +233,11 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void _saveInputEventsAndRepopulate({String? source}) {
-    print('');
-    print('----------- Check for Input and clear from $source ------------');
+    logUIEvent('🔴 Check for Input and clear from $source');
     final inputEventsFromChanges = _textInputRecorder.checkForTextChange();
     _sessionService.addAllEvents(inputEventsFromChanges);
 
     _textInputRecorder.clearTextInfo();
     _textInputRecorder.populateCurrentTextInfo();
-    print('');
   }
 }

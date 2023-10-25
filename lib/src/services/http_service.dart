@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
-import 'package:session_mate/src/app/logger.dart';
+import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/native_inforamation_service.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -17,7 +17,6 @@ enum _HttpMethod {
 }
 
 class HttpService {
-  final _logger = getLogger('HttpService');
   late final Dio _httpClient;
 
   final _configurationService = locator<ConfigurationService>();
@@ -58,7 +57,7 @@ class HttpService {
   }
 
   Future<bool> saveSession({required Session session}) async {
-    _logger.v('save session');
+    logText('save session');
     final sessionBody = SessionPostRequest.fromSession(
       session: session,
       appId: _nativeInformationService.appId,
@@ -68,7 +67,7 @@ class HttpService {
       userId: _nativeInformationService.uniqueIdentifier,
     );
 
-    _logger.i(jsonEncode(sessionBody.toJson()));
+    logText(jsonEncode(sessionBody.toJson()));
 
     final response = await _makeHttpRequest(
       method: _HttpMethod.post,
@@ -83,7 +82,7 @@ class HttpService {
   }
 
   Future<bool> deleteSessions() async {
-    _logger.v('delete sessions');
+    logText('delete sessions');
 
     final response = await _makeHttpRequest(
       method: _HttpMethod.delete,
@@ -144,9 +143,9 @@ class HttpService {
           );
       }
     } on DioException catch (e) {
-      _logger.e('DioError: $e');
+      logText('🔴 DioError: $e');
     } catch (e) {
-      _logger.e('HttpService exception: $e');
+      logText('🔴 HttpService exception: $e');
     }
 
     return response;

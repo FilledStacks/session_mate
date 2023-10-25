@@ -3,42 +3,36 @@ import 'package:session_mate/src/extensions/event_position_extensions.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
-import '../app/logger.dart';
-
 // TODO (Rename): UIEventUpdater
 class ReactiveScrollable {
-  final log = getLogger('ReactiveScrollable');
-
   late ScrollableDescription currentScrollableDescription;
 
   Iterable<UIEvent> filterAffectedInteractionsByScrollable(
     List<UIEvent> uiEvents,
   ) {
-    return uiEvents.where(
-      (uiEvent) {
-        if (uiEvent.externalities == null) return false;
+    return uiEvents.where((uiEvent) {
+      if (uiEvent.externalities == null) return false;
 
-        Offset offsetDeviation = calculateOffsetDeviation(
-          currentScrollableDescription,
-          uiEvent,
-        );
+      Offset offsetDeviation = calculateOffsetDeviation(
+        currentScrollableDescription,
+        uiEvent,
+      );
 
-        return uiEvent.externalities!
-            .where((sd) => sd.axis == currentScrollableDescription.axis)
-            .any(
-          (interacrionSd) {
-            final distance = _distanceSquaredBetweenScrollableAndExternal(
-              interacrionSd,
-              offsetDeviation,
-              currentScrollableDescription,
-            );
+      return uiEvent.externalities!
+          .where((sd) => sd.axis == currentScrollableDescription.axis)
+          .any(
+        (interacrionSd) {
+          final distance = _distanceSquaredBetweenScrollableAndExternal(
+            interacrionSd,
+            offsetDeviation,
+            currentScrollableDescription,
+          );
 
-            final included = distance < kScrollableDetectionForgiveness;
-            return included;
-          },
-        );
-      },
-    );
+          final included = distance < kScrollableDetectionForgiveness;
+          return included;
+        },
+      );
+    });
   }
 
   double _distanceSquaredBetweenScrollableAndExternal(

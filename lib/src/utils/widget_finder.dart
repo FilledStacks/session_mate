@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:session_mate/src/app/logger.dart';
 import 'package:session_mate/src/extensions/event_extensions.dart';
+import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class WidgetFinder {
-  final log = getLogger('WidgetFinder');
-
   Iterable<ScrollableDescription> getAllScrollablesOnScreen() {
     final scrollableItemsInWidgetTree =
         find.byType(Scrollable).hitTestable().evaluate();
@@ -40,7 +38,7 @@ class WidgetFinder {
                 scrollOffsetInPixels: scrollOffsetInPixels,
                 maxScrollExtentByPixels: maxscrollOffsetInPixels);
           } catch (e) {
-            log.e(e);
+            logText('🔴 Error:${e.toString()}');
             return null;
           }
         })
@@ -53,11 +51,9 @@ class WidgetFinder {
   }
 
   List<(TextEditingController, Rect)> getAllTextFieldsOnScreen() {
-    return find
-        .byType(TextField)
-        .hitTestable()
-        .evaluate()
-        .map((textFieldElement) {
+    return find.byType(TextField).hitTestable().evaluate().map((
+      textFieldElement,
+    ) {
       final renderObject = textFieldElement.findRenderObject() as RenderBox;
       final translation = renderObject.getTransformTo(null).getTranslation();
       final offset = Offset(translation.x, translation.y);
@@ -66,8 +62,9 @@ class WidgetFinder {
       final textField = textFieldElement.widget as TextField;
 
       if (textField.controller == null) {
-        log.e(
-            'SESSION MATE ERROR: TextField in the UI tree has no controller. This means we cannot record your input events');
+        logUIEvent(
+          'SESSION MATE ERROR: TextField in the UI tree has no controller. This means we cannot record your input events',
+        );
       }
 
       return (textField.controller ?? TextEditingController(), textFieldRect);

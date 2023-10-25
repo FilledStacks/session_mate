@@ -40,11 +40,12 @@ class SessionService with ListenableServiceMixin {
   }
 
   void addAllEvents(List<SessionEvent> events) {
-    print('SessionService - populate ${events.length} events');
+    logSweetCoreEvent('SessionService - populate ${events.length} events');
     _sessionEvents.addAll(events);
 
     for (var event in events) {
       if (event is UIEvent) {
+        logUIEvent('Populate event', event: event);
         _uiEvents.add(event);
       } else if (event is NetworkEvent) {
         // we can probably change this to response events
@@ -69,7 +70,7 @@ class SessionService with ListenableServiceMixin {
   }
 
   void clear() {
-    print('SessionService - clear all events');
+    logSweetCoreEvent('SessionService - clear all events');
     _networkEvents.clear();
     _sessionEvents.clear();
     _uiEvents.clear();
@@ -105,8 +106,9 @@ class SessionService with ListenableServiceMixin {
 
   void checkForEnterPressed(String triggerType) {
     if (_uiEvents.isNotEmpty && _uiEvents.last.type == InteractionType.input) {
-      print(
-          'We received a $triggerType immediately after input. Add onKeyboardEnterEvent to session.');
+      logSweetCoreEvent(
+        'We received a $triggerType immediately after input. Add onKeyboardEnterEvent to session.',
+      );
       addEvent(RawKeyEvent(
         type: InteractionType.onKeyboardEnterEvent,
         order: _timeUtils.timestamp,
