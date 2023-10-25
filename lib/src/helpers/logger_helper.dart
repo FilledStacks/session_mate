@@ -14,7 +14,7 @@ void logRawRequest({
   required HttpHeaders headers,
   Uint8List? body,
 }) {
-  if (!_configurationService.logNetworkData) return;
+  if (!_configurationService.logRawNetworkEvents) return;
 
   print('');
   print('------- SESSION MATE NETWORKING: HttpRequest 🌎 -------');
@@ -33,7 +33,7 @@ void logRawResponse({
   required HttpHeaders headers,
   Uint8List? body,
 }) {
-  if (!_configurationService.logNetworkData) return;
+  if (!_configurationService.logRawNetworkEvents) return;
 
   print('');
   print('------- SESSION MATE NETWORKING: HttpResponse 🌍 -------');
@@ -47,7 +47,7 @@ void logRawResponse({
 }
 
 void logRequest(RequestEvent event) {
-  if (!_configurationService.logNetworkData) return;
+  if (!_configurationService.logNetworkEvents) return;
 
   print('');
   print('------- SESSION MATE NETWORKING: Request 🔼 -------');
@@ -57,21 +57,65 @@ void logRequest(RequestEvent event) {
 }
 
 void logResponse(ResponseEvent event) {
-  if (!_configurationService.logNetworkData) return;
+  if (!_configurationService.logNetworkEvents) return;
 
   print('');
   print('------- SESSION MATE NETWORKING: ResponseEvent 🔽 -------');
   if (hasJsonContentType(event) || hasXmlContentType(event)) {
     print(event.toJson());
-    return;
+  } else {
+    print('Content Type neither JSON nor XML');
   }
-
-  print('Content Type neither JSON nor XML');
   print('--------------------------------------------------------');
   print('');
 }
 
+void logUIEvent(String? message, {UIEvent? event, bool onlyOnVerbose = false}) {
+  if (onlyOnVerbose && !_configurationService.verboseLogs) return;
+
+  if (!onlyOnVerbose && !_configurationService.logUIEvents) return;
+
+  String iconEvent;
+  switch (event?.type) {
+    case InteractionType.tap:
+      iconEvent = '🔴 ';
+      break;
+    case InteractionType.scroll:
+      iconEvent = '🟣 ';
+      break;
+    case InteractionType.input:
+      iconEvent = '🔵 ';
+      break;
+    default:
+      iconEvent = '';
+  }
+
+  print('');
+  print(
+    '$iconEvent$message${(event == null) ? '' : ', event:${event.toJson()}'}',
+  );
+  print('');
+}
+
+void logNavigationEvent(String message) {
+  if (!_configurationService.logNavigationEvents) return;
+
+  print('');
+  print('⛵ $message');
+  print('');
+}
+
+void logSweetCoreEvent(String message) {
+  if (!_configurationService.logSweetCoreEvents) return;
+
+  print('');
+  print('🤖 $message');
+  print('');
+}
+
 void logSession(Session session) {
+  if (!_configurationService.logUIEvents) return;
+
   final uiEvents = session.events.whereType<UIEvent>();
   final uiEventsDetails =
       uiEvents.map((e) => 'Type:${e.type}, View:${e.view}').toList();
@@ -89,4 +133,18 @@ void logSession(Session session) {
   print('Created At: ${session.createdAt}');
   print('---------------------------------');
   print('');
+}
+
+void logText(String message, {String? classMethod, String? className}) {
+  if (!_configurationService.verboseLogs) return;
+
+  final leading = className != null && classMethod != null
+      ? '$className | $classMethod - '
+      : className != null
+          ? '$className - '
+          : classMethod != null
+              ? '$classMethod - '
+              : '';
+
+  print('💡 $leading$message');
 }
