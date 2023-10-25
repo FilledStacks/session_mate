@@ -51,23 +51,30 @@ class WidgetFinder {
   }
 
   List<(TextEditingController, Rect)> getAllTextFieldsOnScreen() {
-    return find.byType(TextField).hitTestable().evaluate().map((
-      textFieldElement,
-    ) {
-      final renderObject = textFieldElement.findRenderObject() as RenderBox;
-      final translation = renderObject.getTransformTo(null).getTranslation();
-      final offset = Offset(translation.x, translation.y);
-      final textFieldRect = renderObject.paintBounds.shift(offset);
+    try {
+      return find.byType(TextField).hitTestable().evaluate().map((
+        textFieldElement,
+      ) {
+        final renderObject = textFieldElement.findRenderObject() as RenderBox;
+        final translation = renderObject.getTransformTo(null).getTranslation();
+        final offset = Offset(translation.x, translation.y);
+        final textFieldRect = renderObject.paintBounds.shift(offset);
 
-      final textField = textFieldElement.widget as TextField;
+        final textField = textFieldElement.widget as TextField;
 
-      if (textField.controller == null) {
-        logUIEvent(
-          'SESSION MATE ERROR: TextField in the UI tree has no controller. This means we cannot record your input events',
-        );
-      }
+        if (textField.controller == null) {
+          logUIEvent(
+            'SESSION MATE ERROR: TextField in the UI tree has no controller. This means we cannot record your input events',
+          );
+        }
 
-      return (textField.controller ?? TextEditingController(), textFieldRect);
-    }).toList();
+        return (textField.controller ?? TextEditingController(), textFieldRect);
+      }).toList();
+    } catch (e) {
+      /// NOTE: Probably a Flutter issue not our, that is why we are swallowing the error until more feedback.
+      if (e.toString() == 'Null check operator used on a null value') return [];
+
+      rethrow;
+    }
   }
 }
