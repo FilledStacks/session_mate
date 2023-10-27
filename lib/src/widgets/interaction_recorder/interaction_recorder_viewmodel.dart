@@ -81,48 +81,9 @@ class InteractionRecorderViewModel extends BaseViewModel {
     }
   }
 
-  void startCommandRecording({
-    required Offset position,
-    required InteractionType type,
-    required Size screenSize,
-  }) {
-    logUIEvent('🔴 StartCommandRecording - $position - $type');
-
-    _activeCommand = UIEvent.fromJson({
-      "position": EventPosition(
-        x: position.dx,
-        y: position.dy,
-        capturedDeviceHeight: screenSize.height,
-        capturedDeviceWidth: screenSize.width,
-      ).toJson(),
-      "runtimeType": type.name,
-      "navigationStackId": _sessionService.navigationStackId,
-    });
-  }
-
-  void concludeActiveCommand() {
-    if (_activeCommand == null) {
-      throw Exception(
-        'Trying to conclude a command but none is active. This should not happen',
-      );
-    }
-
-    logUIEvent('🔴 ConcludeCommand - ${_activeCommand?.toJson()}');
-
-    _sessionService.addEvent(_activeCommand!);
-  }
-
-  void _clearActiveCommand() {
-    _activeCommand = null;
-  }
-
   void onUserTap({
     required Offset position,
   }) {
-    if (hasActiveCommand) {
-      concludeAndClear();
-    }
-
     _saveInputEventsAndRepopulate(source: 'onUserTap');
 
     logUIEvent('🔴 Add tap event - $position');
@@ -159,11 +120,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
     );
   }
 
-  void concludeAndClear() {
-    concludeActiveCommand();
-    _clearActiveCommand();
-  }
-
   bool onChildNotification(Notification notification) {
     _notificationController.add(notification);
     return false;
@@ -174,10 +130,6 @@ class InteractionRecorderViewModel extends BaseViewModel {
     required double startingOffset,
     required Axis scrollDirection,
   }) {
-    if (hasActiveCommand) {
-      concludeAndClear();
-    }
-
     logUIEvent(
       '🔴 onScrollStart - origin:$scrollOrigin offsetStart:$startingOffset scrollDirection:$scrollDirection',
     );

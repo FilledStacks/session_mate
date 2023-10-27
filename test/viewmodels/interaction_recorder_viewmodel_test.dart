@@ -12,52 +12,6 @@ void main() {
   group('InteractionRecorderViewmodel -', () {
     setUpAll(() => registerServices());
 
-    group('startCommandRecording -', () {
-      test('When startCommand is called, hasActiveCommand should be true ', () {
-        final model = _getModel();
-
-        model.startCommandRecording(
-          position: Offset(1, 0),
-          type: InteractionType.tap,
-          screenSize: Size.zero,
-        );
-
-        expect(model.hasActiveCommand, true);
-      });
-    });
-
-    group('concludeAndClear -', () {
-      test('When called, should clear latest active command', () {
-        final model = _getModel();
-
-        model.startCommandRecording(
-          position: Offset(1, 0),
-          type: InteractionType.tap,
-          screenSize: Size.zero,
-        );
-
-        model.concludeAndClear();
-        expect(model.hasActiveCommand, false);
-      });
-
-      test('When called, should save the active command to the sessionService',
-          () {
-        final sessionSercice = getAndRegisterSessionService();
-        final model = _getModel();
-
-        final event = UIEvent.tap(position: EventPosition(x: 1, y: 0), id: '');
-
-        model.startCommandRecording(
-          position: Offset(1, 0),
-          type: InteractionType.tap,
-          screenSize: Size.zero,
-        );
-
-        model.concludeAndClear();
-        verify(sessionSercice.addEvent(event));
-      });
-    });
-
     group('Multiple command recording -', () {
       test(
           'When we scroll, tap, scroll, tap, the commands should be in that order when saved',
