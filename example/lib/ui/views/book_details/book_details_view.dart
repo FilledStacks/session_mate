@@ -70,6 +70,14 @@ class BookDetailsView extends StackedView<BookDetailsViewModel>
                   style: Theme.of(context).textTheme.bodyMedium,
                 ),
               ],
+              verticalSpaceSmall,
+              Slider(
+                value: viewModel.quantity,
+                max: 100,
+                divisions: 50,
+                label: viewModel.quantity.toString(),
+                onChanged: viewModel.updateSlider,
+              ),
               verticalSpaceLarge,
               Text(
                 'Custom Inscription',

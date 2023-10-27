@@ -12,15 +12,11 @@ class BookDetailsViewModel extends FormViewModel {
   final _logger = getLogger('BookDetailsViewModel');
   final _dialogService = locator<DialogService>();
 
+  double _quantity = 1;
+  double get quantity => _quantity;
+
   Future<void> orderBook() async {
     try {
-      // if (!isFormValid) {
-      //   _dialogService.showDialog(
-      //     title: 'Form Validation',
-      //     description: inscriptionValidationMessage,
-      //   );
-      //   return;
-      // }
       if (true) {
         _dialogService.showDialog(
           title: 'Unexpected error',
@@ -36,5 +32,10 @@ class BookDetailsViewModel extends FormViewModel {
       _logger.e('$e');
       SessionMateUtils.saveSession(exception: e, stackTrace: s);
     }
+  }
+
+  void updateSlider(double value) {
+    _quantity = value;
+    rebuildUi();
   }
 }
