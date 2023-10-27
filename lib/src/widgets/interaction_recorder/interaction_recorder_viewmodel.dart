@@ -195,4 +195,28 @@ class InteractionRecorderViewModel extends BaseViewModel {
     _textInputRecorder.clearTextInfo();
     _textInputRecorder.populateCurrentTextInfo();
   }
+
+  void onDragStart(Offset position) {
+    _dragRecorder.startDragRecording(
+      position: EventPosition(
+        capturedDeviceHeight: _currentScreenSize.height,
+        capturedDeviceWidth: _currentScreenSize.width,
+        x: position.dx,
+        y: position.dy,
+      ),
+    );
+  }
+
+  void onDragEnd(Offset position) {
+    final dragEvent = _dragRecorder.completeDragEvent(
+      endPosition: EventPosition(
+        capturedDeviceHeight: _currentScreenSize.height,
+        capturedDeviceWidth: _currentScreenSize.width,
+        x: position.dx,
+        y: position.dy,
+      ),
+    );
+
+    _sessionService.addEvent(dragEvent);
+  }
 }
