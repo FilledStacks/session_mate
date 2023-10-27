@@ -1,7 +1,11 @@
+import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/helpers/logger_helper.dart';
+import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class DragRecorder {
+  final _sessionMateRouteTracker = locator<SessionMateRouteTracker>();
+
   DragEvent? _activeDrag;
   Stopwatch? _timer;
 
@@ -11,6 +15,7 @@ class DragRecorder {
     logUIEvent('Start drag recording: $position');
     _activeDrag = DragEvent(
       position: position,
+      view: _sessionMateRouteTracker.currentRoute,
     );
 
     _timer = Stopwatch()..start();
