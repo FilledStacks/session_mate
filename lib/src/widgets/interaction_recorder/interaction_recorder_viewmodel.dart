@@ -6,6 +6,7 @@ import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
+import 'package:session_mate/src/utils/darg_recorder.dart';
 import 'package:session_mate/src/utils/text_input_recorder.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
@@ -17,6 +18,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
   final _routeTracker = locator<SessionMateRouteTracker>();
   final _timeUtils = locator<TimeUtils>();
   final _textInputRecorder = locator<TextInputRecorder>();
+  final _dragRecorder = locator<DragRecorder>();
 
   final _notificationController = StreamController<Notification>.broadcast();
 
@@ -78,6 +80,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
       }
     } else if (notification is ScrollUpdateNotification) {
       _actuallyScrolled = true;
+      _dragRecorder.clearDragRecording();
     }
   }
 

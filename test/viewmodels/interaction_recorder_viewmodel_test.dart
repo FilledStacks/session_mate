@@ -5,6 +5,7 @@ import 'package:session_mate/src/widgets/interaction_recorder/interaction_record
 import 'package:session_mate_core/session_mate_core.dart';
 
 import '../helpers/test_helpers.dart';
+import '../helpers/test_helpers.mocks.dart';
 
 InteractionRecorderViewModel _getModel() => InteractionRecorderViewModel();
 
@@ -38,6 +39,18 @@ void main() {
         model.onUserTap(position: Offset(0, 1));
 
         verify(sessionService.addEvent(any)).called(4);
+      });
+    });
+
+    group('handleNotifications -', () {
+      test('On ScrollUpdateNotification, should clear the drag details', () {
+        final dragRecorder = getAndRegisterDragRecorder();
+
+        final recorder = _getModel();
+
+        recorder.handleNotifications(MockScrollUpdateNotification());
+
+        verify(dragRecorder.clearDragRecording());
       });
     });
 
