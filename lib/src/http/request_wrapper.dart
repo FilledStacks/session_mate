@@ -103,7 +103,7 @@ class HttpRequestWrapper implements HttpClientRequest {
         StreamTransformer.fromHandlers(handleData: (data, sink) {
           body.addAll(data);
         }, handleError: (error, stackTrace, sink) {
-          print("HttpRequestWrapper :: ERROR RESPONSE $error $stackTrace");
+          print("🔴 HttpRequestWrapper :: ERROR RESPONSE $error $stackTrace");
         }, handleDone: (sink) async {
           logRawResponse(
             uri: uri,

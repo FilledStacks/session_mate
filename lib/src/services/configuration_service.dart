@@ -29,10 +29,10 @@ class ConfigurationService {
   bool get hasApiKey => _apiKey != null;
 
   bool _logRawNetworkEvents = false;
-  bool get logRawNetworkEvents => _logRawNetworkEvents || verboseLogs;
+  bool get logRawNetworkEvents => _logRawNetworkEvents;
 
   bool _logNetworkEvents = false;
-  bool get logNetworkEvents => _logNetworkEvents || verboseLogs;
+  bool get logNetworkEvents => _logNetworkEvents;
 
   bool _logUIEvents = false;
   bool get logUIEvents => _logUIEvents || verboseLogs;
