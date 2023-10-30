@@ -32,18 +32,8 @@ void main() {
           ),
         );
 
-        expect(
-          result.scrollDelta.x,
-          -1,
-          reason: 'scroll deltaX is start - end position',
-        );
-
-        expect(
-          result.scrollDelta.y,
-          -1,
-          reason: 'scroll deltaY is start - end position',
-        );
-
+        expect(result.scrollEnd.x, 2);
+        expect(result.scrollEnd.y, 2);
         expect(result.duration > 1000, true);
       });
 

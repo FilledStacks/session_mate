@@ -37,10 +37,8 @@ class DragRecorder {
       throw Exception('Drag cannot be completed if it was not started.');
     }
 
-    final scrollDelta = _activeDrag!.position - endPosition;
-
     _activeDrag = _activeDrag!.copyWith(
-      scrollDelta: scrollDelta,
+      scrollEnd: endPosition,
       duration: _timer?.elapsedMilliseconds ?? -1,
     );
 
