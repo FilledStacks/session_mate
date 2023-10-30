@@ -24,39 +24,35 @@ class SessionRecordingService {
       }
 
       ResponseEvent response = (event as ResponseEvent);
-
       logResponse(response);
 
-      if (_avoidDataMasking(event)) {
-        response = response.copyWith(
-          uid: _requests[event.uid]!,
-          body: _avoidSavingData(event) ? null : event.body,
-        );
+      /// This should not happen because we hash all requests so the only
+      /// possible situation for this condition to be met would be that there
+      /// was an error during the hashing of the request and therefore it could
+      /// not be cached.
+      if (_requests[event.uid] == null) return;
+
+      if (hasMediaContentType(event)) {
+        response = response.copyWith(uid: _requests[event.uid]!, body: null);
       } else {
-        response = ResponseEvent.fromJson(_dataMaskingService.handle(
-          response.copyWith(uid: _requests[event.uid]!).toJson(),
-        ));
+        response = _avoidDataMasking(event)
+            ? response = response.copyWith(uid: _requests[event.uid]!)
+            : response = ResponseEvent.fromJson(_dataMaskingService.handle(
+                response.copyWith(uid: _requests[event.uid]!).toJson(),
+              ));
       }
 
       locator<SessionService>().addEvent(response);
       _requests.remove(event.uid);
     } catch (e, s) {
-      print('🔴 Error:${e.toString()} StackTrace:\n$s');
+      print('🔴 Error:${e.toString()}\nStackTrace:\n$s');
     }
   }
 
   bool _avoidDataMasking(ResponseEvent event) {
     if (!_configurationService.dataMaskingEnabled) return true;
 
-    if (hasImageContentType(event)) return true;
-
-    // NOTE: place to add other filters if necessary
-
-    return false;
-  }
-
-  bool _avoidSavingData(ResponseEvent event) {
-    if (hasImageContentType(event)) return true;
+    if (!hasSupportedContentType(event)) return true;
 
     return false;
   }
