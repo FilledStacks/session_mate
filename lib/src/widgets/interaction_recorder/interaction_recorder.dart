@@ -47,6 +47,11 @@ class InteractionRecorder extends StackedView<InteractionRecorderViewModel> {
   @override
   InteractionRecorderViewModel viewModelBuilder(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    return InteractionRecorderViewModel(screenSize: size);
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+
+    return InteractionRecorderViewModel(
+      screenSize: size,
+      devicePixelRatio: devicePixelRatio,
+    );
   }
 }

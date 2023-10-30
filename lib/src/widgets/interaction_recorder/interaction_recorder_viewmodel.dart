@@ -6,7 +6,7 @@ import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/models/active_scroll_metrics.dart';
 import 'package:session_mate/src/services/session_service.dart';
-import 'package:session_mate/src/utils/darg_recorder.dart';
+import 'package:session_mate/src/utils/drag_recorder.dart';
 import 'package:session_mate/src/utils/text_input_recorder.dart';
 import 'package:session_mate/src/utils/time_utils.dart';
 import 'package:session_mate/src/widgets/session_mate_route_tracker.dart';
@@ -32,6 +32,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
   Offset? _lastTapPosition;
 
   final Size _currentScreenSize;
+  final double _devicePixelRatio;
 
   bool get hasLastTapPosition => _lastTapPosition != null;
   Offset? get lastTapPosition => _lastTapPosition;
@@ -43,8 +44,11 @@ class InteractionRecorderViewModel extends BaseViewModel {
 
   List<UIEvent> get uiEvents => _sessionService.uiEvents;
 
-  InteractionRecorderViewModel({Size screenSize = Size.zero})
-      : _currentScreenSize = screenSize {
+  InteractionRecorderViewModel({
+    Size screenSize = Size.zero,
+    double devicePixelRatio = 1.0,
+  })  : _currentScreenSize = screenSize,
+        _devicePixelRatio = devicePixelRatio {
     _notificationController.stream.listen(handleNotifications);
 
     _routeTracker.onPreNavigation(() {
@@ -98,6 +102,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
         y: position.dy,
         capturedDeviceWidth: _currentScreenSize.width,
         capturedDeviceHeight: _currentScreenSize.height,
+        devicePixelRatio: _devicePixelRatio,
       ),
       view: _routeTracker.currentRoute,
       order: _timeUtils.timestamp,
@@ -156,6 +161,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
           position: EventPosition(
             x: _activeScrollEvent!.scrollOrigin.dx,
             y: _activeScrollEvent!.scrollOrigin.dy,
+            devicePixelRatio: _devicePixelRatio,
           ),
           scrollDelta: EventPosition(
             x: !scrollIsVertical
@@ -166,6 +172,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
                 : 0,
             capturedDeviceHeight: _currentScreenSize.height,
             capturedDeviceWidth: _currentScreenSize.width,
+            devicePixelRatio: _devicePixelRatio,
           ),
           duration: _scrollTimer?.elapsedMilliseconds,
           view: _routeTracker.currentRoute,
@@ -203,6 +210,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
         capturedDeviceWidth: _currentScreenSize.width,
         x: position.dx,
         y: position.dy,
+        devicePixelRatio: _devicePixelRatio,
       ),
     );
   }
@@ -214,6 +222,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
         capturedDeviceWidth: _currentScreenSize.width,
         x: position.dx,
         y: position.dy,
+        devicePixelRatio: _devicePixelRatio,
       ),
     );
 

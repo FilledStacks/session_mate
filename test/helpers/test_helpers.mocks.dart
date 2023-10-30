@@ -22,7 +22,7 @@ import 'package:session_mate/src/services/session_recording_service.dart'
     as _i8;
 import 'package:session_mate/src/services/session_replay_service.dart' as _i9;
 import 'package:session_mate/src/services/session_service.dart' as _i12;
-import 'package:session_mate/src/utils/darg_recorder.dart' as _i24;
+import 'package:session_mate/src/utils/drag_recorder.dart' as _i24;
 import 'package:session_mate/src/utils/notification_extractor.dart' as _i20;
 import 'package:session_mate/src/utils/reactive_scrollable.dart' as _i21;
 import 'package:session_mate/src/utils/scroll_applicator.dart' as _i19;

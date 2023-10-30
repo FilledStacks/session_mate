@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
-import 'package:session_mate/src/utils/darg_recorder.dart';
+import 'package:session_mate/src/utils/drag_recorder.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 import '../helpers/test_helpers.dart';
