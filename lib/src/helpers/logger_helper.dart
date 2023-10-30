@@ -50,7 +50,7 @@ void logRequest(RequestEvent event) {
   if (!_configurationService.logNetworkEvents) return;
 
   print('');
-  print('------- SESSION MATE NETWORKING: Request 🔼 -------');
+  print('------- SESSION MATE NETWORKING: RequestEvent 🔼 -------');
   print(event.toJson());
   print('---------------------------------------------------');
   print('');
