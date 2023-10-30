@@ -168,5 +168,36 @@ void main() {
         expect(output, jsonDecode(convertUint8ListToString(streamOutput!)));
       });
     });
+
+    group('prepareUrl -', () {
+      test('When called, should get the correct data', () {
+        final input = 'https://filledstacks.api';
+
+        expect(input, prepareUrl(input));
+      });
+
+      test('When called, should get the correct data', () {
+        final input = 'https://filledstacks.api?';
+
+        expect(input, prepareUrl(input));
+      });
+
+      test('When called, should get the correct data', () {
+        final input = 'https://filledstacks.api?password=?234?';
+
+        final output = 'https://filledstacks.api?password=5';
+
+        expect(output, prepareUrl(input));
+      });
+
+      test('When called, should get the correct data', () {
+        final input =
+            'https://filledstacks.api?email=dane@filledstacks.com&password=1234';
+
+        final output = 'https://filledstacks.api?email=21&password=4';
+
+        expect(output, prepareUrl(input));
+      });
+    });
   });
 }

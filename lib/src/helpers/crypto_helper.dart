@@ -19,14 +19,17 @@ String prepareUrl(String url) {
   final queryStarts = url.indexOf('?');
 
   if (queryStarts == -1) return url;
+  if (queryStarts == url.length - 1) return url;
 
   final query = url.substring(queryStarts);
   final queryParameters = query.split('&');
 
   String modifiedQuery = '';
-  for (var param in queryParameters) {
-    final keyValue = param.split('=');
-    modifiedQuery = '$modifiedQuery${keyValue[0]}=${keyValue[1].length}';
+  for (var i = 0; i < queryParameters.length; i++) {
+    final keyValue = queryParameters[i].split('=');
+    final separator = i == 0 ? '' : '&';
+    modifiedQuery =
+        '$modifiedQuery$separator${keyValue[0]}=${keyValue[1].length}';
   }
 
   return '${url.substring(0, queryStarts)}$modifiedQuery';
