@@ -15,9 +15,10 @@ const String kLocalServerScheme = 'http';
 const String kLocalServerHost = 'localhost';
 
 const List<String> commonKeysToExcludeOnDataMasking = [
+  'code',
+  'content-type',
   'uid',
   'id',
-  'code',
   'view',
 ];
 
