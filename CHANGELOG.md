@@ -1,3 +1,7 @@
+## 0.6.0
+
+- Adds drag recording functionality
+
 ## 0.5.0
 
 - Adds improved interaction replay
