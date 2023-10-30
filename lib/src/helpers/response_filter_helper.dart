@@ -32,6 +32,24 @@ bool hasXmlContentType(ResponseEvent event) {
   return true;
 }
 
+bool hasMediaContentType(ResponseEvent event) {
+  if (!event.headers.containsKey('content-type')) return false;
+
+  if (event.headers['content-type']!.contains('audio')) return true;
+
+  if (event.headers['content-type']!.contains('image')) return true;
+
+  if (event.headers['content-type']!.contains('video')) return true;
+
+  return false;
+}
+
+bool hasSupportedContentType(ResponseEvent event) {
+  if (hasJsonContentType(event)) return true;
+
+  return false;
+}
+
 String toReadableString(Uint8List? data) {
   if (data == null) return '';
 
