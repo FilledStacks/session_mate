@@ -48,6 +48,9 @@ class SessionReplayService {
       if (response != null) {
         request.response
           ..headers.host = response.headers['host']
+          ..headers.contentType = stringToContentType(
+            response.headers['content-type'],
+          )
           ..write(response.body);
       }
 
