@@ -19,7 +19,6 @@ Future<void> main() async {
   setupDialogUi();
   setupBottomSheetUi();
   runApp(const SessionMate(child: MainApp()));
-  // runApp(const MainApp());
 }
 
 class MainApp extends StatelessWidget {

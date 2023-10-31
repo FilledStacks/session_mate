@@ -1,10 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:session_mate/src/helpers/crypto_helper.dart';
 import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/helpers/response_filter_helper.dart';
 import 'package:session_mate/src/package_constants.dart';
-import 'package:session_mate/src/setup_code.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class SessionReplayService {
@@ -13,6 +15,8 @@ class SessionReplayService {
 
   /// Stores the responses that were mocked under session recording
   final Map<String, ResponseEvent> _mockedResponses = {};
+
+  final random = Random();
 
   RequestEvent? _currentEvent;
 
@@ -52,6 +56,8 @@ class SessionReplayService {
             response.headers['content-type'],
           )
           ..write(response.body);
+
+        logResponse(response);
       }
 
       request.response.close();
@@ -67,8 +73,13 @@ class SessionReplayService {
 
     if (response == null) return data;
 
-    if (hasImageContentType(response)) return gPlaceHolder;
+    if (hasImageContentType(response)) return _getPlaceHolder();
 
     return response.body ?? data;
+  }
+
+  /// Returns a random image from the [mediaPlaceholders] list.
+  Uint8List _getPlaceHolder() {
+    return base64Decode(mediaPlaceholders[random.nextInt(3)]);
   }
 }

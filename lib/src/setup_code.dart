@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_driver/driver_extension.dart';
 import 'package:session_mate/src/http/overrides.dart';
 import 'package:session_mate/src/package_constants.dart';
@@ -12,13 +10,7 @@ import 'package:session_mate/src/services/session_replay_service.dart';
 
 import 'app/locator_setup.dart';
 
-final gPlaceHolder = base64Decode(
-  'iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFUlEQVR42mP8z8BQz0AEYBxVSF+FABJADveWkH6oAAAAAElFTkSuQmCC',
-);
-
-late Uint8List globalPlaceHolder;
-
-Future<void> setupSessionMate() async {
+Future<void> setupSessionMate({bool enableNetworkInterceptor = true}) async {
   if (kRecordUserInteractions) {
     WidgetsFlutterBinding.ensureInitialized();
   } else if (kReplaySession) {
@@ -33,26 +25,22 @@ Future<void> setupSessionMate() async {
 
   await setupLocator();
 
-  if (!kRunningIntegrationTest) {
-    HttpOverrides.global = SessionMateHttpOverrides();
-    if (!kRecordUserInteractions) {
-      HttpServer.bind(InternetAddress.loopbackIPv4, 0)
-          .then((HttpServer server) {
-        print('📻 listening on ${server.address}, port ${server.port}');
-        locator<ConfigurationService>().setValues(listeningPort: server.port);
-        server.listen((request) {
-          locator<SessionReplayService>().handleMockRequest(request);
-        });
-      });
+  if (kRunningIntegrationTest) return;
 
-      // NOTE: perhaps we can listen to session_mate_cli to close the server,
-      // otherwise, is going to be closed when the app is killed.
+  if (!enableNetworkInterceptor) return;
 
-      final bytes = await rootBundle.load(
-        'packages/session_mate/assets/images/placeholder.png',
-      );
-      // globalPlaceHolder = base64.encode(bytes.buffer.asUint8List());
-      globalPlaceHolder = bytes.buffer.asUint8List();
-    }
-  }
+  HttpOverrides.global = SessionMateHttpOverrides();
+
+  if (kRecordUserInteractions) return;
+
+  HttpServer.bind(InternetAddress.loopbackIPv4, 0).then((HttpServer server) {
+    print('📻 listening on ${server.address}, port ${server.port}');
+    locator<ConfigurationService>().setValues(listeningPort: server.port);
+    server.listen((request) {
+      locator<SessionReplayService>().handleMockRequest(request);
+    });
+  });
+
+  // NOTE: perhaps we can listen to session_mate_cli to close the server,
+  // otherwise, is going to be closed when the app is killed.
 }
