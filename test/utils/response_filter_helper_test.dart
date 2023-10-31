@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:session_mate/src/helpers/response_filter_helper.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -219,6 +221,37 @@ void main() {
         });
 
         expect(hasMediaContentType(event), isTrue);
+      });
+    });
+
+    group('stringToContentType -', () {
+      test('When called, should get the correct value', () {
+        final input = 'image/jpeg';
+        final output = ContentType('image', 'jpeg');
+        expect(stringToContentType(input).toString(), output.toString());
+      });
+
+      test('When called, should get the correct value', () {
+        final input = 'application/json; charset=UTF-8';
+        final output = ContentType(
+          'application',
+          'json',
+          charset: 'UTF-8',
+          parameters: {'charset': 'UTF-8'},
+        );
+        expect(stringToContentType(input).toString(), output.toString());
+      });
+
+      test('When called, should get the correct value', () {
+        final input =
+            'application/soap+xml; charset=utf-8; action=urn:CreateCredential';
+        final output = ContentType(
+          'application',
+          'soap+xml',
+          charset: 'utf-8',
+          parameters: {'charset': 'utf-8', 'action': 'urn:CreateCredential'},
+        );
+        expect(stringToContentType(input).toString(), output.toString());
       });
     });
   });
