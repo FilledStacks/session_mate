@@ -10,6 +10,8 @@ class ConfigurationService {
   List<String> _keysToExcludeOnDataMasking = const [];
   List<String> get keysToExcludeOnDataMasking => _keysToExcludeOnDataMasking;
 
+  List<String> get headersKeysToExclude => headersKeysToExcludeOnDataMasking;
+
   List<String> get allKeysToExclude => [
         ...commonKeysToExcludeOnDataMasking,
         ..._keysToExcludeOnDataMasking,

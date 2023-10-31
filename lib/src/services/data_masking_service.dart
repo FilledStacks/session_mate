@@ -52,7 +52,7 @@ class DataMaskingService {
     return num.parse(output);
   }
 
-  dynamic handle(dynamic data) {
+  dynamic handle(dynamic data, {int level = 0, bool headers = false}) {
     if (data is String) {
       return stringSubstitution(data);
     }
@@ -64,7 +64,7 @@ class DataMaskingService {
     if (data is List) {
       List itemList = [];
       for (var i in data) {
-        itemList.add(handle(i));
+        itemList.add(handle(i, level: level, headers: headers));
       }
 
       return itemList;
@@ -73,19 +73,37 @@ class DataMaskingService {
     if (data is Map<String, dynamic>) {
       Map<String, dynamic> itemMap = {};
       for (var i in data.entries) {
-        itemMap.addAll(handle(i));
+        itemMap.addAll(handle(
+          i,
+          level: level,
+          headers: (i.key == 'headers' && level == 0) ? true : headers,
+        ));
       }
 
       return itemMap;
     }
 
     if (data is MapEntry<String, dynamic>) {
-      if ((data.value is String || data.value is num) &&
-          _configurationService.allKeysToExclude.contains(data.key)) {
-        return Map<String, dynamic>.fromEntries([data]);
+      if (data.value is! String && data.value is! num) {
+        return {
+          data.key: handle(data.value, level: level + 1, headers: headers)
+        };
       }
 
-      return {data.key: handle(data.value)};
+      final allExcludeKeys =
+          _configurationService.allKeysToExclude.contains(data.key);
+
+      final headerExcludeKeys = level == 1 &&
+          headers &&
+          _configurationService.headersKeysToExclude.contains(data.key);
+
+      if (!allExcludeKeys && !headerExcludeKeys) {
+        return {
+          data.key: handle(data.value, level: level + 1, headers: headers)
+        };
+      }
+
+      return Map<String, dynamic>.fromEntries([data]);
     }
   }
 }

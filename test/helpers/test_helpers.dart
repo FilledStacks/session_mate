@@ -161,6 +161,8 @@ MockConfigurationService getAndRegisterConfigurationService({
   when(service.dataMaskingEnabled).thenReturn(dataMaskingEnabled);
   when(service.keysToExcludeOnDataMasking)
       .thenReturn(keysToExcludeOnDataMasking);
+  when(service.headersKeysToExclude)
+      .thenReturn(headersKeysToExcludeOnDataMasking);
   when(service.minimumStartupTime).thenReturn(minimumStartupTime);
   when(service.listeningPort).thenReturn(listeningPort);
 

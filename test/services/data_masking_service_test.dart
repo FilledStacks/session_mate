@@ -1,6 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:session_mate/src/services/data_masking_service.dart';
+import 'package:session_mate_core/session_mate_core.dart';
 
+import '../data/http/responses/author.dart';
+import '../data/http/responses/authors.dart';
+import '../data/http/responses/headers_keys.dart';
 import '../helpers/test_helpers.dart';
 
 void main() {
@@ -213,6 +217,30 @@ void main() {
             'co_official_languages': [],
           },
         ]);
+      });
+
+      test('When called, should return the data masked correctly', () {
+        final response = ResponseEvent.fromJson(authorResponseMap);
+        final service = getService();
+        final masked = service.handle(response.toJson());
+
+        expect(masked, authorExpectedResponseMap);
+      });
+
+      test('When called, should return the data masked correctly', () {
+        final response = ResponseEvent.fromJson(authorsResponseMap);
+        final service = getService();
+        final masked = service.handle(response.toJson());
+
+        expect(masked, authorsExpectedResponseMap);
+      });
+
+      test('When called, should return the data masked correctly', () {
+        final response = ResponseEvent.fromJson(headersKeysResponseMap);
+        final service = getService();
+        final masked = service.handle(response.toJson());
+
+        expect(masked, headersKeysExpectedResponseMap);
       });
     });
   });
