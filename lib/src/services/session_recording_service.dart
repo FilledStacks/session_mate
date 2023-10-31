@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
 import 'package:session_mate/src/helpers/crypto_helper.dart';
 import 'package:session_mate/src/helpers/logger_helper.dart';
@@ -35,7 +36,7 @@ class SessionRecordingService {
       if (hasMediaContentType(event)) {
         response = response.copyWith(uid: _requests[event.uid]!, body: null);
       } else {
-        response = _avoidDataMasking(event)
+        response = avoidDataMasking(event)
             ? response = response.copyWith(uid: _requests[event.uid]!)
             : response = ResponseEvent.fromJson(_dataMaskingService.handle(
                 response.copyWith(uid: _requests[event.uid]!).toJson(),
@@ -49,7 +50,8 @@ class SessionRecordingService {
     }
   }
 
-  bool _avoidDataMasking(ResponseEvent event) {
+  @visibleForTesting
+  bool avoidDataMasking(ResponseEvent event) {
     if (!_configurationService.dataMaskingEnabled) return true;
 
     if (!hasSupportedContentType(event)) return true;

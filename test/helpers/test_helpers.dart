@@ -62,9 +62,13 @@ MockTextInputRecorder getAndRegisterTextInputRecorder() {
   return service;
 }
 
-MockDataMaskingService getAndRegisterDataMaskingService() {
+MockDataMaskingService getAndRegisterDataMaskingService({
+  Map<String, dynamic> maskedResponseMap = const {},
+}) {
   _removeRegistrationIfExists<DataMaskingService>();
   final service = MockDataMaskingService();
+
+  when(service.handle(any)).thenReturn(maskedResponseMap);
   locator.registerSingleton<DataMaskingService>(service);
   return service;
 }

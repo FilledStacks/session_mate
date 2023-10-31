@@ -301,6 +301,15 @@ class MockSessionRecordingService extends _i1.Mock
         ),
         returnValueForMissingStub: null,
       );
+  @override
+  bool avoidDataMasking(_i2.ResponseEvent? event) => (super.noSuchMethod(
+        Invocation.method(
+          #avoidDataMasking,
+          [event],
+        ),
+        returnValue: false,
+        returnValueForMissingStub: false,
+      ) as bool);
 }
 
 /// A class which mocks [SessionReplayService].
