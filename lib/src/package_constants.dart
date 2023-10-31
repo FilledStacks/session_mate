@@ -14,12 +14,18 @@ const bool kVerboseLogs =
 const String kLocalServerScheme = 'http';
 const String kLocalServerHost = 'localhost';
 
-const List<String> commonKeysToExcludeOnDataMasking = [
-  'code',
+const List<String> headersKeysToExcludeOnDataMasking = [
+  'content-encoding',
   'content-type',
+  'transfer-encoding',
+];
+
+const List<String> commonKeysToExcludeOnDataMasking = [
   'uid',
   'id',
+  'code',
   'view',
+  'order',
 ];
 
 const double kHorizontalPadding = 10;
