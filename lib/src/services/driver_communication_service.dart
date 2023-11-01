@@ -85,7 +85,7 @@ class DriverCommunicationService with ListenableServiceMixin {
 
   Future<String> prepareInteraction(UIEvent event) async {
     print(
-        'DriverCommunicationService - Prepare interaction for event ${event.type} ');
+        'DriverCommunicationService - Prepare interaction for event ${event.type}');
 
     if (event.type == InteractionType.input) {
       FocusManager.instance.primaryFocus?.unfocus();

@@ -74,6 +74,7 @@ class TextInputRecorder {
             trackedTextFieldItem.controller.text,
           ),
           order: _timeUtils.timestamp,
+          startedAt: _timeUtils.timestamp,
           navigationStackId: _sessionService.navigationStackId,
           view: _routeTracker.currentRoute,
         ));

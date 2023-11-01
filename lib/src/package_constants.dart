@@ -26,6 +26,7 @@ const List<String> commonKeysToExcludeOnDataMasking = [
   'code',
   'view',
   'order',
+  'startedAt'
 ];
 
 const List<String> mediaPlaceholders = [
