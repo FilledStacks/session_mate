@@ -1,6 +1,6 @@
 name: session_mate
 description: Instantly reproduce bugs with a single click, directly from your app.
-version: 0.6.0
+version: 0.7.0
 homepage: https://sessionmate.dev/
 
 environment:
@@ -24,7 +24,7 @@ dependencies:
   crypto: ^3.0.3
   vector_math: ^2.1.4
   
-  session_mate_core: ^0.2.3
+  session_mate_core: ^0.3.1
 
   get_it: ^7.6.0
   hive: ^2.2.3
@@ -47,9 +47,9 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
-dependency_overrides:
-  session_mate_core:
-    path: ../session_mate_core
+# dependency_overrides:
+#   session_mate_core:
+#     path: ../session_mate_core
 
 
 flutter:
@@ -57,4 +57,3 @@ flutter:
   assets:
     - assets/driver_bar_icons/
     - assets/icons/
-    - assets/images/

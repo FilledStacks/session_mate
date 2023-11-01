@@ -1,3 +1,13 @@
+## 0.7.0
+
+- Update crypto helper to support empty parameters
+- Update response filter helper
+- Disable content-type masking
+- Improve response data mask
+- Mock response with same content-type as original
+- Allow to disable network interceptor
+- Set `startedAt` property for UIEvents
+
 ## 0.6.0
 
 - Adds drag recording functionality
