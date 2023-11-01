@@ -37,8 +37,8 @@ class SessionRecordingService {
         response = response.copyWith(uid: _requests[event.uid]!, body: null);
       } else {
         response = avoidDataMasking(event)
-            ? response = response.copyWith(uid: _requests[event.uid]!)
-            : response = ResponseEvent.fromJson(_dataMaskingService.handle(
+            ? response.copyWith(uid: _requests[event.uid]!)
+            : ResponseEvent.fromJson(_dataMaskingService.handle(
                 response.copyWith(uid: _requests[event.uid]!).toJson(),
               ));
       }
