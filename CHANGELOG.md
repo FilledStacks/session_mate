@@ -1,3 +1,7 @@
+## 0.7.1
+
+- Add user idle time banner
+
 ## 0.7.0
 
 - Update crypto helper to support empty parameters
