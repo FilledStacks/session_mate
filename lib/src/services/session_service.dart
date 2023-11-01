@@ -112,6 +112,7 @@ class SessionService with ListenableServiceMixin {
       addEvent(RawKeyEvent(
         type: InteractionType.onKeyboardEnterEvent,
         order: _timeUtils.timestamp,
+        startedAt: _timeUtils.timestamp,
       ));
     }
   }

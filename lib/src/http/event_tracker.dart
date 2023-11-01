@@ -54,6 +54,7 @@ class HttpEventTracker {
         body: null,
         view: _routeTracker.currentRoute,
         order: _timeUtils.timestamp,
+        startedAt: _timeUtils.timestamp,
       ),
     );
   }
@@ -78,6 +79,7 @@ class HttpEventTracker {
       body: data,
       view: _routeTracker.currentRoute,
       order: _timeUtils.timestamp,
+      startedAt: _timeUtils.timestamp,
     ));
   }
 
@@ -95,6 +97,7 @@ class HttpEventTracker {
       body: Uint8List.fromList(data),
       view: _routeTracker.currentRoute,
       order: _timeUtils.timestamp,
+      startedAt: _timeUtils.timestamp,
     ));
   }
 

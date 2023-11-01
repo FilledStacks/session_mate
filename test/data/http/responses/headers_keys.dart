@@ -29,6 +29,7 @@ const headersKeysResponseMap = {
   },
   'view': '/books-list-view',
   'order': 1698679750044,
+  'startedAt': 1698679750044,
 };
 
 const headersKeysExpectedResponseMap = {
@@ -63,4 +64,5 @@ const headersKeysExpectedResponseMap = {
   },
   'view': '/books-list-view',
   'order': 1698679750044,
+  'startedAt': 1698679750044,
 };

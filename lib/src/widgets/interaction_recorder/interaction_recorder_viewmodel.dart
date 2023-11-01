@@ -106,6 +106,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
       ),
       view: _routeTracker.currentRoute,
       order: _timeUtils.timestamp,
+      startedAt: _timeUtils.timestamp,
       navigationStackId: _sessionService.navigationStackId,
     );
 
@@ -123,6 +124,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
         id: DateTime.now().millisecondsSinceEpoch.toString(),
         view: _routeTracker.currentRoute,
         order: _timeUtils.timestamp,
+        startedAt: _timeUtils.timestamp,
         navigationStackId: _sessionService.navigationStackId,
       ),
     );
@@ -157,7 +159,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
           _activeScrollEvent!.scrollDirection == Axis.vertical;
       _sessionService.addEvent(
         ScrollEvent(
-          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          id: _timeUtils.timestamp.toString(),
           position: EventPosition(
             x: _activeScrollEvent!.scrollOrigin.dx,
             y: _activeScrollEvent!.scrollOrigin.dy,
@@ -177,6 +179,7 @@ class InteractionRecorderViewModel extends BaseViewModel {
           duration: _scrollTimer?.elapsedMilliseconds,
           view: _routeTracker.currentRoute,
           order: _timeUtils.timestamp,
+          startedAt: _timeUtils.timestamp,
           navigationStackId: _sessionService.navigationStackId,
         ),
       );

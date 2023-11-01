@@ -24,6 +24,7 @@ const authorResponseMap = {
   },
   'view': '/books-list-view',
   'order': 1698679750044,
+  'startedAt': 1698679750044,
 };
 
 const authorExpectedResponseMap = {
@@ -53,4 +54,5 @@ const authorExpectedResponseMap = {
   },
   'view': '/books-list-view',
   'order': 1698679750044,
+  'startedAt': 1698679750044,
 };
