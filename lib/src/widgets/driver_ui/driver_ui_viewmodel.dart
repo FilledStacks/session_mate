@@ -38,6 +38,11 @@ class DriverUIViewModel extends ReactiveViewModel {
     });
 
     _driverCommunicationService.interactionStream.listen((interaction) {
+      if (interaction is int) {
+        showUserIdleTimeBanner(interaction);
+        return;
+      }
+
       eventsNotifier.value = [interaction];
       rebuildUi();
     });
@@ -106,6 +111,16 @@ class DriverUIViewModel extends ReactiveViewModel {
 
   bool _showEmptySessionsMessage = false;
   bool get showEmptySessionsMessage => _showEmptySessionsMessage;
+
+  late Timer _timer;
+
+  int _userIdleTime = 0;
+  int get userIdleTime => _userIdleTime;
+
+  String get formattedIdleTime => (userIdleTime / 1000).toStringAsFixed(1);
+
+  bool _showUserIdleTime = false;
+  bool get showUserIdleTime => _showUserIdleTime;
 
   Future<void> loadSessions() async {
     if (kLocalOnlyUsage) {
@@ -183,5 +198,33 @@ class DriverUIViewModel extends ReactiveViewModel {
 
     /// We return false to keep the notification bubbling in the widget tree
     return false;
+  }
+
+  void showUserIdleTimeBanner(int delay) {
+    _userIdleTime = delay;
+    _showUserIdleTime = true;
+    rebuildUi();
+
+    _timer = Timer.periodic(
+      const Duration(milliseconds: 100),
+      (timer) => onTimer(timer),
+    );
+  }
+
+  void onTimer(Timer timer) {
+    _userIdleTime = _userIdleTime - 100;
+    rebuildUi();
+
+    if (_userIdleTime > 0) return;
+
+    _showUserIdleTime = false;
+    rebuildUi();
+    _timer.cancel();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 }

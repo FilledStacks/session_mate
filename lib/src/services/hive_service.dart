@@ -16,23 +16,23 @@ class HiveService {
     }
 
     Hive
-      ..registerAdapter(SessionImplAdapter()) // 0
+      ..registerAdapter(SessionAdapter()) // 0
       ..registerAdapter(InteractionTypeAdapter()) // 1
-      ..registerAdapter(EventPositionImplAdapter()) // 2
-      ..registerAdapter(RequestEventImplAdapter()) // 3
-      ..registerAdapter(ResponseEventImplAdapter()) // 4
+      ..registerAdapter(EventPositionAdapter()) // 2
+      ..registerAdapter(RequestEventAdapter()) // 3
+      ..registerAdapter(ResponseEventAdapter()) // 4
       ..registerAdapter(SessionPriorityAdapter()) // 5
-      ..registerAdapter(TapEventImplAdapter()) // 6
-      ..registerAdapter(InputEventImplAdapter()) // 7
-      ..registerAdapter(ScrollEventImplAdapter()) // 8
-      ..registerAdapter(RawKeyEventImplAdapter()) // 9
-      ..registerAdapter(SessionStatsImplAdapter()) // 10
-      ..registerAdapter(ScrollableDescriptionImplAdapter()) // 11
-      ..registerAdapter(ScrollableRectImplAdapter()) // 12
-      ..registerAdapter(ScrollMetricsImplAdapter()) // 13
+      ..registerAdapter(TapEventAdapter()) // 6
+      ..registerAdapter(InputEventAdapter()) // 7
+      ..registerAdapter(ScrollEventAdapter()) // 8
+      ..registerAdapter(RawKeyEventAdapter()) // 9
+      ..registerAdapter(SessionStatsAdapter()) // 10
+      ..registerAdapter(ScrollableDescriptionAdapter()) // 11
+      ..registerAdapter(ScrollableRectAdapter()) // 12
+      ..registerAdapter(ScrollMetricsAdapter()) // 13
       ..registerAdapter(ScrollAxisAdapter()) // 14
       ..registerAdapter(ScrollDirectionAdapter()) // 16
-      ..registerAdapter(DragEventImplAdapter()); // 17
+      ..registerAdapter(DragEventAdapter()); // 17
 
     sessionsBox = await Hive.openBox<Session>('sessions');
   }

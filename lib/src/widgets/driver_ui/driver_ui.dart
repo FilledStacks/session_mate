@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:session_mate/session_mate.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/driver_bar.dart';
 import 'package:session_mate/src/widgets/driver_ui/common/session_list.dart';
+import 'package:session_mate/src/widgets/driver_ui/common/user_idle_time.dart';
 import 'package:session_mate/src/widgets/driver_ui/driver_ui_viewmodel.dart';
 import 'package:session_mate/src/widgets/driver_ui/events_visualizer.dart';
 import 'package:session_mate/src/widgets/hittable_stack.dart';
@@ -41,6 +42,7 @@ class DriverUI extends StackedView<DriverUIViewModel> {
               const EventsVisualizer(),
             ],
           ),
+          if (viewModel.showUserIdleTime) const UserIdleTime(),
           if (viewModel.showReplayUI) ...[
             if (viewModel.showSessionList) const SessionList(),
             Positioned(

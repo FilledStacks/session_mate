@@ -45,8 +45,10 @@ class DriverCommunicationService with ListenableServiceMixin {
         case SweetCoreInstructionType.waitForInteractions:
           return await waitForInteractions();
         case SweetCoreInstructionType.prepareInteraction:
-          final uiEvent = UIEvent.fromJson(instruction.data);
-          return await prepareInteraction(uiEvent);
+          return await prepareInteraction(
+            event: UIEvent.fromJson(instruction.data['event']),
+            userIdleTime: instruction.data['userIdleTime'],
+          );
         default:
           return 'Instruction not recognized';
       }
@@ -83,15 +85,25 @@ class DriverCommunicationService with ListenableServiceMixin {
     _wasReplayExecuted = true;
   }
 
-  Future<String> prepareInteraction(UIEvent event) async {
+  Future<String> prepareInteraction({
+    required UIEvent event,
+    int userIdleTime = 0,
+  }) async {
     print(
-        'DriverCommunicationService - Prepare interaction for event ${event.type}');
+      'DriverCommunicationService - Prepare interaction for event ${event.type} with a user idle time of $userIdleTime milliseconds',
+    );
 
     if (event.type == InteractionType.input) {
       FocusManager.instance.primaryFocus?.unfocus();
     }
 
     await Future.delayed(Duration(milliseconds: 350));
+
+    if (userIdleTime > 2000) {
+      _interactionStreamController.add(userIdleTime);
+    }
+
+    await Future.delayed(Duration(milliseconds: userIdleTime));
 
     _interactionStreamController.add(event);
 
