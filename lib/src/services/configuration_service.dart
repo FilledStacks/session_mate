@@ -7,6 +7,9 @@ class ConfigurationService {
   bool _dataMaskingEnabled = true;
   bool get dataMaskingEnabled => _dataMaskingEnabled;
 
+  bool _inputMaskingEnabled = true;
+  bool get inputMaskingEnabled => _dataMaskingEnabled;
+
   List<String> _keysToExcludeOnDataMasking = const [];
   List<String> get keysToExcludeOnDataMasking => _keysToExcludeOnDataMasking;
 
@@ -65,7 +68,9 @@ class ConfigurationService {
     bool? logSweetCoreEvents,
     bool? logGuestAppEvents,
     bool? verboseLogs,
+    bool? inputMaskingEnabled,
   }) {
+    _inputMaskingEnabled = inputMaskingEnabled ?? _inputMaskingEnabled;
     _dataMaskingEnabled = dataMaskingEnabled ?? _dataMaskingEnabled;
     _keysToExcludeOnDataMasking =
         keysToExcludeOnDataMasking ?? _keysToExcludeOnDataMasking;

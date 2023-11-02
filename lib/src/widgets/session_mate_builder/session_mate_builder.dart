@@ -20,10 +20,12 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
   final bool logGuestAppEvents;
   final bool verboseLogs;
   final Widget child;
+  final bool inputMaskingEnabled;
 
   const SessionMateBuilder({
     super.key,
     this.apiKey,
+    this.inputMaskingEnabled = true,
     this.dataMaskingEnabled = true,
     this.keysToExcludeOnDataMasking = const [],
     this.minimumStartupTime = 5000,
@@ -70,5 +72,6 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
         logSweetCoreEvents: logSweetCoreEvents,
         logGuestAppEvents: logGuestAppEvents,
         verboseLogs: verboseLogs,
+        inputMaskingEnabled: inputMaskingEnabled,
       );
 }

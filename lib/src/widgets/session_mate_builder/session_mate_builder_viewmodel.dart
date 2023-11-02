@@ -4,6 +4,7 @@ import 'package:stacked/stacked.dart';
 
 class SessionMateBuilderViewModel extends BaseViewModel {
   final String? apiKey;
+  final bool inputMaskingEnabled;
   final bool dataMaskingEnabled;
   final List<String> keysToExcludeOnDataMasking;
   final int minimumStartupTime;
@@ -18,6 +19,7 @@ class SessionMateBuilderViewModel extends BaseViewModel {
 
   SessionMateBuilderViewModel({
     this.apiKey,
+    this.inputMaskingEnabled = true,
     this.dataMaskingEnabled = true,
     this.keysToExcludeOnDataMasking = const [],
     this.minimumStartupTime = 5000,
@@ -47,6 +49,7 @@ class SessionMateBuilderViewModel extends BaseViewModel {
       logSweetCoreEvents: logSweetCoreEvents,
       logGuestAppEvents: logGuestAppEvents,
       verboseLogs: verboseLogs,
+      inputMaskingEnabled: inputMaskingEnabled,
     );
   }
 }
