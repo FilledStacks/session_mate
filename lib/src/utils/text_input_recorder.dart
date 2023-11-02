@@ -15,6 +15,7 @@ class TextInputRecorder {
   final _timeUtils = locator<TimeUtils>();
   final _sessionService = locator<SessionService>();
   final _routeTracker = locator<SessionMateRouteTracker>();
+  final _configurationService = locator<ConfigurationService>();
 
   final List<TrackedTextInputItem> _textFieldsOnScreen;
 
@@ -70,9 +71,11 @@ class TextInputRecorder {
             x: textInputPosition.dx,
             y: textInputPosition.dy,
           ),
-          inputData: _maskService.stringSubstitution(
-            trackedTextFieldItem.controller.text,
-          ),
+          inputData: _configurationService.inputMaskingEnabled
+              ? _maskService.stringSubstitution(
+                  trackedTextFieldItem.controller.text,
+                )
+              : trackedTextFieldItem.controller.text,
           order: _timeUtils.timestamp,
           startedAt: _timeUtils.timestamp,
           navigationStackId: _sessionService.navigationStackId,
