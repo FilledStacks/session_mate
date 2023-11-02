@@ -1,3 +1,7 @@
+## 0.7.2
+
+- Adds ability to disable input through `inputMaskingEnabled` property
+
 ## 0.7.1
 
 - Add user idle time banner
