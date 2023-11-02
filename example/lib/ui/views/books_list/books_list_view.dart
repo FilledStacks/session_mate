@@ -18,7 +18,12 @@ class BooksListView extends StackedView<BooksListViewModel> {
         onPressed: viewModel.showSettings,
         child: const Icon(Icons.settings, color: Colors.white),
       ),
-      appBar: AppBar(title: const Text('Bookshelf')),
+      appBar: AppBar(title: const Text('Bookshelf'), actions: [
+        IconButton(
+          icon: const Icon(Icons.info),
+          onPressed: viewModel.showInfoBottomSheet,
+        )
+      ]),
       body: SafeArea(
         child: viewModel.isBusy
             ? const Center(

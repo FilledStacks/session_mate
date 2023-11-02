@@ -13,6 +13,7 @@ class BooksListViewModel extends FutureViewModel<List<Book>> {
   final _logger = getLogger('BooksListViewModel');
   final _api = locator<ApiService>();
   final _navigationService = locator<NavigationService>();
+  final _sheetService = locator<BottomSheetService>();
 
   @override
   Future<List<Book>> futureToRun() => getBooks();
@@ -37,5 +38,12 @@ class BooksListViewModel extends FutureViewModel<List<Book>> {
 
   void showSettings() {
     _navigationService.navigateToSettingsView();
+  }
+
+  void showInfoBottomSheet() {
+    _sheetService.showBottomSheet(
+      title: 'Bookshelf app information',
+      description: 'We are fetching the books from the Google Books API.',
+    );
   }
 }
