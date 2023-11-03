@@ -37,7 +37,7 @@ const headersKeysExpectedResponseMap = {
   'timeMs': 999,
   'code': 200,
   'headers': {
-    'alt-svc': 'x9xx:999x; xxx9999999,x9-99xx:999x; xxx9999999',
+    'alt-svc': 'x9=x:999x; xx=9999999,x9-99=x:999x; xx=9999999',
     'cache-control': 'xxxxxxx',
     'content-encoding': 'gzip',
     'content-type': 'application/json; charset=UTF-8',

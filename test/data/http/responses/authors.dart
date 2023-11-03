@@ -41,7 +41,7 @@ const authorsExpectedResponseMap = {
   'timeMs': 999,
   'code': 200,
   'headers': {
-    'alt-svc': 'x9xx:999x; xxx9999999,x9-99xx:999x; xxx9999999',
+    'alt-svc': 'x9=x:999x; xx=9999999,x9-99=x:999x; xx=9999999',
     'cache-control': 'xxxxxxx',
     'content-encoding': 'gzip',
     'content-type': 'application/json; charset=UTF-8',
@@ -59,14 +59,14 @@ const authorsExpectedResponseMap = {
       'author': {
         'name': 'xxxx xxxxxxx',
         'email': 'xxxx@xxxxxxxxxxxx.xxx',
-        'avatar': 'xxxxx:xxxxxxxx.xxxxxxxxxxxx.xxxxxxxxxxxxx.xxxxxxx'
+        'avatar': 'https://avatar.filledstacks.com/user/dane.mackier'
       }
     },
     {
       'author': {
         'name': 'xxxxxxxx xxxxxxx',
         'email': 'xxxxxxxx@xxxxxxxxxxxx.xxx',
-        'avatar': 'xxxxx:xxxxxxxx.xxxxxxxxxxxx.xxxxxxxxxxxxxxxxx.xxxxxxx'
+        'avatar': 'https://avatar.filledstacks.com/user/fernando.ferrara'
       }
     }
   ],
