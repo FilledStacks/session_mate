@@ -36,10 +36,6 @@ class MainApp extends StatelessWidget {
       ],
       builder: (context, child) => SessionMateBuilder(
         apiKey: apiKey,
-        keysToExcludeOnDataMasking: const [
-          "smallThumbnail",
-          "thumbnail",
-        ],
         minimumStartupTime: 6000,
         verboseLogs: true,
         child: child!,
