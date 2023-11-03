@@ -10,6 +10,9 @@ class DataMaskingService {
       return item;
     }
 
+    final url = RegExp(r'\bhttps?://\S+');
+    if (url.hasMatch(item)) return item;
+
     String output = '';
     final specialCharacters = RegExp(r'[-!@#$%^&*()_+{}\[\]:;<>,.?~\\|=]');
     final digits = RegExp(r'\d+');
