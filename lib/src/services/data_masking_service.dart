@@ -11,7 +11,7 @@ class DataMaskingService {
     }
 
     String output = '';
-    final specialCharacters = RegExp(r'[-!@#$%^&*()_+{}\[\]:;<>,.?~\\|]');
+    final specialCharacters = RegExp(r'[-!@#$%^&*()_+{}\[\]:;<>,.?~\\|=]');
     final digits = RegExp(r'\d+');
     for (int i = 0; i < item.length; i++) {
       final currentCharacter = item[i];
