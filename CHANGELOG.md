@@ -1,3 +1,9 @@
+## 0.7.3
+
+- Update regular expression for special characters
+- Avoid mask any url property
+- Update `SessionMateBuilder` config on `Bookshelf` app
+
 ## 0.7.2
 
 - Adds ability to disable input through `inputMaskingEnabled` property
