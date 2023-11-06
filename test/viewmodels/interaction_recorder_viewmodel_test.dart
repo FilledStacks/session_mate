@@ -124,5 +124,30 @@ void main() {
         );
       });
     });
+
+    group('onDragEnd -', () {
+      test('When dragRecorder is NOT recording should NOT do anything', () {
+        final dragRecorder = getAndRegisterDragRecorder();
+        final model = _getModel();
+
+        model.onDragEnd(Offset(-1, 1));
+
+        verify(dragRecorder.isRecording).called(1);
+      });
+
+      test('When dragRecorder is recording should call completeDragEvent', () {
+        final dragRecorder = getAndRegisterDragRecorder(isRecording: true);
+        final sessionService = getAndRegisterSessionService();
+        final model = _getModel();
+
+        model.onDragEnd(Offset(-1, 1));
+
+        verify(dragRecorder.isRecording);
+        verify(
+          dragRecorder.completeDragEvent(endPosition: anyNamed('endPosition')),
+        );
+        verify(sessionService.addEvent(any));
+      });
+    });
   });
 }
