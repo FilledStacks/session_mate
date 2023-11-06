@@ -1,3 +1,7 @@
+## 0.7.4
+
+- Update `onDragEnd` method to avoid doing anything when dragRecorder is NOT recording.
+
 ## 0.7.3
 
 - Update regular expression for special characters
