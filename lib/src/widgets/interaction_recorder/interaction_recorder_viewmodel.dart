@@ -219,6 +219,8 @@ class InteractionRecorderViewModel extends BaseViewModel {
   }
 
   void onDragEnd(Offset position) {
+    if (!_dragRecorder.isRecording) return;
+
     final dragEvent = _dragRecorder.completeDragEvent(
       endPosition: EventPosition(
         capturedDeviceHeight: _currentScreenSize.height,

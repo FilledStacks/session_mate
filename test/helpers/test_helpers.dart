@@ -48,9 +48,13 @@ import 'test_helpers.mocks.dart';
     onMissingStub: OnMissingStub.returnDefault,
   ),
 ])
-MockDragRecorder getAndRegisterDragRecorder() {
+MockDragRecorder getAndRegisterDragRecorder({
+  bool isRecording = false,
+}) {
   _removeRegistrationIfExists<DragRecorder>();
   final service = MockDragRecorder();
+
+  when(service.isRecording).thenReturn(isRecording);
   locator.registerSingleton<DragRecorder>(service);
   return service;
 }
