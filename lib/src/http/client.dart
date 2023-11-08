@@ -169,8 +169,7 @@ class SessionMateHttpClient implements HttpClient {
     final tracker = HttpEventTracker.fromUri(method, _uidGenerator(), url);
 
     Uri? mockedUrl;
-    final replaceRealRequestWithMockedRequest =
-        !kRecordUserInteractions && !url.host.contains('sessionmate');
+    final replaceRealRequestWithMockedRequest = shouldMockRequesst(url.host);
 
     if (replaceRealRequestWithMockedRequest) {
       mockedUrl = url.replace(
@@ -205,4 +204,14 @@ class SessionMateHttpClient implements HttpClient {
 
   @override
   set keyLog(Function(String line)? callback) => _httpClient.keyLog = callback;
+
+  bool shouldMockRequesst(String host) {
+    if (kRecordUserInteractions) return false;
+
+    if (host.contains('sessionmate')) return false;
+
+    if (host.contains('10.0.2.2')) return false;
+
+    return true;
+  }
 }
