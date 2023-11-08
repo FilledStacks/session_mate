@@ -112,7 +112,7 @@ class DriverUIViewModel extends ReactiveViewModel {
   bool _showEmptySessionsMessage = false;
   bool get showEmptySessionsMessage => _showEmptySessionsMessage;
 
-  late Timer _timer;
+  Timer? _timer;
 
   int _userIdleTime = 0;
   int get userIdleTime => _userIdleTime;
@@ -219,12 +219,12 @@ class DriverUIViewModel extends ReactiveViewModel {
 
     _showUserIdleTime = false;
     rebuildUi();
-    _timer.cancel();
+    _timer?.cancel();
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    _timer?.cancel();
     super.dispose();
   }
 }
