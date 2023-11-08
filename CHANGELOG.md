@@ -1,3 +1,8 @@
+## 0.7.5
+
+- Disable mocking on `Firebase` emulator request
+- Avoid no `Timer` instance exception
+
 ## 0.7.4
 
 - Update `onDragEnd` method to avoid doing anything when dragRecorder is NOT recording.
