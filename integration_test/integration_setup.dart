@@ -5,10 +5,9 @@ import 'package:session_mate/session_mate.dart';
 
 import '../test/helpers/test_helpers.dart';
 
-const String _apiKey = String.fromEnvironment(
-  'TEST_API_KEY',
-  defaultValue: 'NO_KEY_PROVIDED',
-);
+const _apiKey = bool.hasEnvironment('TEST_API_KEY')
+    ? String.fromEnvironment('TEST_API_KEY')
+    : null;
 
 Future<void> setupIntegrationTests() async {
   // Integration test specific setup
@@ -18,7 +17,9 @@ Future<void> setupIntegrationTests() async {
   await setupSessionMate();
 
   getAndRegisterNativeInformationService();
-  getAndRegisterConfigurationService(apiKey: _apiKey);
+  getAndRegisterConfigurationService(
+    apiKey: _apiKey ?? 'fb2e384c-97aa-446a-ac22-c15612be1cb0',
+  );
 }
 
 void registerTestKickoff() {

@@ -9,6 +9,10 @@ import 'package:session_mate_core/session_mate_core.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 
+const _apiKey = bool.hasEnvironment('TEST_API_KEY')
+    ? String.fromEnvironment('TEST_API_KEY')
+    : null;
+
 enum _HttpMethod {
   get,
   post,
@@ -26,13 +30,17 @@ class HttpService {
     _httpClient = Dio(
       BaseOptions(
         receiveDataWhenStatusError: true,
-        baseUrl: 'https://us-central1-sessionmate-93c0e.cloudfunctions.net/',
+        baseUrl: _apiKey == null
+            ? 'http://10.0.2.2:5001/sessionmate-93c0e/us-central1/'
+            : 'https://us-central1-sessionmate-93c0e.cloudfunctions.net/',
       ),
     );
 
     _httpClient.interceptors.add(TalkerDioLogger(
       settings: TalkerDioLoggerSettings(
-          printRequestData: true, printResponseData: false),
+        printRequestData: true,
+        printResponseData: false,
+      ),
     ));
   }
 
@@ -46,14 +54,12 @@ class HttpService {
       },
     );
 
-    if (response?.statusCode == 200) {
-      final body = response?.data as List<dynamic>;
-      return body
-          .map((e) => Session.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    if (response?.statusCode != 200) return [];
 
-    return [];
+    final body = response?.data as List<dynamic>;
+    return body
+        .map((e) => Session.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   Future<bool> saveSession({required Session session}) async {
