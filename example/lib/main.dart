@@ -18,7 +18,19 @@ Future<void> main() async {
   await setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
+
+  FlutterError.onError = handleErrors;
+
   runApp(const SessionMate(child: MainApp()));
+}
+
+Future<void> handleErrors(FlutterErrorDetails? errorDetails) async {
+  await SessionMateUtils.saveSession(
+    exception: errorDetails?.exception,
+    stackTrace: errorDetails?.stack,
+  );
+
+  // Here you can add other error handlers like crash lytics
 }
 
 class MainApp extends StatelessWidget {
