@@ -37,8 +37,8 @@ class HiveService {
     sessionsBox = await Hive.openBox<Session>('sessions');
   }
 
-  void saveSession(Session session) {
-    sessionsBox.put(session.id, session);
+  Future<void> saveSession(Session session) async {
+    await sessionsBox.put(session.id, session);
   }
 
   Iterable<Session> getSessions() {

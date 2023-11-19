@@ -13,6 +13,9 @@ const _apiKey = bool.hasEnvironment('TEST_API_KEY')
     ? String.fromEnvironment('TEST_API_KEY')
     : null;
 
+const _idToken =
+    bool.hasEnvironment('ID_TOKEN') ? String.fromEnvironment('ID_TOKEN') : null;
+
 enum _HttpMethod {
   get,
   post,
@@ -33,6 +36,10 @@ class HttpService {
         baseUrl: _apiKey == null
             ? 'http://10.0.2.2:5001/sessionmate-93c0e/us-central1/'
             : 'https://us-central1-sessionmate-93c0e.cloudfunctions.net/',
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer $_idToken',
+        },
       ),
     );
 
