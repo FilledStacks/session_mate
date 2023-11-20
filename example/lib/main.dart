@@ -25,6 +25,8 @@ Future<void> main() async {
 }
 
 Future<void> handleErrors(FlutterErrorDetails? errorDetails) async {
+  print('============== Error caught!!!!!! =============');
+
   await SessionMateUtils.saveSession(
     exception: errorDetails?.exception,
     stackTrace: errorDetails?.stack,
