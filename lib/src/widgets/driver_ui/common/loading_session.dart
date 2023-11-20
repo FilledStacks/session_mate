@@ -26,14 +26,14 @@ class LoadingSessionOrEmptyMessage extends ViewModelWidget<DriverUIViewModel> {
                 ],
               ),
             )
-          : viewModel.showEmptySessionsMessage
+          : viewModel.hasCustomMessage
               ? Container(
                   color: Color(0xFF232228),
                   width: double.infinity,
                   height: double.infinity,
                   child: Center(
                     child: Text(
-                      'No sessions available',
+                      viewModel.customMessage!,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 32,

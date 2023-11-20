@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/exceptions/custom_message_exception.dart';
 import 'package:session_mate/src/helpers/logger_helper.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/native_inforamation_service.dart';
@@ -61,7 +62,9 @@ class HttpService {
       },
     );
 
-    if (response?.statusCode != 200) return [];
+    if (response?.statusCode != 200) {
+      throw CustomMessageException(response?.statusMessage);
+    }
 
     final body = response?.data as List<dynamic>;
     return body
@@ -157,6 +160,7 @@ class HttpService {
       }
     } on DioException catch (e) {
       logText('🔴 DioError: $e');
+      throw CustomMessageException(e.message);
     } catch (e) {
       logText('🔴 HttpService exception: $e');
     }

@@ -20,8 +20,8 @@ class SessionList extends ViewModelWidget<DriverUIViewModel> {
           const SessionListHeader(),
           viewModel.isBusy
               ? const _SessionsLoadingIndicator()
-              : viewModel.showEmptySessionsMessage
-                  ? const _NoSessionsCaptured()
+              : viewModel.hasCustomMessage
+                  ? _CustomMessage(message: viewModel.customMessage!)
                   : SizedBox(
                       height: MediaQuery.of(context).size.height * 0.7,
                       child: ListView.builder(
@@ -71,15 +71,17 @@ class _SessionsLoadingIndicator extends StatelessWidget {
   }
 }
 
-class _NoSessionsCaptured extends StatelessWidget {
-  const _NoSessionsCaptured({Key? key}) : super(key: key);
+class _CustomMessage extends StatelessWidget {
+  final String message;
+  const _CustomMessage({Key? key, required this.message}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Center(
         child: Text(
-          'No sessions captured yet',
+          message,
+          textAlign: TextAlign.center,
           style: TextStyle(
             color: Colors.white,
             fontSize: 32,

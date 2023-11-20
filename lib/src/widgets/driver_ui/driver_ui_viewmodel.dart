@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/widgets.dart';
 import 'package:session_mate/src/app/locator_setup.dart';
+import 'package:session_mate/src/exceptions/custom_message_exception.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/services/configuration_service.dart';
 import 'package:session_mate/src/services/driver_communication_service.dart';
@@ -109,8 +110,10 @@ class DriverUIViewModel extends ReactiveViewModel {
   bool _showSessionList = true;
   bool get showSessionList => _showSessionList;
 
-  bool _showEmptySessionsMessage = false;
-  bool get showEmptySessionsMessage => _showEmptySessionsMessage;
+  String? _customMessage;
+  String? get customMessage => _customMessage;
+
+  bool get hasCustomMessage => _customMessage != null;
 
   Timer? _timer;
 
@@ -123,17 +126,25 @@ class DriverUIViewModel extends ReactiveViewModel {
   bool get showUserIdleTime => _showUserIdleTime;
 
   Future<void> loadSessions() async {
-    if (kLocalOnlyUsage) {
-      _sessions = _hiveService.getSessions().toList();
-      notifyListeners();
-    } else {
-      _sessions = await runBusyFuture<List<Session>>(
-        _httpService.getSessions(),
-        throwException: true,
-      );
-    }
+    try {
+      if (kLocalOnlyUsage) {
+        _sessions = _hiveService.getSessions().toList();
+        notifyListeners();
+      } else {
+        _sessions = await runBusyFuture<List<Session>>(
+          _httpService.getSessions(),
+          throwException: true,
+        );
+      }
 
-    _showEmptySessionsMessage = sessions.isEmpty;
+      if (sessions.isEmpty) {
+        _customMessage = 'No sessions captured yet';
+      }
+    } on CustomMessageException catch (e) {
+      _customMessage = e.message;
+    } catch (e) {
+      _customMessage = e.toString();
+    }
   }
 
   Future<void> startSession() async {
