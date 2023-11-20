@@ -1,5 +1,4 @@
 import 'package:bookshelf/app/app.locator.dart';
-import 'package:bookshelf/app/app.logger.dart';
 import 'package:bookshelf/models/book.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -8,7 +7,6 @@ class BookDetailsViewModel extends FormViewModel {
   final Book book;
   BookDetailsViewModel({required this.book});
 
-  final _logger = getLogger('BookDetailsViewModel');
   final _dialogService = locator<DialogService>();
 
   double _quantity = 1;
