@@ -1,3 +1,8 @@
+## 0.8.0
+
+- Adds new crash monitoring functionality
+- Improves the session listing UI
+
 ## 0.7.5
 
 - Disable mocking on `Firebase` emulator request
