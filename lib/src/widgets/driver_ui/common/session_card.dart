@@ -126,6 +126,14 @@ class SessionCard extends StatelessWidget {
                           style: TextStyle(fontSize: 10),
                         )
                       ],
+                      Spacer(),
+                      Text(
+                        e.view,
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      )
                     ],
                   ),
                 ),
