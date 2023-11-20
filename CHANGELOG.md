@@ -1,3 +1,7 @@
+## 0.8.1
+
+- Adds better messages on Session fetch failure
+
 ## 0.8.0
 
 - Adds new crash monitoring functionality
