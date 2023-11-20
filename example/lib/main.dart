@@ -21,28 +21,7 @@ Future<void> main() async {
   setupDialogUi();
   setupBottomSheetUi();
 
-  await runZonedGuarded(() async {
-    FlutterError.onError = handleErrors;
-
-    runApp(const SessionMate(child: MainApp()));
-  }, (error, stack) {
-    print('🛑🛑🛑🛑🛑🛑 Error Zoned - Save session 🛑🛑🛑🛑🛑🛑');
-    SessionMateUtils.saveSession(
-      exception: error,
-      stackTrace: stack,
-    );
-  });
-}
-
-void handleErrors(FlutterErrorDetails? errorDetails) {
-  print('🛑🛑🛑🛑🛑🛑 Error Flutter - Save session 🛑🛑🛑🛑🛑🛑');
-
-  SessionMateUtils.saveSession(
-    exception: errorDetails?.exception,
-    stackTrace: errorDetails?.stack,
-  );
-
-  // Here you can add other error handlers like crash lytics
+  SessionMateCrashMonitor.monitor(const MainApp());
 }
 
 class MainApp extends StatelessWidget {
