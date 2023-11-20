@@ -1,6 +1,7 @@
 import 'package:bookshelf/app/app.locator.dart';
 import 'package:bookshelf/app/app.logger.dart';
 import 'package:bookshelf/models/book.dart';
+import 'package:session_mate/session_mate.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -21,6 +22,16 @@ class BookDetailsViewModel extends FormViewModel {
           'We could not place an order for this book. Please contact support with the following error.\n\nErr 205 - id not found in database',
     );
 
+    try {
+      throw Exception(
+        'We could not place an order for this book. Please contact support with the following error.\n\nErr 205 - id not found in database',
+      );
+    } catch (exception, stackTrack) {
+      SessionMateUtils.saveSession(
+        exception: exception,
+        stackTrace: stackTrack,
+      );
+    }
     throw Exception(
       'We could not place an order for this book. Please contact support with the following error.\n\nErr 205 - id not found in database',
     );

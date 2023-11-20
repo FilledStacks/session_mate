@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bookshelf/app/app.bottomsheets.dart';
 import 'package:bookshelf/app/app.dialogs.dart';
 import 'package:bookshelf/app/app.locator.dart';
@@ -19,15 +21,23 @@ Future<void> main() async {
   setupDialogUi();
   setupBottomSheetUi();
 
-  FlutterError.onError = handleErrors;
+  await runZonedGuarded(() async {
+    FlutterError.onError = handleErrors;
 
-  runApp(const SessionMate(child: MainApp()));
+    runApp(const SessionMate(child: MainApp()));
+  }, (error, stack) {
+    print('🛑🛑🛑🛑🛑🛑 Error Zoned - Save session 🛑🛑🛑🛑🛑🛑');
+    SessionMateUtils.saveSession(
+      exception: error,
+      stackTrace: stack,
+    );
+  });
 }
 
-Future<void> handleErrors(FlutterErrorDetails? errorDetails) async {
-  print('============== Error caught!!!!!! =============');
+void handleErrors(FlutterErrorDetails? errorDetails) {
+  print('🛑🛑🛑🛑🛑🛑 Error Flutter - Save session 🛑🛑🛑🛑🛑🛑');
 
-  await SessionMateUtils.saveSession(
+  SessionMateUtils.saveSession(
     exception: errorDetails?.exception,
     stackTrace: errorDetails?.stack,
   );
@@ -51,7 +61,6 @@ class MainApp extends StatelessWidget {
       builder: (context, child) => SessionMateBuilder(
         apiKey: apiKey,
         minimumStartupTime: 6000,
-        verboseLogs: true,
         child: child!,
       ),
       theme: ThemeData(

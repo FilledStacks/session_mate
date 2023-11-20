@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:session_mate/src/extensions/ui_extensions.dart';
 import 'package:session_mate/src/package_constants.dart';
 import 'package:session_mate/src/widgets/driver_ui/driver_ui_viewmodel.dart';
 import 'package:session_mate_core/session_mate_core.dart';
@@ -60,7 +61,7 @@ class _EventSimple extends ViewModelWidget<DriverUIViewModel> {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         border: Border.all(
-          color: Color(event.type.color),
+          color: event.type.toColor,
           width: 1,
         ),
         shape: BoxShape.circle,
@@ -70,7 +71,7 @@ class _EventSimple extends ViewModelWidget<DriverUIViewModel> {
         height: 2,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: Color(event.type.color),
+          color: event.type.toColor,
           shape: BoxShape.circle,
         ),
       ),

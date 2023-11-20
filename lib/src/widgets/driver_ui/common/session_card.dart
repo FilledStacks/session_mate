@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:session_mate/src/extensions/ui_extensions.dart';
 import 'package:session_mate_core/session_mate_core.dart';
 
 class SessionCard extends StatelessWidget {
@@ -38,7 +39,9 @@ class SessionCard extends StatelessWidget {
                 SizedBox(width: 5),
                 Text(
                   '${session.events.whereType<UIEvent>().length} steps',
-                  style: TextStyle(color: Color(0xFF4B4957), fontSize: 10),
+                  style: TextStyle(
+                      color: isSelected ? Colors.white : Color(0xFF4B4957),
+                      fontSize: 10),
                 ),
               ],
             ),
@@ -51,7 +54,9 @@ class SessionCard extends StatelessWidget {
               children: [
                 Text(
                   'Last occurance',
-                  style: TextStyle(color: Color(0xFF4B4957), fontSize: 12),
+                  style: TextStyle(
+                      color: isSelected ? Colors.white : Color(0xFF4B4957),
+                      fontSize: 12),
                 ),
                 Text(
                   session.timeAgo,
@@ -61,12 +66,68 @@ class SessionCard extends StatelessWidget {
             ),
           ),
           if (isSelected)
-            ...session.events.whereType<UIEvent>().map((SessionEvent e) {
+            ...session.events.whereType<UIEvent>().map((UIEvent e) {
               return Card(
                 color: Color(0xFF232228),
-                child: Text(
-                  e.describe(),
-                  style: TextStyle(fontSize: 9),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 45,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: e.type.toColor,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        padding: const EdgeInsets.all(3),
+                        child: Text(
+                          e.type.name,
+                          style: TextStyle(
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                      if (e is ScrollEvent) ...[
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          'from: (${e.position.x.toInt()}, ${e.position.y.toInt()}) by: (${e.scrollDelta?.x.toInt()}, ${e.scrollDelta?.y.toInt()})',
+                          style: TextStyle(fontSize: 10),
+                        )
+                      ],
+                      if (e is DragEvent) ...[
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          'from: (${e.position.x.toInt()}, ${e.position.y.toInt()}) to: (${e.scrollEnd.x.toInt()}, ${e.scrollEnd.y.toInt()})',
+                          style: TextStyle(fontSize: 10),
+                        )
+                      ],
+                      if (e is TapEvent) ...[
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          'at: (${e.position.x.toInt()}, ${e.position.y.toInt()})',
+                          style: TextStyle(fontSize: 10),
+                        )
+                      ],
+                      if (e is InputEvent) ...[
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Text(
+                          '${e.inputData} at: (${e.position.x.toInt()}, ${e.position.y.toInt()}) ',
+                          style: TextStyle(fontSize: 10),
+                        )
+                      ],
+                    ],
+                  ),
                 ),
               );
             }).toList()
