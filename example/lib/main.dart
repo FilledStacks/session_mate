@@ -40,6 +40,7 @@ class MainApp extends StatelessWidget {
       builder: (context, child) => SessionMateBuilder(
         apiKey: apiKey,
         minimumStartupTime: 6000,
+        verboseLogs: true,
         child: child!,
       ),
       theme: ThemeData(
