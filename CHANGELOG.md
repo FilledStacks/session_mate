@@ -1,3 +1,7 @@
+## 0.8.2
+
+- Removes local usage url
+
 ## 0.8.1
 
 - Adds better messages on Session fetch failure
