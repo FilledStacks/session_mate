@@ -34,9 +34,7 @@ class HttpService {
     _httpClient = Dio(
       BaseOptions(
         receiveDataWhenStatusError: true,
-        baseUrl: _apiKey == null
-            ? 'http://10.0.2.2:5001/sessionmate-93c0e/us-central1/'
-            : 'https://us-central1-sessionmate-93c0e.cloudfunctions.net/',
+        baseUrl: 'https://us-central1-sessionmate-93c0e.cloudfunctions.net/',
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'Bearer $_idToken',
