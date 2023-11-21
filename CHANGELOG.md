@@ -1,3 +1,8 @@
+## 0.8.3
+
+- Update error message on 401 status code for getSessions
+- Update redirect view on startup to BooksListView
+
 ## 0.8.2
 
 - Removes local usage url
