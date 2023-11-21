@@ -60,6 +60,12 @@ class HttpService {
       },
     );
 
+    if (response?.statusCode == 401) {
+      throw CustomMessageException(
+        '${response?.statusMessage}\n\nPlease login to CLI to see your sessions.',
+      );
+    }
+
     if (response?.statusCode != 200) {
       throw CustomMessageException(response?.statusMessage);
     }
