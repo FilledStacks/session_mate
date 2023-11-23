@@ -92,11 +92,9 @@ class DriverUIViewModel extends ReactiveViewModel {
 
   List<Session> get sessions => _sessions;
 
-  bool get showReplayUI =>
-      ((_driverCommunicationService.readyToReplay ||
-              !_driverCommunicationService.wasReplayExecuted) &&
-          !isGuestAppLoading) ||
-      kForceDriverUI;
+  bool get showReplayUI => ((_driverCommunicationService.readyToReplay ||
+          !_driverCommunicationService.wasReplayExecuted) &&
+      !isGuestAppLoading);
 
   bool _isGuestAppLoading = false;
   bool get isGuestAppLoading => _isGuestAppLoading;

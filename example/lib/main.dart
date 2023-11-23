@@ -8,8 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:session_mate/session_mate.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-const String? apiKey =
-    bool.hasEnvironment('API_KEY') ? String.fromEnvironment('API_KEY') : null;
+const _apiKey = bool.hasEnvironment('SESSION_MATE_API_KEY')
+    ? String.fromEnvironment('SESSION_MATE_API_KEY')
+    : null;
+
+const _logNetworkEvents =
+    bool.fromEnvironment('SESSION_MATE_LOG_NETWORK_EVENTS');
+const _logRawNetworkEvents =
+    bool.fromEnvironment('SESSION_MATE_LOG_RAW_NETWORK_EVENTS');
 
 Future<void> main() async {
   if (!kReplaySession) {
@@ -38,7 +44,9 @@ class MainApp extends StatelessWidget {
         SessionMateNavigatorObserver.instance,
       ],
       builder: (context, child) => SessionMateBuilder(
-        apiKey: apiKey,
+        apiKey: _apiKey,
+        logNetworkEvents: _logNetworkEvents,
+        logRawNetworkEvents: _logRawNetworkEvents,
         minimumStartupTime: 6000,
         verboseLogs: true,
         child: child!,

@@ -47,7 +47,7 @@ class SessionMateBuilder extends StackedView<SessionMateBuilderViewModel> {
     // ignore: avoid_renaming_method_parameters
     Widget? _,
   ) {
-    return kRecordUserInteractions
+    return kRecordSession
         ? InteractionRecorder(child: child)
         : kReplaySession
             ? DriverUI(child: child)

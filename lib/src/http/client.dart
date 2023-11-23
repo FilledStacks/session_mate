@@ -206,7 +206,7 @@ class SessionMateHttpClient implements HttpClient {
   set keyLog(Function(String line)? callback) => _httpClient.keyLog = callback;
 
   bool shouldMockRequesst(String host) {
-    if (kRecordUserInteractions) return false;
+    if (kRecordSession) return false;
 
     if (host.contains('sessionmate')) return false;
 

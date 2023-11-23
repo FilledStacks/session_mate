@@ -10,12 +10,15 @@ import 'package:session_mate_core/session_mate_core.dart';
 import 'package:talker_dio_logger/talker_dio_logger_interceptor.dart';
 import 'package:talker_dio_logger/talker_dio_logger_settings.dart';
 
-const _apiKey = bool.hasEnvironment('TEST_API_KEY')
-    ? String.fromEnvironment('TEST_API_KEY')
-    : null;
-
-const _idToken =
-    bool.hasEnvironment('ID_TOKEN') ? String.fromEnvironment('ID_TOKEN') : null;
+const _baseUrl = String.fromEnvironment(
+  'SESSION_MATE_BASE_URL',
+  defaultValue: _useFirebaseEmulator
+      ? 'http://10.0.2.2:5001/sessionmate-93c0e/us-central1'
+      : 'https://us-central1-sessionmate-93c0e.cloudfunctions.net',
+);
+const _useFirebaseEmulator =
+    bool.fromEnvironment('SESSION_MATE_USE_FIREBASE_EMULATOR');
+const _idToken = String.fromEnvironment('SESSION_MATE_ID_TOKEN');
 
 enum _HttpMethod {
   get,
@@ -34,7 +37,7 @@ class HttpService {
     _httpClient = Dio(
       BaseOptions(
         receiveDataWhenStatusError: true,
-        baseUrl: 'https://us-central1-sessionmate-93c0e.cloudfunctions.net/',
+        baseUrl: _baseUrl,
         headers: {
           "Content-Type": "application/json",
           'Authorization': 'Bearer $_idToken',
@@ -53,7 +56,7 @@ class HttpService {
   Future<List<Session>> getSessions() async {
     final response = await _makeHttpRequest(
       method: _HttpMethod.get,
-      path: 'sessions-api/getSessions',
+      path: '/sessions-api/getSessions',
       queryParameteres: {
         'apiKey': _configurationService.apiKey,
         'appId': _nativeInformationService.appId,
@@ -61,6 +64,9 @@ class HttpService {
     );
 
     if (response?.statusCode == 401) {
+      logText(
+        '🔴 ERROR CODE:${response?.data['code']}, MESSAGE:${response?.data['message']}',
+      );
       throw CustomMessageException(
         '${response?.statusMessage}\n\nPlease login to CLI to see your sessions.',
       );
@@ -91,7 +97,7 @@ class HttpService {
 
     final response = await _makeHttpRequest(
       method: _HttpMethod.post,
-      path: 'sessions-api/createSession',
+      path: '/sessions-api/createSession',
       queryParameteres: {
         'apiKey': _configurationService.apiKey,
         'appId': _nativeInformationService.appId,
@@ -106,7 +112,7 @@ class HttpService {
 
     final response = await _makeHttpRequest(
       method: _HttpMethod.delete,
-      path: 'sessions-api/deleteSessions',
+      path: '/sessions-api/deleteSessions',
       queryParameteres: {
         'apiKey': _configurationService.apiKey,
         'appId': _nativeInformationService.appId,

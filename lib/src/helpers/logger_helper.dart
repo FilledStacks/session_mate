@@ -146,5 +146,5 @@ void logText(String message, {String? classMethod, String? className}) {
               ? '$classMethod - '
               : '';
 
-  print('💡 $leading$message');
+  print('$leading$message');
 }

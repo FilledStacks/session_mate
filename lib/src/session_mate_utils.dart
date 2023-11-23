@@ -17,7 +17,7 @@ class SessionMateUtils {
     final localStorageService = locator<HiveService>();
     final httpService = locator<HttpService>();
 
-    if (!kRecordUserInteractions) {
+    if (!kRecordSession) {
       logText('We are not recording a user session but a save was requested.');
       return;
     }

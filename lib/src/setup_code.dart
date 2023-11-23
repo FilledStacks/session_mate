@@ -11,7 +11,7 @@ import 'package:session_mate/src/services/session_replay_service.dart';
 import 'app/locator_setup.dart';
 
 Future<void> setupSessionMate({bool enableNetworkInterceptor = true}) async {
-  if (kRecordUserInteractions) {
+  if (kRecordSession) {
     WidgetsFlutterBinding.ensureInitialized();
   } else if (kReplaySession) {
     enableFlutterDriverExtension(
@@ -31,7 +31,7 @@ Future<void> setupSessionMate({bool enableNetworkInterceptor = true}) async {
 
   HttpOverrides.global = SessionMateHttpOverrides();
 
-  if (kRecordUserInteractions) return;
+  if (kRecordSession) return;
 
   HttpServer.bind(InternetAddress.loopbackIPv4, 0).then((HttpServer server) {
     print('📻 listening on ${server.address}, port ${server.port}');

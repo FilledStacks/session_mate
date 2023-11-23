@@ -1,15 +1,14 @@
 import 'package:flutter/foundation.dart';
 
-const bool kRecordUserInteractions =
-    !kDebugMode || bool.fromEnvironment('RECORD_SESSION');
-const bool kReplaySession = bool.fromEnvironment('REPLAY_SESSION');
-const bool kSandoxMode = bool.fromEnvironment('SANDBOX_MODE');
-const bool kForceDriverUI = bool.fromEnvironment('FORCE_DRIVER_UI');
-const bool kUseFakeData = bool.fromEnvironment('USE_FAKE_DATA');
-const bool kRunningIntegrationTest = bool.fromEnvironment('INTEGRATION_TEST');
-const bool kLocalOnlyUsage = bool.hasEnvironment('API_KEY') ? false : true;
-const bool kVerboseLogs =
-    bool.fromEnvironment('VERBOSE_LOGS', defaultValue: false);
+const bool kRecordSession =
+    !kDebugMode || bool.fromEnvironment('SESSION_MATE_RECORD_SESSION');
+const bool kReplaySession = bool.fromEnvironment('SESSION_MATE_REPLAY_SESSION');
+const bool kSandoxMode = bool.fromEnvironment('SESSION_MATE_SANDBOX_MODE');
+const bool kRunningIntegrationTest =
+    bool.fromEnvironment('SESSION_MATE_INTEGRATION_TEST');
+const bool kLocalOnlyUsage =
+    bool.hasEnvironment('SESSION_MATE_API_KEY') ? false : true;
+const bool kVerboseLogs = bool.fromEnvironment('SESSION_MATE_VERBOSE_LOGS');
 
 const String kLocalServerScheme = 'http';
 const String kLocalServerHost = 'localhost';
