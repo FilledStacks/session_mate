@@ -67,7 +67,7 @@ class SessionReplayService {
   }
 
   Future<List<int>> getSanitizedData(List<int> data, {String? uid}) async {
-    if (kRecordUserInteractions || uid == null) return data;
+    if (kRecordSession || uid == null) return data;
 
     final response = _mockedResponses[_requestsHashes[uid]];
 

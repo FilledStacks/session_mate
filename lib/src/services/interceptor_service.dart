@@ -9,7 +9,7 @@ class InterceptorService {
   final _sessionReplayService = locator<SessionReplayService>();
 
   Future<void> onEvent(NetworkEvent event) async {
-    if (kRecordUserInteractions) {
+    if (kRecordSession) {
       _sessionRecordingService.handleEvent(event);
       return;
     }

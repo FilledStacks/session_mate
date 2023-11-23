@@ -7,7 +7,7 @@ import 'package:bookshelf/services/api_service.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-const kUseFakeData = bool.fromEnvironment('USE_FAKE_DATA');
+const _useFakeData = bool.fromEnvironment('APP_USE_FAKE_DATA');
 
 class BooksListViewModel extends FutureViewModel<List<Book>> {
   final _logger = getLogger('BooksListViewModel');
@@ -21,7 +21,7 @@ class BooksListViewModel extends FutureViewModel<List<Book>> {
   Future<List<Book>> getBooks({String genreType = 'computers'}) async {
     _logger.i('');
 
-    if (kUseFakeData) {
+    if (_useFakeData) {
       await Future.delayed(const Duration(seconds: 1));
 
       return FakeBook().generateFakeList(length: 100);

@@ -5,8 +5,8 @@ import 'package:session_mate/session_mate.dart';
 
 import '../test/helpers/test_helpers.dart';
 
-const _apiKey = bool.hasEnvironment('TEST_API_KEY')
-    ? String.fromEnvironment('TEST_API_KEY')
+const _apiKey = bool.hasEnvironment('SESSION_MATE_API_KEY')
+    ? String.fromEnvironment('SESSION_MATE_API_KEY')
     : null;
 
 Future<void> setupIntegrationTests() async {
