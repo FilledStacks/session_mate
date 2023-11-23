@@ -1,3 +1,9 @@
+## 0.8.4
+
+- Update dart define variables
+- Update README
+- Update `session_mate_core` package
+
 ## 0.8.3
 
 - Update error message on 401 status code for getSessions
