@@ -1,4 +1,4 @@
-## 0.8.5
+## 0.9.0
 
 - Adds the ability to disable data capture if the user does not want analytics to be tracked
 
