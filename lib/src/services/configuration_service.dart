@@ -54,6 +54,9 @@ class ConfigurationService {
   bool _logGuestAppEvents = false;
   bool get logGuestAppEvents => _logGuestAppEvents || verboseLogs;
 
+  bool _allowDataCapture = false;
+  bool get allowDataCapture => _allowDataCapture;
+
   void setValues({
     bool? dataMaskingEnabled,
     List<String>? keysToExcludeOnDataMasking,
@@ -85,5 +88,9 @@ class ConfigurationService {
     _logSweetCoreEvents = logSweetCoreEvents ?? _logSweetCoreEvents;
     _logGuestAppEvents = logGuestAppEvents ?? _logGuestAppEvents;
     _verboseLogs = verboseLogs ?? _verboseLogs;
+  }
+
+  void allowDataCapturing(bool value) {
+    _allowDataCapture = value;
   }
 }

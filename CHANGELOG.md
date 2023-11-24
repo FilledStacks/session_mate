@@ -1,3 +1,7 @@
+## 0.8.5
+
+- Adds the ability to disable data capture if the user does not want analytics to be tracked
+
 ## 0.8.4
 
 - Update dart define variables
