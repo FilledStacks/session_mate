@@ -1,6 +1,6 @@
 name: session_mate
 description: Instantly reproduce bugs with a single click, directly from your app.
-version: 0.9.1
+version: 0.9.3
 homepage: https://sessionmate.dev/
 
 environment:

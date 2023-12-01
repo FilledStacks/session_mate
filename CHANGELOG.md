@@ -1,6 +1,14 @@
-## 0.9.1
+## 0.9.3
+
+- Avoid tracking dart define json files on Git
+
+## 0.9.2
 
 - Set `allowCaptureData` default value as true
+
+## 0.9.1
+
+- Add required entitlements for macOS
 
 ## 0.9.0
 
