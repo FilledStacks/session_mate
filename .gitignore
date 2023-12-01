@@ -12,5 +12,4 @@ build/
 .flutter-plugins
 .flutter-plugins-dependencies
 example/android/local.properties
-
-assets/environments/
+example/assets/environments/
