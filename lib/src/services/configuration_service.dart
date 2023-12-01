@@ -54,7 +54,7 @@ class ConfigurationService {
   bool _logGuestAppEvents = false;
   bool get logGuestAppEvents => _logGuestAppEvents || verboseLogs;
 
-  bool _allowDataCapture = false;
+  bool _allowDataCapture = true;
   bool get allowDataCapture => _allowDataCapture;
 
   void setValues({
