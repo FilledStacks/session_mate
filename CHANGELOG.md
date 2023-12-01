@@ -1,3 +1,7 @@
+## 0.9.1
+
+- Set `allowCaptureData` default value as true
+
 ## 0.9.0
 
 - Adds the ability to disable data capture if the user does not want analytics to be tracked
